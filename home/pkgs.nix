@@ -1,5 +1,6 @@
 {pkgs, ...}: {
   imports = [
+    ./modules/gui
     ./modules/shell
     ./modules/utils
   ];
@@ -32,13 +33,6 @@
     ## Fonts
     terminus-nerdfont
   ];
-
-  # Git Configuration
-  programs.git = {
-    enable = true;
-    userName = "theunpleasantowl";
-    userEmail = "theunpleasantowl@gmail.com";
-  };
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;

@@ -28,7 +28,7 @@
 
     home-manager.extraSpecialArgs = {inherit inputs;};
     homeConfigurations = {
-      "iji" = home-manager.lib.homeManagerConfiguration {
+      "hibiki" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [
           ./home.nix

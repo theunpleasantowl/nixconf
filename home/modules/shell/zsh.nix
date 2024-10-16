@@ -1,22 +1,17 @@
-{
+{...}: {
   ### Shell ###
   programs.zsh = {
     enable = true;
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
+    zplug = {
+      enable = true;
+      plugins = [
+        {name = "zsh-users/zsh-autosuggestions";}
+        {name = "marlonrichert/zsh-autocomplete";}
+      ];
+    };
   };
-  programs.zsh.oh-my-zsh = {
-    enable = true;
-    theme = "agnoster"; # Set the theme of your choice
-    plugins = [
-      # List of oh-my-zsh plugins to enable
-      "fancy-ctrl-z"
-      "git"
-      "git-auto-fetch"
-      "git-extras"
-    ];
-  };
-
   programs.fzf = {
     enable = true;
     enableZshIntegration = true;
@@ -68,7 +63,7 @@
         nix flake update && doas nixos-rebuild switch --flake .#
         cd -
       fi
-        cd ~/.config/nixdots/home/
+        cd $NIX_PATH/home/
         nix flake update && home-manager switch --flake ./
         cd -
     }
