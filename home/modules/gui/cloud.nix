@@ -3,5 +3,6 @@
     ferdium
     joplin-desktop
     keepassxc
+    nextcloud-client
   ];
 }

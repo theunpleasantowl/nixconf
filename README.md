@@ -6,8 +6,8 @@ This repository contains my Nix configuration, organized using Nix Flakes. It ai
 
 The configuration is divided into two main directories:
 
-- **`hosts`**: Contains configurations specific to different machines or environments.
-- **`home`**: Contains configurations for user-specific settings and applications.
+- **`nixos`**: Contains nixos configurations specific to various hosts.
+- **`home`**: Contains home-manager configurations for user-scope settings and applications.
 
 ## Getting Started
 
