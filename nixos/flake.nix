@@ -7,11 +7,15 @@
   };
 
   outputs = inputs:
-  /*
-  ignore::
-  */
   {
     nixosConfigurations = {
+      giniro = inputs.nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          ./hosts/giniro
+        ];
+        specialArgs = {inherit inputs;};
+      };
       shirou = inputs.nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
