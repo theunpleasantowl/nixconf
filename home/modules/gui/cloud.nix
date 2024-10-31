@@ -1,8 +1,12 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
-    ferdium
+    # Notes and Access
     joplin-desktop
     keepassxc
     nextcloud-client
+    # Web
+    ferdium
+    firefox
+    thunderbird
   ];
 }
