@@ -1,6 +1,7 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
-    # Notes and Access
+    anki
+    ferdium
     joplin-desktop
     keepassxc
     nextcloud-client

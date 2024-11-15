@@ -15,10 +15,7 @@
   # WezTerm configuration
   programs.wezterm = {
     enable = true;
-    extraConfig = ''
-      enable_tab_bar = false
-      window_background_opacity = 0.85
-      default_prog = { "/bin/zsh", "-l" }
-    '';
+    enableZshIntegration = true;
+    enableBashIntegration = true;
   };
 }

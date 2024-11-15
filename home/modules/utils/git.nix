@@ -2,6 +2,8 @@
   home.shellAliases = {
     g = "git";
     gP = "git push";
+    ga = "git add";
+    gc = "git commit";
     gd = "git diff";
     gf = "git fetch";
     gl = "git log";

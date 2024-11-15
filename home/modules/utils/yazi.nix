@@ -13,7 +13,7 @@ in {
 
     settings = {
       manager = {
-        show_hidden = true;
+        #show_hidden = true;
       };
     };
 
@@ -46,8 +46,8 @@ in {
         }
         {
           on = ["W"];
-          run = "shell 'swww img -t outer \"$@\"' --confirm";
-          desc = "Feed file into swww to set wallpaper";
+          run = "shell 'set_paper \"$@\"' --orphan --confirm";
+          desc = "Set wallpaper";
         }
       ];
     };

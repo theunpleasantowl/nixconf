@@ -60,6 +60,13 @@
     module = "${format}";
   };
 in {
+  home.shellAliases = {
+    ta = "tmux attach";
+    tls = "tmux ls";
+    ts = "tmux new-session -s";
+    tks = "tmux kill-session -t";
+  };
+
   programs.tmux = {
     enable = true;
     plugins = with pkgs.tmuxPlugins; [
