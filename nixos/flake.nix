@@ -6,13 +6,13 @@
     nur = {url = "github:nix-community/NUR";};
   };
 
-  outputs = inputs:
-  {
+  outputs = inputs: {
     nixosConfigurations = {
       giniro = inputs.nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
           ./hosts/giniro
+          ./modules/gnome.nix
         ];
         specialArgs = {inherit inputs;};
       };
@@ -20,6 +20,7 @@
         system = "x86_64-linux";
         modules = [
           ./hosts/shirou
+          ./modules/gnome.nix
         ];
         specialArgs = {inherit inputs;};
       };
