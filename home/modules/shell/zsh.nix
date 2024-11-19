@@ -22,11 +22,11 @@
         local NIX_PATH="$HOME/.config/nixconf"
         if command -v nixos-rebuild  > /dev/null; then
           cd $NIX_PATH/nixos/
-          nix flake update && doas nixos-rebuild switch --flake .#
+          nix flake update && doas nh os switch --flake .# --ask
           cd -
         fi
           cd $NIX_PATH/home/
-          nix flake update && home-manager switch --flake ./
+          nix flake update && nh home switch --flake ./ --ask
           cd -
       }
     '';
