@@ -27,6 +27,7 @@
     lm_sensors # for `sensors` command
     lsof # list open files
     ltrace # library call monitoring
+    nh
     nix-output-monitor
     pciutils # lspci
     strace # system call monitoring
@@ -37,6 +38,8 @@
     ## Fonts
     terminus-nerdfont
   ];
+
+  programs.nh.enable = true;
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
