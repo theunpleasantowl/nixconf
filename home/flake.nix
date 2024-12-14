@@ -8,7 +8,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixvim = {
-      url = "git+ssh://git@github.com/theunpleasantowl/nixvim";
+      url = "github:theunpleasantowl/nixvim";
     };
   };
 
@@ -21,6 +21,7 @@
     system = "x86_64-linux";
     pkgs = import nixpkgs {
       config.allowUnfree = true;
+      useGlobalPkgs = true;
       system = "x86_64-linux";
     };
   in {

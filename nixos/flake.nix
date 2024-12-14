@@ -4,6 +4,7 @@
   inputs = {
     nixpkgs = {url = "github:nixos/nixpkgs/nixos-unstable";};
     nur = {url = "github:nix-community/NUR";};
+    home-manager = {url = "github:nix-community/home-manager";};
   };
 
   outputs = inputs: {
@@ -13,6 +14,7 @@
         modules = [
           ./hosts/giniro
           ./modules/gnome.nix
+          ./modules/hyprland.nix
         ];
         specialArgs = {inherit inputs;};
       };
@@ -21,6 +23,7 @@
         modules = [
           ./hosts/shirou
           ./modules/gnome.nix
+          ./modules/hyprland.nix
         ];
         specialArgs = {inherit inputs;};
       };

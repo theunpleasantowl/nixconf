@@ -27,4 +27,12 @@ in {
     totem
     geary # Email reader
   ];
+
+  environment.gnome.excludePackages = with pkgs; [
+    gnome-tour
+    gnome-music
+    epiphany
+    totem
+    geary # email reader
+  ];
 }
