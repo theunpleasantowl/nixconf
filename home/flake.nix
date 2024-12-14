@@ -8,7 +8,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixvim = {
-      url = "git+ssh://git@github.com/theunpleasantowl/nixvim";
+      url = "github:theunpleasantowl/nixvim";
     };
   };
 
