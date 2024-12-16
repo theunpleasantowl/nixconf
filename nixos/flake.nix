@@ -14,6 +14,7 @@
         modules = [
           ./hosts/giniro
           ./modules/gnome.nix
+          ./modules/hyprland.nix
         ];
         specialArgs = {inherit inputs;};
       };
@@ -22,6 +23,7 @@
         modules = [
           ./hosts/shirou
           ./modules/gnome.nix
+          ./modules/hyprland.nix
         ];
         specialArgs = {inherit inputs;};
       };

@@ -6,7 +6,20 @@
   };
   environment.systemPackages = with pkgs; [
     fractal
+    komikku
+    shortwave
+    wike
+    wordbook
+
     gnomeExtensions.clipboard-indicator
     gnomeExtensions.dock-from-dash
+  ];
+
+  environment.gnome.excludePackages = with pkgs; [
+    gnome-tour
+    gnome-music
+    epiphany
+    totem
+    geary # email reader
   ];
 }
