@@ -1,21 +1,18 @@
 {
-  # Import Kitty and WezTerm modules
-  # Kitty configuration
-  #  programs.kitty = {
-  #    enable = true;
-  #    extraConfig = ''
-  #      background_opacity 0.9
-  #      cursor_shape block
-  #      allow_remote_control no
-  #      map ctrl+shift+t new_tab
-  #      map ctrl+shift+w close_tab
-  #    '';
-  #  };
-
-  # WezTerm configuration
   programs.wezterm = {
     enable = true;
     enableZshIntegration = true;
     enableBashIntegration = true;
+    extraConfig = ''
+      local wezterm = require 'wezterm'
+      local config = wezterm.config_builder()
+      config.font_size = 15.0
+      config.font = wezterm.font "Terminess Nerd Font"
+      config.window_background_opacity = 1
+      config.window_decorations = 'RESIZE'
+      config.audible_bell = "Disabled"
+
+      return config
+    '';
   };
 }

@@ -2,7 +2,6 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    #./boot-splash.nix
   ];
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
@@ -44,25 +43,27 @@
   };
 
   # Enable the X11 windowing system.
-  services.xserver.enable = true;
+  services = {
+    xserver = {
+      enable = true;
+      excludePackages = [pkgs.xterm];
+    };
 
-  # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "us";
-    variant = "";
+    # Enable CUPS to print documents.
+    printing.enable = true;
   };
 
   # Fonts
-  fonts.packages = with pkgs; [
-    noto-fonts
-    noto-fonts-cjk-sans
-    noto-fonts-cjk-serif
-    noto-fonts-emoji
-    liberation_ttf
-  ];
-
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
+  fonts = {
+    enableDefaultPackages = true;
+    packages = with pkgs; [
+      noto-fonts
+      noto-fonts-cjk-sans
+      noto-fonts-cjk-serif
+      noto-fonts-emoji
+      liberation_ttf
+    ];
+  };
 
   # Enable sound with pipewire.
   hardware.pulseaudio.enable = false;
@@ -80,8 +81,7 @@
     #media-session.enable = true;
   };
 
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
+  # Enable doas
   security.doas = {
     enable = true;
     extraRules = [
@@ -106,6 +106,7 @@
     enable = true;
     defaultEditor = true;
   };
+  programs.steam.enable = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -118,8 +119,7 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  # Services
-  #services.openssh.enable = true;
+  # Bluetooth
   hardware.bluetooth.enable = true; # enables support for Bluetooth
   hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
   services.blueman.enable = true;
