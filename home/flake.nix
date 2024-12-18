@@ -18,26 +18,27 @@
     home-manager,
     ...
   } @ inputs: let
+    username = "hibiki";
     system = "x86_64-linux";
     pkgs = import nixpkgs {
+      inherit system;
       config.allowUnfree = true;
-      system = "x86_64-linux";
     };
   in {
-    defaultPackage.x86_64-linux = home-manager.defaultPackage.x86_64-linux;
+    packages.${system}.default = home-manager.defaultPackage.x86_64-linux;
 
     home-manager.extraSpecialArgs = {inherit inputs;};
-    homeConfigurations = {
-      "hibiki" = home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
-        modules = [
-          ./home.nix
-          ./pkgs.nix
-          {
-            home.packages = [inputs.nixvim.packages.${system}.default];
-          }
-        ];
-      };
+    homeConfigurations."${username}" = home-manager.lib.homeManagerConfiguration {
+      inherit pkgs;
+      modules = [
+        ./home.nix
+        ./pkgs.nix
+        {
+          home.packages = [
+            inputs.nixvim.packages.${system}.default
+          ];
+        }
+      ];
     };
   };
 }

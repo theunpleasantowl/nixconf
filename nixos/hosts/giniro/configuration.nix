@@ -5,9 +5,6 @@
   ];
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
-  # Bootloader
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
   networking.hostName = "giniro"; # Define your hostname.
@@ -16,7 +13,7 @@
   # Set your time zone.
   time.timeZone = "America/New_York";
 
-  # Select internationalisation properties.
+  # Internationalisation
   i18n = {
     defaultLocale = "en_US.UTF-8";
     extraLocaleSettings = {
@@ -29,6 +26,11 @@
       LC_PAPER = "en_US.UTF-8";
       LC_TELEPHONE = "en_US.UTF-8";
       LC_TIME = "en_US.UTF-8";
+    };
+    inputMethod = {
+      enable = true;
+      type = "fcitx5";
+      fcitx5.addons = with pkgs; [fcitx5-mozc];
     };
   };
 
@@ -75,7 +77,7 @@
     ];
   };
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
+  # Users
   programs.zsh.enable = true;
   users.defaultUserShell = pkgs.zsh;
   users.users.hibiki = {

@@ -1,31 +1,39 @@
 {
-  description = "An example NixOS configuration";
+  description = "NixOS Configuration";
 
   inputs = {
     nixpkgs = {url = "github:nixos/nixpkgs/nixos-unstable";};
-    nur = {url = "github:nix-community/NUR";};
-    home-manager = {url = "github:nix-community/home-manager";};
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = inputs: {
+  outputs = {self, ...} @ inputs: {
     nixosConfigurations = {
       giniro = inputs.nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
         modules = [
           ./hosts/giniro
           ./modules/gnome.nix
           ./modules/hyprland.nix
+          {
+            environment.systemPackages = [
+              inputs.home-manager.packages.x86_64-linux.default
+            ];
+          }
         ];
-        specialArgs = {inherit inputs;};
       };
       shirou = inputs.nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
         modules = [
           ./hosts/shirou
           ./modules/gnome.nix
           ./modules/hyprland.nix
+          {
+            environment.systemPackages = [
+              inputs.home-manager.packages.x86_64-linux.default
+            ];
+          }
         ];
-        specialArgs = {inherit inputs;};
       };
     };
   };

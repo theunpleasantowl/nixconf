@@ -4,22 +4,28 @@
   services.xserver.desktopManager.gnome = {
     enable = true;
   };
-  environment.systemPackages = with pkgs; [
-    fractal
-    komikku
-    shortwave
-    wike
-    wordbook
 
-    gnomeExtensions.clipboard-indicator
-    gnomeExtensions.dock-from-dash
-  ];
+  environment.systemPackages = let
+    gnomeExtensions = with pkgs.gnomeExtensions; [
+      clipboard-indicator
+      dock-from-dash
+    ];
+  in
+    with pkgs;
+      [
+        fractal
+        komikku
+        shortwave
+        wike
+        wordbook
+      ]
+      ++ gnomeExtensions;
 
   environment.gnome.excludePackages = with pkgs; [
     gnome-tour
     gnome-music
     epiphany
     totem
-    geary # email reader
+    geary
   ];
 }

@@ -10,14 +10,6 @@
       path = "${config.xdg.dataHome}/zsh/history";
     };
     initExtra = ''
-      function yy() {
-        local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
-        yazi "$@" --cwd-file="$tmp"
-        if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-        	builtin cd -- "$cwd"
-        fi
-        rm -f -- "$tmp"
-      }
       function nup() {
         local NIX_PATH="$HOME/.config/nixconf"
         if command -v nixos-rebuild  > /dev/null; then
