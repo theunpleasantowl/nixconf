@@ -55,6 +55,7 @@
   services.printing.enable = true;
 
   # Enable sound.
+  services.pulseaudio = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;

@@ -7,6 +7,8 @@
 
   environment.systemPackages = let
     gnomeExtensions = with pkgs.gnomeExtensions; [
+      pop-shell
+      blur-my-shell
       clipboard-indicator
       dock-from-dash
     ];
@@ -14,6 +16,7 @@
     with pkgs;
       [
         fractal
+        ghostty
         komikku
         shortwave
         wike
@@ -22,10 +25,12 @@
       ++ gnomeExtensions;
 
   environment.gnome.excludePackages = with pkgs; [
-    gnome-tour
-    gnome-music
     epiphany
-    totem
     geary
+    gnome-console
+    gnome-music
+    gnome-tour
+    gnome-user-docs
+    totem
   ];
 }

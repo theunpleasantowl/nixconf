@@ -2,6 +2,7 @@
 # We also import package _modules_ via imports.
 {pkgs, ...}: {
   imports = [
+    ./modules/gui
     ./modules/shell
     ./modules/utils
   ];
@@ -26,22 +27,19 @@
     lm_sensors # for `sensors` command
     lsof # list open files
     ltrace # library call monitoring
-    nh # Nix Helper
     pciutils # lspci
     strace # syscall monitoring
     sysstat
     usbutils # lsusb
     yq-go
 
+    # Secrets
+    age
+    sops
+
     # Misc
     nethack
-
-    # Fonts
-    nerd-fonts.fira-code
-    nerd-fonts.terminess-ttf
   ];
-
-  programs.nh.enable = true;
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
