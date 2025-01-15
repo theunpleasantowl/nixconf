@@ -6,15 +6,31 @@
     garamond-libre
     medio
 
+    # Sans-Serif
+    lato
+    ibm-plex
+    montserrat
+
+    # Slab-Serif
+    zilla-slab
+    courier-prime
+
+    # Display
+    raleway
+    league-gothic
+
     # NerdFonts
-    nerd-fonts.bigblue-terminal
+    ## Serif
+    nerd-fonts.tinos
+    ## Monospace
     nerd-fonts.blex-mono
     nerd-fonts.fira-code
     nerd-fonts.gohufont
-    nerd-fonts.heavy-data
     nerd-fonts.sauce-code-pro
     nerd-fonts.terminess-ttf
-    nerd-fonts.tinos
+    nerd-fonts.bigblue-terminal
+    ## Display
+    nerd-fonts.heavy-data
   ];
   fonts.fontconfig.enable = true;
 }

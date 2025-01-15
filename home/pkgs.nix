@@ -3,6 +3,7 @@
 {pkgs, ...}: {
   imports = [
     ./modules/gui
+    ./modules/misc
     ./modules/shell
     ./modules/utils
   ];

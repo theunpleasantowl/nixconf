@@ -11,6 +11,7 @@
       blur-my-shell
       clipboard-indicator
       dock-from-dash
+      kimpanel
     ];
   in
     with pkgs;
