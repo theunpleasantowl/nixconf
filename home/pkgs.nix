@@ -2,7 +2,7 @@
 # We also import package _modules_ via imports.
 {pkgs, ...}: {
   imports = [
-    ./modules/gui
+    #./modules/gui
     ./modules/misc
     ./modules/shell
     ./modules/utils
