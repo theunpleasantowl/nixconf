@@ -18,20 +18,34 @@
     home-manager,
     ...
   } @ inputs: let
-    username = "hibiki";
     system = "x86_64-linux";
+    stateVersion = "24.11";
+
     pkgs = import nixpkgs {
       inherit system;
       config.allowUnfree = true;
     };
+
+    homeDirPrefix =
+      if pkgs.stdenv.hostPlatform.isDarwin
+      then "/Users"
+      else "/home";
+
+    username = "hibiki";
+
+    homeDirectory = "${homeDirPrefix}/${username}";
+
+    home = import ./home.nix {
+      inherit homeDirectory pkgs stateVersion system username;
+    };
   in {
-    packages.${system}.default = home-manager.defaultPackage.x86_64-linux;
+    packages.${system}.default = home-manager.defaultPackage.${system};
 
     home-manager.extraSpecialArgs = {inherit inputs;};
     homeConfigurations."${username}" = home-manager.lib.homeManagerConfiguration {
       inherit pkgs;
       modules = [
-        ./home.nix
+        home
         ./pkgs.nix
         {
           home.packages = [
