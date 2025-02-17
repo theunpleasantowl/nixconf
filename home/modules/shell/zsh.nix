@@ -11,7 +11,7 @@
     };
     initExtra = ''
       function nup() {
-        local NIX_PATH="${builtins.toString ./.}"
+        local NIX_PATH="$HOME/.config/nixconf"
         if command -v nixos-rebuild  > /dev/null; then
           cd $NIX_PATH/nixos/
           nix flake update && nh os switch ./ --ask
