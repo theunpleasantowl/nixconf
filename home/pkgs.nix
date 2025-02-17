@@ -2,7 +2,6 @@
 # We also import package _modules_ via imports.
 {pkgs, ...}: {
   imports = [
-    #./modules/gui
     ./modules/misc
     ./modules/shell
     ./modules/utils
@@ -30,10 +29,14 @@
     ltrace # library call monitoring
     nix-index
     pciutils # lspci
+    stow
     strace # syscall monitoring
     sysstat
     usbutils # lsusb
     yq-go
+
+    # chat
+    weechat
 
     # Secrets
     age
