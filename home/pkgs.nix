@@ -28,6 +28,7 @@
     lm_sensors # for `sensors` command
     lsof # list open files
     ltrace # library call monitoring
+    nix-index
     pciutils # lspci
     strace # syscall monitoring
     sysstat
