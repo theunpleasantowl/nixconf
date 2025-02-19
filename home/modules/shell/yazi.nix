@@ -2,8 +2,8 @@
   yazi-plugins = pkgs.fetchFromGitHub {
     owner = "yazi-rs";
     repo = "plugins";
-    rev = "71c4fc2e6fa1d6f70c85bf525842d6888d1ffa46";
-    sha256 = "sha256-X3R5bsnzGv1TVXOKdhAyspDMguVAyc9tvCxJlypUUAA=";
+    rev = "main";
+    sha256 = "sha256-enIt79UvQnKJalBtzSEdUkjNHjNJuKUWC4L6QFb3Ou4=";
   };
 in {
   programs.yazi = {
@@ -19,13 +19,15 @@ in {
 
     plugins = {
       chmod = "${yazi-plugins}/chmod.yazi";
+      diff = "${yazi-plugins}/diff.yazi";
       git = "${yazi-plugins}/git.yazi";
       max-preview = "${yazi-plugins}/max-preview.yazi";
+      mount = "${yazi-plugins}/mount.yazi";
       starship = pkgs.fetchFromGitHub {
         owner = "Rolv-Apneseth";
         repo = "starship.yazi";
-        rev = "9c37d37099455a44343f4b491d56debf97435a0e";
-        sha256 = "sha256-wESy7lFWan/jTYgtKGQ3lfK69SnDZ+kDx4K1NfY4xf4=";
+        rev = "main";
+        sha256 = "sha256-5QQsFozbulgLY/Gl6QuKSOTtygULveoRD49V00e0WOw=";
       };
     };
 
@@ -44,6 +46,16 @@ in {
           on = ["c" "m"];
           run = "plugin chmod";
           desc = "Chmod on selected files";
+        }
+        {
+          on = ["c" "d"];
+          run = "plugin diff";
+          desc = "Diff the selected with the hovered file";
+        }
+        {
+          on = "M";
+          run = "plugin mount";
+          desc = "Mount manager";
         }
         {
           on = ["W"];
