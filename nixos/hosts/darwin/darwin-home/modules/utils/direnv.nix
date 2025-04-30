@@ -7,7 +7,7 @@
     };
     config.global = {
       # Make direnv messages less verbose
-      #hide_env_diff = true;
+      hide_env_diff = true;
     };
   };
 }

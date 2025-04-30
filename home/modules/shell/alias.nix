@@ -15,8 +15,6 @@
     fgrep = "fgrep --color=auto";
     grep = "grep --color=auto";
 
-    sudo = "doas";
-
     ta = "tmux attach";
     tls = "tmux ls";
     ts = "tmux new-session -s";

@@ -11,6 +11,11 @@
   networking.hostName = "shirou"; # Define your hostname.
   networking.networkmanager.enable = true;
 
+  # Enable OpenGL
+  hardware.graphics = {
+    enable = true;
+  };
+
   # Bluetooth
   hardware.bluetooth.enable = true; # enables support for Bluetooth
   hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
@@ -23,6 +28,8 @@
     enable = true;
     extraRules = [
       {
+        groups = ["wheel"];
+        keepEnv = true;
         persist = true;
       }
     ];
@@ -54,5 +61,5 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  system.stateVersion = "24.05";
+  system.stateVersion = "24.11";
 }

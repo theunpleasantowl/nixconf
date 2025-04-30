@@ -27,26 +27,6 @@ git clone git@github.com:theunpleasantowl/nixconf.git
 cd nixconf
 ```
 
-### Building the Configuration
-
-To build the configuration for a specific host, navigate to the `hosts` directory and run:
-
-```bash
-nix build .#<host-name>
-```
-
-For example:
-
-```bash
-nix build .#my-laptop
-```
-
-To build the home configuration, navigate to the `home` directory:
-
-```bash
-nix build .#home
-```
-
 ### Applying the Configuration
 
 To apply the configuration, use the `nix switch` command for system configurations:
@@ -68,7 +48,7 @@ home-manager switch --flake .#home
 
 ## Contributing
 
-Feel free to contribute to this configuration by submitting issues or pull requests. Make sure to follow the existing structure and maintain clarity in your changes.
+Feel free to contribute to this configuration by submitting issues or pull requests.
 
 ## License
 

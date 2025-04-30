@@ -1,13 +1,19 @@
-{...}: {
+{
+  homeDirectory,
+  stateVersion,
+  username,
+  ...
+}: {
   imports = [
     ./modules/shell/zsh.nix
     ./modules/utils
   ];
-  # Home Manager needs a bit of information about you and the paths it should
-  # manage.
+
   home = {
-    username = "hibiki";
-    homeDirectory = "/home/hibiki";
+    homeDirectory = homeDirectory;
+    stateVersion = stateVersion;
+    username = username;
+
     sessionVariables = {
       EDITOR = "nvim";
     };
@@ -15,6 +21,4 @@
       "$HOME/.bin"
     ];
   };
-
-  home.stateVersion = "24.05";
 }
