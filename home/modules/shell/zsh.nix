@@ -9,7 +9,7 @@
       size = 10000;
       path = "${config.xdg.dataHome}/zsh/history";
     };
-    initExtra = ''
+    initContent = ''
       function nup() {
         local NIX_PATH="$HOME/.config/nixconf"
         if command -v nixos-rebuild  > /dev/null; then

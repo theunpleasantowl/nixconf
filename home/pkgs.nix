@@ -5,6 +5,7 @@
     ./modules/misc
     ./modules/shell
     ./modules/utils
+    ./modules/gui
   ];
 
   nixpkgs.config = {
@@ -18,6 +19,7 @@
     ethtool
     eza
     fastfetch
+    fd
     git-extras
     glow
     iftop # network monitoring
