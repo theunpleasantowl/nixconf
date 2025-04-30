@@ -19,6 +19,7 @@
         foliate
         fractal
         ghostty
+        gnome-epub-thumbnailer
         komikku
         shortwave
         wike
