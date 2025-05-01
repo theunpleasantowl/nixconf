@@ -23,7 +23,6 @@
         komikku
         shortwave
         wike
-        wordbook
       ]
       ++ gnomeExtensions;
 
