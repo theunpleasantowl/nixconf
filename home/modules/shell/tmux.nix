@@ -81,6 +81,7 @@ in {
     keyMode = "vi";
     mouse = true;
     extraConfig = ''
+      set -g @continuum-save-interval '5'
       set -g @continuum-restore 'on'
       run-shell ${pkgs.tmuxPlugins.resurrect}/share/tmux-plugins/resurrect/resurrect.tmux
       run-shell ${pkgs.tmuxPlugins.continuum}/share/tmux-plugins/continuum/continuum.tmux
