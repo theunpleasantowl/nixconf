@@ -15,6 +15,7 @@
   programs = {
     git = {
       enable = true;
+      lfs.enable = true;
       userName = "theunpleasantowl";
       userEmail = "theunpleasantowl@gmail.com";
       ignores = ["*~" "*.swp"];
