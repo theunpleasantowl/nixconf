@@ -3,12 +3,11 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
   ];
-  nix.settings.experimental-features = ["nix-command" "flakes"];
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
   # Networking
-  networking.hostName = "shirou"; # Define your hostname.
+  networking.hostName = "shirou";
   networking.networkmanager.enable = true;
 
   # Enable OpenGL
@@ -45,12 +44,10 @@
   };
 
   # Packages
-  programs.firefox.enable = true;
   programs.neovim = {
     enable = true;
     defaultEditor = true;
   };
-  programs.steam.enable = true;
 
   environment.systemPackages = with pkgs; [
     curl

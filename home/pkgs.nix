@@ -36,6 +36,7 @@
     sysstat
     usbutils # lsusb
     yq-go
+    yt-dlp
 
     # chat
     weechat

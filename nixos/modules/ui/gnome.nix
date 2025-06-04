@@ -1,28 +1,28 @@
 {pkgs, ...}: {
   # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome = {
+  services.displayManager.gdm.enable = true;
+  services.desktopManager.gnome = {
     enable = true;
   };
 
   environment.systemPackages = let
     gnomeExtensions = with pkgs.gnomeExtensions; [
-      pop-shell
+      appindicator
       blur-my-shell
       clipboard-indicator
       dock-from-dash
       kimpanel
+      tophat
     ];
   in
     with pkgs;
       [
+        ffmpegthumbnailer
         foliate
-        fractal
         ghostty
         gnome-epub-thumbnailer
         komikku
         shortwave
-        wike
         wordbook
       ]
       ++ gnomeExtensions;
@@ -32,7 +32,9 @@
     geary
     gnome-console
     gnome-music
+    gnome-music
     gnome-tour
+    gnome-user-docs
     gnome-user-docs
     totem
   ];

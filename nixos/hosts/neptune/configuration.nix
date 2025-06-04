@@ -1,8 +1,4 @@
-{
-  config,
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -10,22 +6,16 @@
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
+  services.flatpak.enable = true;
+  programs.nix-ld.enable = true;
+
   # Networking
-  networking.hostName = "giniro";
+  networking.hostName = "neptune";
   networking.networkmanager.enable = true;
 
   # Enable OpenGL
   hardware.graphics = {
     enable = true;
-  };
-
-  # Load nvidia driver for Xorg and Wayland
-  nixpkgs.config.nvidia.acceptLicense = true;
-  services.xserver.videoDrivers = ["nvidia"];
-  hardware.nvidia = {
-    modesetting.enable = true;
-    nvidiaSettings = true;
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
 
   # Bluetooth
@@ -62,6 +52,8 @@
     defaultEditor = true;
   };
 
+  hardware.ckb-next.enable = true;
+
   environment.systemPackages = with pkgs; [
     curl
     git
@@ -71,5 +63,5 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  system.stateVersion = "24.11";
+  system.stateVersion = "25.05";
 }
