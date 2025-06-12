@@ -1,4 +1,4 @@
-{
+{...}: {
   imports = with builtins;
     map
     (fn: ./${fn})
