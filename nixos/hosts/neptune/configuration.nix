@@ -6,7 +6,6 @@
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  services.flatpak.enable = true;
   programs.nix-ld.enable = true;
 
   # Networking
@@ -16,6 +15,10 @@
   # Enable OpenGL
   hardware.graphics = {
     enable = true;
+    enable32Bit = true;
+    extraPackages = with pkgs; [
+      vpl-gpu-rt
+    ];
   };
 
   # Bluetooth

@@ -50,20 +50,16 @@
   };
 
   # SSD Mounts
-  fileSystems."/mnt/local/SteamSSD1" = {
-    device = "/dev/disk/by-uuid/d2c68c91-9c42-4a16-b628-5234e5d85bb4";
+  fileSystems."/mnt/local/SteamSSD" = {
+    device = "/dev/disk/by-uuid/a7045311-23ef-4e09-b18a-aecebc4b8769";
     fsType = "btrfs";
     options = ["compress=zstd" "noatime" "nofail"];
   };
-  fileSystems."/mnt/local/SteamSSD2" = {
-    device = "/dev/disk/by-uuid/b784d260-59fe-cc56-33bd-42f3239cff3a";
-    fsType = "btrfs";
-    options = ["compress=zstd" "noatime" "nofail"];
-  };
-  fileSystems."/mnt/local/SteamSSD3" = {
-    device = "/dev/disk/by-uuid/a9da61c5-dd40-4c7e-94d9-79b5141cef5c";
-    fsType = "btrfs";
-    options = ["compress=zstd" "noatime" "nofail"];
+
+  fileSystems."/mnt/local/SteamNVMe" = {
+    device = "/dev/disk/by-uuid/1A4BBECD3FE15A39";
+    fsType = "ntfs-3g";
+    options = ["rw" "uid=1000" "nofail"];
   };
 
   fileSystems."/mnt/nfs/SteamNAS" = {
