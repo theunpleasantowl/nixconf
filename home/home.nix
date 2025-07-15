@@ -4,11 +4,6 @@
   username,
   ...
 }: {
-  imports = [
-    ./modules/shell/zsh.nix
-    ./modules/utils
-  ];
-
   home = {
     homeDirectory = homeDirectory;
     stateVersion = stateVersion;
