@@ -2,10 +2,10 @@
 # We also import package _modules_ via imports.
 {pkgs, ...}: {
   imports = [
+    ./modules/gui
     ./modules/misc
     ./modules/shell
     ./modules/utils
-    ./modules/gui
   ];
 
   nixpkgs.config = {
