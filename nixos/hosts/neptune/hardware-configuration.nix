@@ -17,47 +17,47 @@
   boot.kernelModules = ["kvm-amd"];
   boot.extraModulePackages = [];
 
+  boot.initrd.luks.devices."nixos".device = "/dev/disk/by-uuid/6eca11f6-921e-4d61-8f48-2473aa91bcce";
+
   fileSystems."/" = {
-    device = "/dev/disk/by-uuid/bc334770-3956-48f2-96f8-75988f8e8de4";
+    device = "/dev/disk/by-uuid/05672396-a9de-46d1-b97d-81e54deef5a4";
     fsType = "btrfs";
     options = ["subvol=root" "compress=zstd" "noatime"];
   };
 
-  boot.initrd.luks.devices."nvme".device = "/dev/disk/by-uuid/899689a7-b1d5-4af6-a74a-e844252d0e53";
-
   fileSystems."/home" = {
-    device = "/dev/disk/by-uuid/bc334770-3956-48f2-96f8-75988f8e8de4";
+    device = "/dev/disk/by-uuid/05672396-a9de-46d1-b97d-81e54deef5a4";
     fsType = "btrfs";
     options = ["subvol=home" "compress=zstd" "noatime"];
   };
 
   fileSystems."/nix" = {
-    device = "/dev/disk/by-uuid/bc334770-3956-48f2-96f8-75988f8e8de4";
+    device = "/dev/disk/by-uuid/05672396-a9de-46d1-b97d-81e54deef5a4";
     fsType = "btrfs";
     options = ["subvol=nix" "compress=zstd" "noatime"];
   };
 
   fileSystems."/var/log" = {
-    device = "/dev/disk/by-uuid/bc334770-3956-48f2-96f8-75988f8e8de4";
+    device = "/dev/disk/by-uuid/05672396-a9de-46d1-b97d-81e54deef5a4";
     fsType = "btrfs";
     options = ["subvol=log" "compress=zstd" "noatime"];
   };
 
   fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/CAF2-8D4C";
+    device = "/dev/disk/by-uuid/12CE-A600";
     fsType = "vfat";
     options = ["fmask=0022" "dmask=0022"];
   };
 
   # SSD Mounts
   fileSystems."/mnt/local/SteamSSD" = {
-    device = "/dev/disk/by-uuid/a7045311-23ef-4e09-b18a-aecebc4b8769";
+    device = "/dev/disk/by-uuid/5900c530-0d69-4b81-8516-e49eb7fa48a0";
     fsType = "btrfs";
     options = ["compress=zstd" "noatime" "nofail"];
   };
 
   fileSystems."/mnt/local/SteamNVMe" = {
-    device = "/dev/disk/by-uuid/16F16DD7609F9BE6";
+    device = "/dev/disk/by-uuid/2882E19F82E1722C";
     fsType = "ntfs-3g";
     options = ["rw" "uid=1000" "nofail"];
   };

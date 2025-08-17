@@ -6,8 +6,6 @@
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  programs.nix-ld.enable = true;
-
   # Networking
   networking.hostName = "neptune";
   networking.networkmanager.enable = true;
