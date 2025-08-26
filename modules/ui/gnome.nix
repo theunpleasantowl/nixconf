@@ -12,18 +12,21 @@
       clipboard-indicator
       dock-from-dash
       kimpanel
+      night-theme-switcher
+      tiling-shell
       tophat
     ];
   in
     with pkgs;
       [
+        refine
         ffmpegthumbnailer
         foliate
         ghostty
         gnome-epub-thumbnailer
         komikku
         shortwave
-        wordbook
+        mission-center
       ]
       ++ gnomeExtensions;
 
@@ -32,9 +35,8 @@
     geary
     gnome-console
     gnome-music
-    gnome-music
+    gnome-system-monitor
     gnome-tour
-    gnome-user-docs
     gnome-user-docs
     totem
   ];

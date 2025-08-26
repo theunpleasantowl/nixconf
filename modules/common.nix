@@ -1,7 +1,10 @@
 {pkgs, ...}: {
+  nixpkgs.config = {
+    allowUnfree = true;
+  };
+
   # Time Zone
   time.timeZone = "America/New_York";
-
   # Internationalisation
   i18n = {
     defaultLocale = "en_US.UTF-8";

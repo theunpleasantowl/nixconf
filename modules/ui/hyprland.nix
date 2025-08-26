@@ -4,10 +4,11 @@
   services.hypridle.enable = true;
 
   environment.systemPackages = with pkgs; [
-    waybar
     mako
+    swww
+    waybar
     wezterm
-    wofi
     wl-clipboard
+    wofi
   ];
 }

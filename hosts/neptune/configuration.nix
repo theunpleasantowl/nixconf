@@ -38,22 +38,18 @@
     ];
   };
 
-  # Users
-  programs.zsh.enable = true;
-  users.defaultUserShell = pkgs.zsh;
-  users.users.hibiki = {
-    isNormalUser = true;
-    description = "hibiki";
-    extraGroups = ["networkmanager" "wheel"];
-  };
-
   # Packages
   programs.neovim = {
     enable = true;
     defaultEditor = true;
   };
 
-  hardware.ckb-next.enable = true;
+  hardware.ckb-next = {
+    enable = true;
+    package = pkgs.ckb-next.overrideAttrs (old: {
+      cmakeFlags = (old.cmakeFlags or []) ++ ["-DUSE_DBUS_MENU=0"];
+    });
+  };
 
   environment.systemPackages = with pkgs; [
     curl

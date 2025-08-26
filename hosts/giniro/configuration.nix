@@ -23,6 +23,7 @@
   nixpkgs.config.nvidia.acceptLicense = true;
   services.xserver.videoDrivers = ["nvidia"];
   hardware.nvidia = {
+    open = false;
     modesetting.enable = true;
     nvidiaSettings = true;
     package = config.boot.kernelPackages.nvidiaPackages.stable;
@@ -45,15 +46,6 @@
         persist = true;
       }
     ];
-  };
-
-  # Users
-  programs.zsh.enable = true;
-  users.defaultUserShell = pkgs.zsh;
-  users.users.hibiki = {
-    isNormalUser = true;
-    description = "hibiki";
-    extraGroups = ["networkmanager" "wheel"];
   };
 
   # Packages

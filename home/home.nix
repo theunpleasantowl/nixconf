@@ -1,19 +1,17 @@
-{
-  homeDirectory,
-  stateVersion,
-  username,
-  ...
-}: {
-  home = {
-    homeDirectory = homeDirectory;
-    stateVersion = stateVersion;
-    username = username;
+{...}: {
+  home.username = "hibiki";
+  home.homeDirectory = "/home/hibiki";
+  home.stateVersion = "25.05";
 
-    sessionVariables = {
-      EDITOR = "nvim";
-    };
-    sessionPath = [
-      "$HOME/.bin"
-    ];
+  home.sessionVariables = {
+    EDITOR = "nvim";
   };
+
+  home.sessionPath = [
+    "$HOME/.bin"
+  ];
+
+  imports = [
+    ./pkgs.nix
+  ];
 }

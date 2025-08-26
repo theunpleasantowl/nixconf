@@ -1,6 +1,10 @@
-# This file delcares Generic System Packages.
-# We also import package _modules_ via imports.
-{pkgs, ...}: {
+{
+  config,
+  pkgs,
+  inputs,
+  system,
+  ...
+}: {
   imports = [
     ./modules/gui
     ./modules/misc
@@ -14,12 +18,14 @@
 
   home.packages = with pkgs; [
     # Utilities
+    aria2
     browsh # terminal web client
     btop # replacement of htop/nmon
     ethtool
     eza
     fastfetch
     fd
+    ffmpeg
     git-extras
     glow
     iftop # network monitoring
@@ -38,12 +44,10 @@
     yq-go
     yt-dlp
 
+    inputs.nixvim.packages.${pkgs.system}.default
+
     # chat
     weechat
-
-    # Secrets
-    age
-    sops
 
     # Misc
     nethack
