@@ -1,6 +1,6 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
-    anki
+    anki-bin
     ferdium
     joplin-desktop
     keepassxc

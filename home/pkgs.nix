@@ -1,5 +1,3 @@
-# This file delcares Generic System Packages.
-# We also import package _modules_ via imports.
 {pkgs, ...}: {
   imports = [
     ./modules/gui

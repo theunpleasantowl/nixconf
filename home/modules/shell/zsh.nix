@@ -12,14 +12,13 @@
     initContent = ''
       function nup() {
         local NIX_PATH="$HOME/.config/nixconf"
+        cd $NIX_PATH && nix flake update
         if command -v nixos-rebuild  > /dev/null; then
-          cd $NIX_PATH/nixos/
-          nix flake update && nh os switch ./ --ask
-          cd -
+          nh os switch ./ --ask
+	else
+          nh home switch ./ --ask
         fi
-          cd $NIX_PATH/home/
-          nix flake update && nh home switch ./ --ask
-          cd -
+        cd -
       }
     '';
   };

@@ -23,7 +23,6 @@
         gnome-epub-thumbnailer
         komikku
         shortwave
-        wordbook
       ]
       ++ gnomeExtensions;
 
