@@ -8,10 +8,10 @@
 
     # Web
     cider
-    discord
     ferdium
     firefox
     steam
     thunderbird
+    vesktop
   ];
 }

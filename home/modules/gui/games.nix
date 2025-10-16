@@ -10,6 +10,7 @@
         bluemsx
         bsnes
         citra
+        dolphin
         fbneo
         flycast
         genesis-plus-gx
@@ -25,10 +26,7 @@
   );
 in {
   home.packages = with pkgs; [
-    discord
     dolphin-emu
-    steam
-    wine
     retroarchWithCores
   ];
 }

@@ -4,6 +4,9 @@
   services.desktopManager.gnome = {
     enable = true;
   };
+  systemd.services.gnome-remote-desktop = {
+    wantedBy = ["graphical.target"];
+  };
 
   environment.systemPackages = let
     gnomeExtensions = with pkgs.gnomeExtensions; [

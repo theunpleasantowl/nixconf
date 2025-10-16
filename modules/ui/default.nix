@@ -1,9 +1,10 @@
 {pkgs, ...}: {
-  imports = with builtins;
-    map
-    (fn: ./${fn})
-    (filter (fn: fn != "default.nix") (attrNames (readDir ./.)));
-
+  imports = [
+    ./gnome.nix
+    ./hyprland.nix
+    ./programs.nix
+    ./windowmaker.nix
+  ];
   # Enable Mesa
   hardware.graphics = {
     enable = true;
