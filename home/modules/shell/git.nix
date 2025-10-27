@@ -16,12 +16,19 @@
     git = {
       enable = true;
       lfs.enable = true;
-      userName = "theunpleasantowl";
-      userEmail = "theunpleasantowl@gmail.com";
-      ignores = ["*~" "*.swp"];
-      aliases = {
-        ci = "commit";
+      settings = {
+        user = {
+          Name = "theunpleasantowl";
+          Email = "theunpleasantowl@gmail.com";
+        };
+        aliases = {
+          ci = "commit";
+        };
       };
+      ignores = [
+        "*~"
+        "*.swp"
+      ];
     };
     lazygit.enable = true;
   };
