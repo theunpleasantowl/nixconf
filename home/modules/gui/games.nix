@@ -28,5 +28,6 @@ in {
   home.packages = with pkgs; [
     dolphin-emu
     retroarchWithCores
+    srb2
   ];
 }
