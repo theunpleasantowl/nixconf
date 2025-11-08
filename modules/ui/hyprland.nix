@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  inputs,
+  pkgs,
+  ...
+}: {
   programs.hyprland.enable = true;
   programs.hyprlock.enable = true;
   services.hypridle.enable = true;
@@ -7,7 +11,6 @@
     mako
     swww
     waybar
-    wezterm
     wl-clipboard
     wofi
   ];

@@ -2,14 +2,10 @@
   config,
   pkgs,
   inputs,
-  system,
   ...
 }: {
   imports = [
-    ./modules/gui
-    ./modules/misc
-    ./modules/shell
-    ./modules/utils
+    ./modules
   ];
 
   nixpkgs.config = {

@@ -15,6 +15,14 @@
       url = "github:theunpleasantowl/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    hyprland = {
+      url = "github:hyprwm/Hyprland";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    hyprland-plugins = {
+      url = "github:hyprwm/hyprland-plugins";
+      inputs.hyprland.follows = "hyprland";
+    };
   };
 
   outputs = {
@@ -31,6 +39,7 @@
         modules = modules;
         specialArgs = {
           flakeRoot = self;
+          inherit inputs system;
         };
       };
     sharedModules = [
@@ -74,6 +83,7 @@
           ./modules/wine.nix
         ]
       );
+      specialArgs = {inherit inputs self;};
     };
 
     homeConfigurations = {

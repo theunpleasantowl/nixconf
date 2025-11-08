@@ -8,10 +8,9 @@
 
     # Web
     cider
+    delfin
     ferdium
-    firefox
     steam
-    thunderbird
     vesktop
   ];
 }
