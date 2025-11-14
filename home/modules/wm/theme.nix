@@ -3,8 +3,8 @@
     enable = true;
 
     iconTheme = {
-      name = "Papirus-Dark";
-      package = pkgs.papirus-icon-theme;
+      name = "MoreWaita";
+      package = pkgs.morewaita-icon-theme;
     };
 
     cursorTheme = {

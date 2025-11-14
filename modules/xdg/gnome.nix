@@ -10,7 +10,7 @@
       appindicator
       blur-my-shell
       clipboard-indicator
-      dock-from-dash
+      dash-to-dock
       kimpanel
       night-theme-switcher
       tiling-shell
@@ -38,12 +38,7 @@
     gnome-system-monitor
     gnome-tour
     gnome-user-docs
+    showtime
     totem
   ];
-
-  qt = {
-    enable = true;
-    platformTheme = "gnome";
-    style = "adwaita-dark";
-  };
 }

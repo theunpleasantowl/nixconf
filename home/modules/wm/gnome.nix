@@ -1,22 +1,40 @@
 {pkgs, ...}: {
-  home.packages = with pkgs.gnomeExtensions; [
-    appindicator
-    blur-my-shell
-    clipboard-indicator
-    dock-from-dash
-    night-theme-switcher
-    pip-on-top
-    tiling-shell
-    tophat
-  ];
+  programs.gnome-shell = {
+    extensions = with pkgs.gnomeExtensions; [
+      appindicator
+      blur-my-shell
+      clipboard-indicator
+      dash-to-dock
+      night-theme-switcher
+      pip-on-top
+      tiling-shell
+      tophat
+    ];
+  };
+
   dconf = {
     enable = true;
     settings = {
+      "org/gnome/mutter" = {
+        experimental-features = ["variable-refresh-rate"];
+      };
       "org/gnome/desktop/wm/preferences" = {
         button-layout = "appmenu:minimize,maximize,close";
       };
       "org/gnome/desktop/interface" = {
         accent-color = "purple";
+      };
+      "org/gnome/desktop/interface" = {
+        enable-hot-corners = false;
+      };
+      "org/gnome/system/location" = {
+        enabled = true;
+      };
+      "org/gnome/desktop/datetime" = {
+        automatic-timezone = true;
+      };
+      "org/gtk/settings/file-chooser" = {
+        clock-format = "12h";
       };
       "org/gnome/settings-daemon/plugins/color" = {
         night-light-enabled = true;
@@ -43,7 +61,7 @@
           "appindicatorsupport@rgcjonas.gmail.com"
           "blur-my-shell@aunetx"
           "clipboard-indicator@tudmotu.com"
-          "dash2dock-lite@icedman.github.com"
+          "dash-to-dock@micxgx.gmail.com"
           "dock-from-dash@fthx"
           "kimpanel@kde.org"
           "nightthemeswitcher@romainvigier.fr"
@@ -54,7 +72,7 @@
         ];
       };
       "org/gnome/shell/extensions/clipboard-indicator" = {
-        toggle-menu = "<Shift><Super>v";
+        toggle-menu = ["<Shift><Super>v"];
       };
     };
   };
