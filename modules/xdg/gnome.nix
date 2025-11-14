@@ -10,7 +10,7 @@
       appindicator
       blur-my-shell
       clipboard-indicator
-      dock-from-dash
+      dash-to-dock
       kimpanel
       night-theme-switcher
       tiling-shell
@@ -40,10 +40,4 @@
     gnome-user-docs
     totem
   ];
-
-  qt = {
-    enable = true;
-    platformTheme = "gnome";
-    style = "adwaita-dark";
-  };
 }

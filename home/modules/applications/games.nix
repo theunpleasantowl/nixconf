@@ -11,7 +11,6 @@
         bsnes
         citra
         dolphin
-        fbneo
         flycast
         genesis-plus-gx
         melonds
