@@ -2,6 +2,11 @@
   nixpkgs.config = {
     allowUnfree = true;
   };
+  nix.gc = {
+    automatic = true;
+    dates = "*-*-* 21:00:00"; # conduct a GC operation every night at 2100
+    options = "--delete-older-than 7d";
+  };
 
   # Time Zone
   time.timeZone = "America/New_York";

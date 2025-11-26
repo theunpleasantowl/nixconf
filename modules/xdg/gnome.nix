@@ -10,7 +10,7 @@
       appindicator
       blur-my-shell
       clipboard-indicator
-      dock-from-dash
+      dash-to-dock
       kimpanel
       night-theme-switcher
       tiling-shell
@@ -19,14 +19,15 @@
   in
     with pkgs;
       [
-        refine
         ffmpegthumbnailer
         foliate
         ghostty
         gnome-epub-thumbnailer
+        icoextract
         komikku
-        shortwave
         mission-center
+        refine
+        shortwave
       ]
       ++ gnomeExtensions;
 
@@ -38,12 +39,7 @@
     gnome-system-monitor
     gnome-tour
     gnome-user-docs
+    showtime
     totem
   ];
-
-  qt = {
-    enable = true;
-    platformTheme = "gnome";
-    style = "adwaita-dark";
-  };
 }

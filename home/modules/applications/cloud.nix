@@ -10,7 +10,6 @@
     cider
     delfin
     ferdium
-    steam
     vesktop
   ];
 }

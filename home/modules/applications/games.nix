@@ -11,7 +11,6 @@
         bsnes
         citra
         dolphin
-        fbneo
         flycast
         genesis-plus-gx
         melonds
@@ -28,6 +27,7 @@ in {
   home.packages = with pkgs; [
     dolphin-emu
     retroarchWithCores
+    rpcs3
     srb2
   ];
 }
