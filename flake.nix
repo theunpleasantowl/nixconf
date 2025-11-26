@@ -77,6 +77,7 @@
         sharedModules
         ++ [
           ./hosts/neptune
+          ./modules/ssh.nix
           ./modules/steam.nix
           ./modules/wine.nix
           ./modules/xdg/gnome_rdp.nix
