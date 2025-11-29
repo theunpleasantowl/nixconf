@@ -13,14 +13,8 @@
       url = "github:theunpleasantowl/nixvim";
     };
 
-    hyprland = {
-      url = "github:hyprwm/Hyprland";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     hyprland-plugins = {
       url = "github:hyprwm/hyprland-plugins";
-      inputs.hyprland.follows = "hyprland";
     };
   };
 
@@ -88,6 +82,7 @@
         sharedModules
         ++ [
           ./hosts/giniro
+          ./modules/ssh.nix
           ./modules/steam.nix
           ./modules/wine.nix
         ]
@@ -116,7 +111,7 @@
             home = {
               username = "hibiki";
               homeDirectory = "/home/hibiki";
-              stateVersion = "25.05";
+              stateVersion = "25.11";
               packages = [
                 inputs.nixvim.packages.${system}.default
               ];
@@ -139,7 +134,7 @@
               home = {
                 username = "icarus";
                 homeDirectory = "/Users/icarus";
-                stateVersion = "25.05";
+                stateVersion = "25.11";
 
                 packages = [
                   inputs.nixvim.packages.${darwinSystem}.default
