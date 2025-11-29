@@ -2,10 +2,15 @@
   nixpkgs.config = {
     allowUnfree = true;
   };
+
   nix.gc = {
     automatic = true;
-    dates = "*-*-* 21:00:00"; # conduct a GC operation every night at 2100
+    dates = "weekly";
     options = "--delete-older-than 7d";
+  };
+  nix.optimise = {
+    automatic = true;
+    dates = [ "weekly" ];
   };
 
   # Time Zone
@@ -55,6 +60,12 @@
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-    #jack.enable = true;
+    jack.enable = true;
   };
+
+  environment.systemPackages = with pkgs; [
+    curl
+    git
+    tpm2-tss
+  ];
 }

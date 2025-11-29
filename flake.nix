@@ -73,6 +73,7 @@
           ./hosts/neptune
           ./modules/ssh.nix
           ./modules/steam.nix
+          ./modules/sunshine.nix
           ./modules/wine.nix
           ./modules/xdg/gnome_rdp.nix
         ]

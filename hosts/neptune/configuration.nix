@@ -16,6 +16,7 @@
     enable32Bit = true;
     extraPackages = with pkgs; [
       vpl-gpu-rt
+      intel-media-driver
     ];
   };
 
@@ -50,15 +51,6 @@
       cmakeFlags = (old.cmakeFlags or []) ++ ["-DUSE_DBUS_MENU=0"];
     });
   };
-
-  environment.systemPackages = with pkgs; [
-    curl
-    git
-    tpm2-tss
-  ];
-
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
 
   system.stateVersion = "25.05";
 }
