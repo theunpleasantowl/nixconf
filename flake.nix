@@ -3,6 +3,12 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+
+    darwin = {
+      url = "github:nix-darwin/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -24,6 +30,7 @@
     ...
   } @ inputs: let
     system = "x86_64-linux";
+    username = "hibiki";
 
     makeConfig = name: modules:
       nixpkgs.lib.nixosSystem {
@@ -36,31 +43,12 @@
       };
 
     sharedModules = [
+      ./modules/boot-splash.nix
       ./modules/common.nix
       ./modules/xdg
-      ./users-hibiki.nix
+      ./users/users-hibiki.nix
 
       inputs.home-manager.nixosModules.home-manager
-
-      {
-        nix.settings = {
-          auto-optimise-store = true;
-          experimental-features = [
-            "nix-command"
-            "flakes"
-          ];
-
-          substituters = [
-            "https://hyprland.cachix.org"
-          ];
-          trusted-substituters = [
-            "https://hyprland.cachix.org"
-          ];
-          trusted-public-keys = [
-            "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
-          ];
-        };
-      }
     ];
   in {
     # ---------------------------------------------------------
@@ -105,36 +93,24 @@
     homeConfigurations = {
       hibiki = inputs.home-manager.lib.homeManagerConfiguration {
         pkgs = import nixpkgs {inherit system;};
-        extraSpecialArgs = {inherit inputs system;};
+        extraSpecialArgs = {inherit inputs system username;};
 
         modules = [
-          (import ./home/home.nix {
-            home = {
-              username = "hibiki";
-              homeDirectory = "/home/hibiki";
-              stateVersion = "25.11";
-              packages = [
-                inputs.nixvim.packages.${system}.default
-              ];
-            };
-          })
-          ./home/pkgs.nix
+          (import ./home-manager/users/hibiki)
         ];
       };
 
       icarus = let
         darwinSystem = "aarch64-darwin";
+        darwinUsername = "icarus";
       in
         inputs.home-manager.lib.homeManagerConfiguration {
           pkgs = import nixpkgs {system = darwinSystem;};
-
-          extraSpecialArgs = {inherit inputs darwinSystem;};
-
           modules = [
             {
               home = {
-                username = "icarus";
-                homeDirectory = "/Users/icarus";
+                username = username;
+                homeDirectory = "/Users/${darwinUsername}";
                 stateVersion = "25.11";
 
                 packages = [

@@ -10,8 +10,17 @@
   };
   nix.optimise = {
     automatic = true;
-    dates = [ "weekly" ];
+    dates = ["weekly"];
   };
+  nix.settings = {
+    auto-optimise-store = true;
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
+  };
+
+  powerManagement.enable = true;
 
   # Time Zone
   time.timeZone = "America/New_York";
