@@ -1,55 +1,215 @@
-# Nix Config
+# NixConf
 
-This repository contains my Nix configuration, organized using Nix Flakes. It aims to provide a reproducible and manageable environment for both system and home configurations.
+This is my personal configuration for **NixOS**, **Linux**, and **Darwin**.
 
-## Structure
+This repository defines both system-level NixOS configurations and user-level Home Manager environments, with simple-yet-clean modularity and cross-platform support.
 
-The configuration is divided into two main directories:
+---
 
-- **`nixos`**: Contains nixos configurations specific to various hosts.
-- **`home`**: Contains home-manager configurations for user-scope settings and applications.
+## 📁 Repository Structure
 
-## Getting Started
+```
+.
+├── flake.lock
+├── flake.nix
+├── home-manager
+│   ├── modules        # Home Manager modules
+│   └── users          # Home Manager user configs
+├── hosts              # NixOS/Nix-Darwin System definitions
+│   ├── giniro
+│   ├── neptune
+│   ├── nextbook
+│   └── shirou
+├── LICENSE
+├── modules            # System-level modules
+│   ├── darwin         # Darwin-specific system modules
+│   ├── linux          # NixOS-specific system modules
+│   └── shared         # Platform Agnostic modules
+├── README.md
+└── users              # System-level User Definitions
+````
+
+---
+
+## 🚀 Getting Started
 
 ### Prerequisites
 
-Ensure you have the following installed:
+You must have:
 
-- [Nix](https://nixos.org/download.html)
-- [Nix Flakes](https://nixos.wiki/wiki/Flakes)
+- **Nix** installed  
+- **Flakes enabled**  
+  → https://nixos.wiki/wiki/Flakes
 
-### Cloning the Repository
-
-Clone this repository to your local machine:
+### Clone the repository
 
 ```bash
 git clone git@github.com:theunpleasantowl/nixconf.git
 cd nixconf
-```
+````
 
-### Applying the Configuration
+---
 
-To apply the configuration, use the `nix switch` command for system configurations:
+## 🖥️ System Configuration
 
-```bash
-sudo nixos-rebuild switch --flake .#<host-name>
-```
-
-And for the home configuration:
+Rebuild a NixOS host:
 
 ```bash
-home-manager switch --flake .#home
+sudo nixos-rebuild switch --flake .#<hostname>
 ```
 
-## Usage
+Examples:
 
-- **Hosts**: Each host directory should contain a `flake.nix` file defining the system configuration for that specific machine.
-- **Home**: The home directory contains a `flake.nix` file that manages user-level applications and settings.
+```bash
+sudo nixos-rebuild switch --flake .#neptune
+```
 
-## Contributing
+Other useful commands:
 
-Feel free to contribute to this configuration by submitting issues or pull requests.
+```bash
+# Test without switching
+sudo nixos-rebuild test --flake .#neptune
 
-## License
+# Build only
+sudo nixos-rebuild build --flake .#neptune
+```
 
-This configuration is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+---
+
+## 🏠 Home Manager (Linux + macOS)
+
+Standalone Home Manager builds:
+
+```bash
+home-manager switch --flake .#hibiki
+```
+
+The Home Manager configurations in this repository are structured to be dual-use: the very same modules can be imported for system-level user definitions on NixOS or applied standalone in a user-level Home Manager environment.
+
+---
+
+# 👤 Managing Users
+
+System-level user definitions are defined in `./users`.
+Stand-alone home-manager definitions are defined in `./flake.nix`.
+
+
+### Add a new home-manager configuration
+
+1. Create a directory for the user:
+
+```bash
+mkdir -p home-manager/users/alice
+```
+
+2. Add a Home Manager config:
+
+```nix
+{ inputs, system, lib, pkgs, config, username ? null, ... }: {
+  imports = [
+    ../../modules/shared
+  ] ++ lib.optionals pkgs.stdenv.isLinux [
+    ../../modules/linux
+  ];
+
+  home.stateVersion = "25.11";
+}
+```
+
+3. Register it in the flake outputs:
+
+```nix
+homeConfigurations.alice = mkHome {
+  user = users.alice;
+  system = systems.linux;
+};
+```
+
+---
+
+# 🖥️ Adding a New Host
+
+1. Create a host directory:
+
+```bash
+mkdir -p hosts/newhost
+```
+
+2. Add `default.nix`:
+
+```nix
+{ ... }: {
+  imports = [
+    ./configuration.nix
+    ./hardware-configuration.nix
+  ];
+}
+```
+
+3. Generate hardware config:
+
+```bash
+sudo nixos-generate-config --show-hardware-config > hosts/newhost/hardware-configuration.nix
+```
+
+4. Add to `flake.nix`:
+
+```nix
+nixosConfigurations.newhost = mkNixOS {
+  hostname = "newhost";
+  user = users.hibiki;
+  modules = [
+    nixSettings
+    ./modules/linux/steam.nix
+  ];
+};
+```
+
+---
+
+# 🐞 Debugging & Maintenance
+
+### Show NixOS evaluation output
+
+```bash
+nix eval .#nixosConfigurations.neptune.config.system.build.toplevel
+```
+
+### Show full trace
+
+```bash
+sudo nixos-rebuild switch --flake .#neptune --show-trace
+```
+
+### Build Home Manager without switching
+
+```bash
+home-manager build --flake .#hibiki
+```
+
+### Validate flake
+
+```bash
+nix flake check
+```
+
+### Update all flake inputs
+
+```bash
+nix flake update
+```
+
+### Update a single input
+
+```bash
+nix flake lock --update-input nixpkgs
+```
+
+---
+
+# 📄 License
+
+This repository is licensed under the **MIT License**.
+See the [`LICENSE`](LICENSE) file for details.
+
+---

@@ -12,6 +12,7 @@
       clipboard-indicator
       dash-to-dock
       kimpanel
+      media-controls
       night-theme-switcher
       tiling-shell
       tophat
@@ -26,8 +27,8 @@
         icoextract
         komikku
         mission-center
+        nautilus-python
         refine
-        shortwave
       ]
       ++ gnomeExtensions;
 

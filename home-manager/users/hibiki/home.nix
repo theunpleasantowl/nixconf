@@ -1,14 +1,13 @@
 {
   inputs,
   system,
-  config,
   lib,
   username ? null,
   ...
 }: {
   home = {
-    # Only set username/homeDirectory for standalone home-manager
-    # When used as NixOS module, these are set automatically
+    # Set username/homeDirectory for standalone home-manager
+    # When used as NixOS module, we must not set these.
     username = lib.mkIf (username != null) username;
     homeDirectory = lib.mkIf (username != null) "/home/${username}";
 

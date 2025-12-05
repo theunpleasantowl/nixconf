@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  lib,
+  ...
+}: {
   programs.gnome-shell = {
     extensions = with pkgs.gnomeExtensions; [
       appindicator
@@ -20,6 +24,12 @@
       };
       "org/gnome/desktop/wm/preferences" = {
         button-layout = "appmenu:minimize,maximize,close";
+      };
+      "org/gnome/desktop/wm/keybindings" = {
+        switch-applications = [];
+        switch-applications-backward = [];
+        switch-windows = ["<Alt>Tab"];
+        switch-windows-backward = ["<Shift><Alt>Tab"];
       };
       "org/gnome/desktop/interface" = {
         accent-color = "purple";
@@ -64,6 +74,7 @@
           "dash-to-dock@micxgx.gmail.com"
           "dock-from-dash@fthx"
           "kimpanel@kde.org"
+          "mediacontrols@cliffniff.github.com"
           "nightthemeswitcher@romainvigier.fr"
           "pip-on-top@rafostar.github.com"
           "tilingshell@favo02.github.com"
@@ -73,6 +84,10 @@
       };
       "org/gnome/shell/extensions/clipboard-indicator" = {
         toggle-menu = ["<Shift><Super>v"];
+      };
+      "org/gnome/shell/extensions/mediacontrols" = {
+        extension-position = "Left";
+        extension-index = lib.hm.gvariant.mkUint32 1;
       };
     };
   };

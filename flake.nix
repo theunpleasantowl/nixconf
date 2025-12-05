@@ -1,125 +1,120 @@
 {
   description = "NixOS Configuration";
-
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
-
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     darwin = {
       url = "github:nix-darwin/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
     nixvim = {
       url = "github:theunpleasantowl/nixvim";
     };
-
-    hyprland-plugins = {
-      url = "github:hyprwm/hyprland-plugins";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
-
   outputs = {
     self,
     nixpkgs,
+    darwin,
     ...
   } @ inputs: let
-    system = "x86_64-linux";
-    username = "hibiki";
+    systemLinux = "x86_64-linux";
+    systemDarwin = "aarch64-darwin";
 
-    makeConfig = name: modules:
+    makeLinux = name: modules:
       nixpkgs.lib.nixosSystem {
-        inherit system;
+        system = systemLinux;
         modules = modules;
         specialArgs = {
-          flakeRoot = self;
-          inherit inputs system;
+          inherit inputs;
+          system = systemLinux;
+        };
+      };
+
+    makeDarwin = name: modules:
+      darwin.lib.darwinSystem {
+        system = systemDarwin;
+        modules = modules;
+        specialArgs = {
+          inherit inputs;
+          system = systemDarwin;
         };
       };
 
     sharedModules = [
-      ./modules/boot-splash.nix
-      ./modules/common.nix
-      ./modules/xdg
       ./users/users-hibiki.nix
-
       inputs.home-manager.nixosModules.home-manager
     ];
+
+    linuxModules = [
+      ./modules/shared/common.nix
+      ./modules/linux/boot-splash.nix
+      ./modules/linux/xdg
+    ];
+
+    darwinModules = [
+      # TBD
+    ];
   in {
-    # ---------------------------------------------------------
-    # NixOS SYSTEMS
-    # ---------------------------------------------------------
     nixosConfigurations = {
-      neptune = makeConfig "neptune" (
+      neptune = makeLinux "neptune" (
         sharedModules
+        ++ linuxModules
         ++ [
           ./hosts/neptune
-          ./modules/ssh.nix
-          ./modules/steam.nix
-          ./modules/sunshine.nix
-          ./modules/wine.nix
-          ./modules/xdg/gnome_rdp.nix
+          ./modules/linux/steam.nix
+          ./modules/linux/sunshine.nix
+          ./modules/linux/wine.nix
+          ./modules/linux/xdg/gnome_rdp.nix
+          ./modules/shared/ssh.nix
         ]
       );
-
-      giniro = makeConfig "giniro" (
+      giniro = makeLinux "giniro" (
         sharedModules
+        ++ linuxModules
         ++ [
           ./hosts/giniro
-          ./modules/ssh.nix
-          ./modules/steam.nix
-          ./modules/wine.nix
+          ./modules/linux/steam.nix
+          ./modules/linux/wine.nix
+          ./modules/shared/ssh.nix
         ]
       );
-
-      shirou = makeConfig "shirou" (
+      shirou = makeLinux "shirou" (
         sharedModules
+        ++ linuxModules
         ++ [
           ./hosts/shirou
-          ./modules/steam.nix
-          ./modules/wine.nix
+          ./modules/linux/steam.nix
+          ./modules/linux/wine.nix
         ]
       );
     };
-
     # ---------------------------------------------------------
-    # HOME-MANAGER SYSTEMS
+    # HOME-MANAGER
     # ---------------------------------------------------------
     homeConfigurations = {
-      hibiki = inputs.home-manager.lib.homeManagerConfiguration {
-        pkgs = import nixpkgs {inherit system;};
-        extraSpecialArgs = {inherit inputs system username;};
-
-        modules = [
-          (import ./home-manager/users/hibiki)
-        ];
-      };
-
-      icarus = let
-        darwinSystem = "aarch64-darwin";
-        darwinUsername = "icarus";
+      hibiki = let
+        username = "hibiki";
+        system = systemLinux;
       in
         inputs.home-manager.lib.homeManagerConfiguration {
-          pkgs = import nixpkgs {system = darwinSystem;};
+          pkgs = import nixpkgs {inherit system;};
+          extraSpecialArgs = {inherit inputs system username;};
           modules = [
-            {
-              home = {
-                username = username;
-                homeDirectory = "/Users/${darwinUsername}";
-                stateVersion = "25.11";
-
-                packages = [
-                  inputs.nixvim.packages.${darwinSystem}.default
-                ];
-              };
-            }
-            ./home/modules/shell
+            ./home-manager/users/hibiki
+          ];
+        };
+      icarus = let
+        username = "icarus";
+        system = systemDarwin;
+      in
+        inputs.home-manager.lib.homeManagerConfiguration {
+          pkgs = import inputs.nixpkgs {inherit system;};
+          extraSpecialArgs = {inherit inputs system username;};
+          modules = [
+            ./home-manager/users/icarus
           ];
         };
     };
