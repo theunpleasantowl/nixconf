@@ -18,7 +18,6 @@ in {
     shell = pkgs.zsh;
   };
 
-  # Configure home-manager for this user
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;

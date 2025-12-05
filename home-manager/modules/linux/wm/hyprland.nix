@@ -5,9 +5,8 @@
 }: {
   wayland.windowManager.hyprland = {
     enable = true;
-    # set the flake package
-    plugins = [
-      inputs.hyprland-plugins.packages.${pkgs.system}.hyprexpo
+    plugins = with pkgs.hyprlandPlugins; [
+      hyprexpo
     ];
 
     settings = {
