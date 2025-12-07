@@ -2,14 +2,17 @@
   inputs,
   system,
   lib,
-  username ? null,
+  username ? "hibiki",
+  isStandalone ? false,
   ...
 }: {
+  imports = lib.optional isStandalone inputs.stylix.homeModules.stylix;
+
   home = {
     # Set username/homeDirectory for standalone home-manager
     # When used as NixOS module, we must not set these.
-    username = lib.mkIf (username != null) username;
-    homeDirectory = lib.mkIf (username != null) "/home/${username}";
+    username = lib.mkIf isStandalone username;
+    homeDirectory = lib.mkIf isStandalone "/home/${username}";
 
     stateVersion = "25.11";
 
@@ -25,8 +28,4 @@
       "$HOME/.bin"
     ];
   };
-
-  imports = [
-    ./pkgs.nix
-  ];
 }

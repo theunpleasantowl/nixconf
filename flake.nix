@@ -10,6 +10,10 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    stylix = {
+      url = "github:nix-community/stylix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nixvim = {
       url = "github:theunpleasantowl/nixvim";
     };
@@ -44,12 +48,14 @@
       };
 
     sharedModules = [
+      ./modules/shared/common.nix
+      ./modules/shared/stylix.nix
       ./users/users-hibiki.nix
       inputs.home-manager.nixosModules.home-manager
+      inputs.stylix.nixosModules.stylix
     ];
 
     linuxModules = [
-      ./modules/shared/common.nix
       ./modules/linux/boot-splash.nix
       ./modules/linux/xdg
     ];
@@ -101,7 +107,10 @@
       in
         inputs.home-manager.lib.homeManagerConfiguration {
           pkgs = import nixpkgs {inherit system;};
-          extraSpecialArgs = {inherit inputs system username;};
+          extraSpecialArgs = {
+            inherit inputs system username;
+            isStandalone = true;
+          };
           modules = [
             ./home-manager/users/hibiki
           ];
