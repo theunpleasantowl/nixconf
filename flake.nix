@@ -10,6 +10,10 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    stylix = {
+      url = "github:nix-community/stylix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nixvim = {
       url = "github:theunpleasantowl/nixvim";
     };
@@ -49,9 +53,11 @@
     ];
 
     linuxModules = [
-      ./modules/shared/common.nix
       ./modules/linux/boot-splash.nix
+      ./modules/linux/stylix.nix
       ./modules/linux/xdg
+      ./modules/shared/common.nix
+      inputs.stylix.nixosModules.stylix
     ];
 
     darwinModules = [
