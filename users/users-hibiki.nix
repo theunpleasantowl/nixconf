@@ -23,6 +23,7 @@ in {
 
     extraSpecialArgs = {
       inherit inputs system username;
+      isStandalone = false;
     };
 
     users.${username} = {

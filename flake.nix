@@ -48,16 +48,16 @@
       };
 
     sharedModules = [
+      ./modules/shared/common.nix
+      ./modules/shared/stylix.nix
       ./users/users-hibiki.nix
       inputs.home-manager.nixosModules.home-manager
+      inputs.stylix.nixosModules.stylix
     ];
 
     linuxModules = [
       ./modules/linux/boot-splash.nix
-      ./modules/linux/stylix.nix
       ./modules/linux/xdg
-      ./modules/shared/common.nix
-      inputs.stylix.nixosModules.stylix
     ];
 
     darwinModules = [
@@ -107,7 +107,10 @@
       in
         inputs.home-manager.lib.homeManagerConfiguration {
           pkgs = import nixpkgs {inherit system;};
-          extraSpecialArgs = {inherit inputs system username;};
+          extraSpecialArgs = {
+            inherit inputs system username;
+            isStandalone = true;
+          };
           modules = [
             ./home-manager/users/hibiki
           ];
