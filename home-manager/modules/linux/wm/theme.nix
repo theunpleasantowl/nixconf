@@ -1,6 +1,14 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  lib,
+  ...
+}: {
   gtk = {
     enable = true;
+    theme = lib.mkDefault {
+      name = "Adwaita-dark";
+      package = pkgs.gnome-themes-extra;
+    };
 
     iconTheme = {
       name = "MoreWaita";
@@ -12,7 +20,7 @@
       package = pkgs.nordzy-cursor-theme;
     };
 
-    gtk3.extraConfig.gtk-application-prefer-dark-theme = 1;
-    gtk4.extraConfig.gtk-application-prefer-dark-theme = 1;
+    gtk3.extraConfig.gtk-application-prefer-dark-theme = lib.mkDefault 1;
+    gtk4.extraConfig.gtk-application-prefer-dark-theme = lib.mkDefault 1;
   };
 }

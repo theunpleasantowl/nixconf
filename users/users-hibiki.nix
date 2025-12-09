@@ -29,6 +29,7 @@ in {
     users.${username} = {
       imports = [
         ../home-manager/users/hibiki
+        inputs.walker.homeManagerModules.default
       ];
     };
   };

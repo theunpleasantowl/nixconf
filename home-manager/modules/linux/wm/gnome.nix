@@ -9,7 +9,7 @@
       blur-my-shell
       clipboard-indicator
       dash-to-dock
-      night-theme-switcher
+      #night-theme-switcher
       pip-on-top
       tiling-shell
       tophat

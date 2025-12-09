@@ -1,13 +1,12 @@
 {
   pkgs,
-  inputs,
+  lib,
   ...
 }: {
   wayland.windowManager.hyprland = {
     enable = true;
     plugins = with pkgs.hyprlandPlugins; [
       hyprexpo
-      inputs.hyprland-virtual-desktops.packages.${pkgs.system}.virtual-desktops
     ];
 
     settings = {
@@ -91,12 +90,13 @@
         "$mainMod, mouse_down, workspace, e+1"
         "$mainMod, mouse_up, workspace, e-1"
 
-        # Volume/media
-        ", XF86AudioRaiseVolume, exec, pamixer -i 5"
-        ", XF86AudioLowerVolume, exec, pamixer -d 5"
-        ", XF86AudioMicMute, exec, pamixer --default-source -m"
-        ", XF86AudioMute, exec, pamixer -t"
+        # Volume/media controls - using wireplumber for better Wayland support
+        ", XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"
+        ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
+        ", XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
+        ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
         ", XF86AudioPlay, exec, playerctl play-pause"
+        ", XF86AudioPause, exec, playerctl play-pause"
         ", XF86AudioNext, exec, playerctl next"
         ", XF86AudioPrev, exec, playerctl previous"
 
@@ -106,20 +106,28 @@
 
         # Utilities
         "$mainMod, V, exec, cliphist list | wofi --dmenu | cliphist decode | wl-copy"
-        "$mainMod CONTROL, L, exec, swaylock -f -c 000000"
-        "CONTROLALT, DELETE, exec, wleave -b 2 -c 0 -r 0 -L 930 -R 930 -T 300 -B 300 --protocol layer-shell"
+
+        # Lock screen
+        "$mainMod CONTROL, L, exec, hyprlock"
+
+        # Power menu
+        "CONTROLALT, DELETE, exec, wlogout"
+
+        # Screenshots
         ", PRINT, exec, grimblast --freeze copysave area"
-        "$mainMod Shift, C, exec, hyprpicker -a"
+        "$mainMod, PRINT, exec, grimblast --freeze copysave screen"
+        "$mainMod SHIFT, S, exec, grimblast --freeze copysave area"
+
+        # Color picker
+        "$mainMod SHIFT, C, exec, hyprpicker -a"
 
         # Notification center toggle
         "$mainMod, N, exec, swaync-client -t -sw"
 
         # Applications
         "$mainMod, Q, exec, wezterm"
+        "$mainMod, Return, exec, wezterm"
         "$mainMod, Y, exec, wezterm start -- yazi"
-
-        # Plugin - Hyprspace
-        "$mainMod, S, hyprexpo:expo, toggle"
       ];
 
       # Mouse bindings
@@ -128,9 +136,13 @@
         "$mainMod, mouse:273, resizewindow"
       ];
 
+      # Lid switch bindings for laptops
+      bindl = [
+        ", switch:on:Lid Switch, exec, hyprlock"
+      ];
+
       # ==== AUTOSTART ====
       exec-once = [
-        "gsettings set org.gnome.desktop.interface color-scheme prefer-dark"
         "~/.bin/set_paper"
         "wlsunset -l 42.3 -L 71.0"
         "/usr/lib/polkit-kde-authentication-agent-1"
@@ -175,7 +187,7 @@
           enabled = true;
           range = 4;
           render_power = 3;
-          #color = "rgba(1a1a1aee)";
+          color = lib.mkDefault "rgba(1a1a1aee)";
         };
       };
 
@@ -197,13 +209,102 @@
         preserve_split = true;
       };
 
+      # New gesture system
       gesture = [
         "3, horizontal, workspace"
       ];
     };
   };
 
-  # Waybar configuration
+  # Hyprlock configuration
+  programs.hyprlock = {
+    enable = true;
+    settings = {
+      general = {
+        disable_loading_bar = true;
+        hide_cursor = true;
+        grace = 0;
+        no_fade_in = false;
+      };
+
+      background = lib.mkDefault [
+        {
+          path = "screenshot";
+          blur_passes = 3;
+          blur_size = 8;
+        }
+      ];
+
+      input-field = lib.mkDefault [
+        {
+          size = "300, 50";
+          position = "0, -80";
+          monitor = "";
+          dots_center = true;
+          fade_on_empty = false;
+          font_color = lib.mkDefault "rgb(202, 211, 245)";
+          inner_color = lib.mkDefault "rgb(91, 96, 120)";
+          outer_color = lib.mkDefault "rgb(24, 25, 38)";
+          outline_thickness = 3;
+          placeholder_text = ''<span foreground="##cad3f5">Password...</span>'';
+          shadow_passes = 2;
+        }
+      ];
+
+      label = [
+        {
+          monitor = "";
+          text = "cmd[update:1000] echo \"<b><big> $(date +\"%H:%M\") </big></b>\"";
+          color = lib.mkDefault "rgb(202, 211, 245)";
+          font_size = 64;
+          font_family = "FiraCode Nerd Font";
+          position = "0, 16";
+          halign = "center";
+          valign = "center";
+        }
+        {
+          monitor = "";
+          text = "cmd[update:18000000] echo \"<b> $(date +\"%A, %B %d\") </b>\"";
+          color = lib.mkDefault "rgb(202, 211, 245)";
+          font_size = 24;
+          font_family = "FiraCode Nerd Font";
+          position = "0, -16";
+          halign = "center";
+          valign = "center";
+        }
+      ];
+    };
+  };
+
+  # Hypridle configuration for automatic locking
+  services.hypridle = {
+    enable = true;
+    settings = {
+      general = {
+        lock_cmd = "pidof hyprlock || hyprlock";
+        before_sleep_cmd = "loginctl lock-session";
+        after_sleep_cmd = "hyprctl dispatch dpms on";
+      };
+
+      listener = [
+        {
+          timeout = 300;
+          on-timeout = "loginctl lock-session";
+        }
+        {
+          timeout = 330;
+          on-timeout = "hyprctl dispatch dpms off";
+          on-resume = "hyprctl dispatch dpms on";
+        }
+        {
+          timeout = 900;
+          on-timeout = "systemctl suspend";
+        }
+      ];
+    };
+  };
+
+  # Waybar configuration with detailed system info
   programs.waybar = {
     enable = true;
     settings = {
@@ -224,8 +325,10 @@
           "network"
           "cpu"
           "memory"
+          "temperature"
           "battery"
           "custom/notification"
+          "custom/power"
         ];
 
         "hyprland/workspaces" = {
@@ -261,26 +364,46 @@
             mode-mon-col = 3;
             weeks-pos = "right";
             on-scroll = 1;
-            format = {
-              months = "<span color='#ffead3'><b>{}</b></span>";
-              days = "<span color='#ecc6d9'><b>{}</b></span>";
-              weeks = "<span color='#99ffdd'><b>W{}</b></span>";
-              weekdays = "<span color='#ffcc66'><b>{}</b></span>";
-              today = "<span color='#ff6699'><b><u>{}</u></b></span>";
-            };
+            #format = {
+            #  months = "<span color='#ffead3'><b>{}</b></span>";
+            #  days = "<span color='#ecc6d9'><b>{}</b></span>";
+            #  weeks = "<span color='#99ffdd'><b>W{}</b></span>";
+            #  weekdays = "<span color='#ffcc66'><b>{}</b></span>";
+            #  today = "<span color='#ff6699'><b><u>{}</u></b></span>";
+            #};
           };
         };
 
         cpu = {
+          interval = 2;
           format = " {usage}%";
-          tooltip = false;
+          tooltip = true;
+          tooltip-format = "CPU: {usage}%\nFreq: {avg_frequency}GHz";
         };
 
         memory = {
-          format = " {}%";
+          interval = 2;
+          format = " {percentage}%";
+          tooltip = true;
+          tooltip-format = "RAM: {used:0.1f}GB / {total:0.1f}GB ({percentage}%)\nSwap: {swapUsed:0.1f}GB / {swapTotal:0.1f}GB";
+        };
+
+        temperature = {
+          interval = 2;
+          critical-threshold = 80;
+          format = "{icon} {temperatureC}°C";
+          format-icons = [
+            ""
+            ""
+            ""
+            ""
+            ""
+          ];
+          tooltip = true;
         };
 
         battery = {
+          interval = 10;
           states = {
             warning = 30;
             critical = 15;
@@ -296,14 +419,18 @@
             ""
             ""
           ];
+          tooltip-format = "{timeTo}\nPower: {power}W";
         };
 
         network = {
-          format-wifi = " {essid}";
-          format-ethernet = " {ipaddr}";
+          interval = 2;
+          format-wifi = " {essid} ({signalStrength}%)";
+          format-ethernet = " {ipaddr}/{cidr}";
           format-linked = " {ifname}";
           format-disconnected = "⚠ Disconnected";
-          tooltip-format = "{ifname}: {ipaddr}/{cidr}";
+          tooltip-format = "{ifname}: {ipaddr}/{cidr}\n⬆ {bandwidthUpBytes} ⬇ {bandwidthDownBytes}";
+          tooltip-format-wifi = "{essid} ({signalStrength}%)\nFreq: {frequency}MHz\n⬆ {bandwidthUpBytes} ⬇ {bandwidthDownBytes}";
+          on-click = "nm-connection-editor";
         };
 
         pulseaudio = {
@@ -325,6 +452,7 @@
             ];
           };
           on-click = "pavucontrol";
+          tooltip-format = "Volume: {volume}%";
         };
 
         tray = {
@@ -351,6 +479,12 @@
           on-click = "swaync-client -t -sw";
           on-click-right = "swaync-client -d -sw";
           escape = true;
+        };
+
+        "custom/power" = {
+          format = "";
+          tooltip = false;
+          on-click = "wlogout";
         };
       };
     };
@@ -392,10 +526,12 @@
       #battery,
       #cpu,
       #memory,
+      #temperature,
       #network,
       #pulseaudio,
       #tray,
-      #custom-notification {
+      #custom-notification,
+      #custom-power {
         padding: 0 10px;
         margin: 0 2px;
       }
@@ -410,10 +546,50 @@
 
       #battery.critical:not(.charging) {
         color: #f38ba8;
+        animation: blink 1s ease-in-out infinite;
+      }
+
+      #cpu {
+        color: #89dceb;
+      }
+
+      #memory {
+        color: #cba6f7;
+      }
+
+      #temperature {
+        color: #f9e2af;
+      }
+
+      #temperature.critical {
+        color: #f38ba8;
+      }
+
+      #network {
+        color: #94e2d5;
+      }
+
+      #network.disconnected {
+        color: #f38ba8;
       }
 
       #custom-notification {
         font-size: 16px;
+      }
+
+      #custom-power {
+        color: #f38ba8;
+        font-size: 16px;
+      }
+
+      #custom-power:hover {
+        background: rgba(243, 139, 168, 0.2);
+      }
+
+      @keyframes blink {
+        to {
+          color: #1e1e2e;
+        }
       }
     '';
   };
@@ -471,7 +647,7 @@
 
     style = ''
       * {
-        font-family: "FiraCode Nerd Font", monospace;
+        font-family = "FiraCode Nerd Font", monospace;
         font-size: 13px;
       }
 
@@ -539,18 +715,123 @@
     '';
   };
 
+  # Wlogout power menu
+  programs.wlogout = {
+    enable = true;
+    layout = [
+      {
+        label = "lock";
+        action = "hyprlock";
+        text = "Lock";
+        keybind = "l";
+      }
+      {
+        label = "logout";
+        action = "hyprctl dispatch exit";
+        text = "Logout";
+        keybind = "e";
+      }
+      {
+        label = "suspend";
+        action = "systemctl suspend";
+        text = "Suspend";
+        keybind = "u";
+      }
+      {
+        label = "reboot";
+        action = "systemctl reboot";
+        text = "Reboot";
+        keybind = "r";
+      }
+      {
+        label = "shutdown";
+        action = "systemctl poweroff";
+        text = "Shutdown";
+        keybind = "s";
+      }
+    ];
+
+    style = ''
+      * {
+        background-image: none;
+        box-shadow: none;
+      }
+
+      window {
+        background-color: rgba(30, 30, 46, 0.9);
+      }
+
+      button {
+        color: #cdd6f4;
+        background-color: rgba(49, 50, 68, 0.8);
+        border-radius: 10px;
+        border: 2px solid #89b4fa;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 25%;
+        margin: 20px;
+      }
+
+      button:focus, button:active, button:hover {
+        background-color: rgba(137, 180, 250, 0.3);
+        outline-style: none;
+      }
+
+      #lock {
+        background-image: image(url("${pkgs.wlogout}/share/wlogout/icons/lock.png"));
+      }
+
+      #logout {
+        background-image: image(url("${pkgs.wlogout}/share/wlogout/icons/logout.png"));
+      }
+
+      #suspend {
+        background-image: image(url("${pkgs.wlogout}/share/wlogout/icons/suspend.png"));
+      }
+
+      #reboot {
+        background-image: image(url("${pkgs.wlogout}/share/wlogout/icons/reboot.png"));
+      }
+
+      #shutdown {
+        background-image: image(url("${pkgs.wlogout}/share/wlogout/icons/shutdown.png"));
+      }
+    '';
+  };
+
   home.packages = with pkgs; [
-    # Required for waybar
+    # Waybar requirements
     playerctl
-    pamixer
     pavucontrol
 
     # Notification utilities
     libnotify
 
-    # For clipboard history
+    # Clipboard history
     cliphist
     wl-clipboard
+
+    # Lock screen / idle
+    hyprlock
+    hypridle
+
+    # Power menu
+    wlogout
+
+    # Screenshots
+    grimblast
+
+    # Color picker
+    hyprpicker
+
+    # Brightness control
+    brightnessctl
+
+    # Audio (wireplumber for better Wayland support)
+    wireplumber
+
+    # Network
+    networkmanagerapplet
   ];
 
   home.file = {
@@ -613,17 +894,5 @@
       fi
     '';
     ".config/hypr/scripts/gaps.sh".executable = true;
-
-    # === idle.sh ===
-    ".config/hypr/scripts/idle.sh".text = ''
-      #!/bin/sh
-      swayidle -w \
-        timeout 300 'swaylock -f -c 000000' \
-        timeout 600 'hyprctl dispatch dpms off' \
-        resume 'hyprctl dispatch dpms on' \
-        timeout 900 'systemctl suspend' \
-        before-sleep 'swaylock -f -c 000000' &
-    '';
-    ".config/hypr/scripts/idle.sh".executable = true;
   };
 }

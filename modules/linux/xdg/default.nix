@@ -2,6 +2,7 @@
   imports = [
     ./gnome.nix
     ./hyprland.nix
+    ./portals.nix
     ./programs.nix
     ./windowmaker.nix
   ];
