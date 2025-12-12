@@ -714,6 +714,11 @@
       }
     '';
   };
+  systemd.user.services.swaync = {
+    Unit = {
+      ConditionEnvironment = lib.mkForce "XDG_CURRENT_DESKTOP=Hyprland";
+    };
+  };
 
   # Wlogout power menu
   programs.wlogout = {

@@ -144,6 +144,7 @@ in {
       Description = "Wayland wallpaper daemon";
       PartOf = ["graphical-session.target"];
       After = ["graphical-session.target"];
+      ConditionEnvironment = "XDG_CURRENT_DESKTOP=Hyprland";
     };
 
     Service = {

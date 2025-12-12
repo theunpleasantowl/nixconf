@@ -1,10 +1,15 @@
 {
   pkgs,
   inputs,
+  lib,
   ...
 }: {
-  # Walker uses GTK4 and will automatically use your GTK icon theme
-  # Make sure you have an icon theme configured in theme.nix
+  # Override Walker service to be Hyprland-only
+  systemd.user.services.walker = {
+    Unit = {
+      ConditionEnvironment = lib.mkForce "XDG_CURRENT_DESKTOP=Hyprland";
+    };
+  };
 
   imports = [inputs.walker.homeManagerModules.default];
   programs.walker = {

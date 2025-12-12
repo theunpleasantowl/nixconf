@@ -40,24 +40,6 @@ in {
         DisplayMenuBar = "default-off"; # alternatives: "always", "never" or "default-on"
         SearchBar = "unified"; # alternative: "separate"
 
-        # ---- EXTENSIONS ----
-        # Check about:support for extension/add-on ID strings.
-        # Valid strings for installation_mode are "allowed", "blocked",
-        # "force_installed" and "normal_installed".
-        ExtensionSettings = {
-          "*".installation_mode = "blocked"; # blocks all addons except the ones specified below
-          # uBlock Origin:
-          "uBlock0@raymondhill.net" = {
-            install_url = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";
-            installation_mode = "force_installed";
-          };
-          # Privacy Badger:
-          "jid1-MnnxcxisBPnSXQ@jetpack" = {
-            install_url = "https://addons.mozilla.org/firefox/downloads/latest/privacy-badger17/latest.xpi";
-            installation_mode = "force_installed";
-          };
-        };
-
         # ---- PREFERENCES ----
         Preferences = {
           "browser.contentblocking.category" = {
@@ -81,7 +63,6 @@ in {
           "browser.urlbar.showSearchSuggestionsFirst" = lock-false;
           "browser.urlbar.suggest.searches" = lock-false;
           "extensions.pocket.enabled" = lock-false;
-          "extensions.screenshots.disabled" = lock-true;
           "widget.use-xdg-desktop-portal.file-picker" = 1;
         };
       };

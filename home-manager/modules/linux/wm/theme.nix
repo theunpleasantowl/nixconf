@@ -27,6 +27,7 @@
 
   stylix.targets.firefox = lib.mkIf (config.stylix.enable or false) {
     enable = true;
+    colors.enable = true;
     profileNames = ["default"];
   };
 }
