@@ -1,6 +1,7 @@
 {
   pkgs,
   lib,
+  config,
   ...
 }: {
   gtk = {
@@ -22,5 +23,10 @@
 
     gtk3.extraConfig.gtk-application-prefer-dark-theme = lib.mkDefault 1;
     gtk4.extraConfig.gtk-application-prefer-dark-theme = lib.mkDefault 1;
+  };
+
+  stylix.targets.firefox = lib.mkIf (config.stylix.enable or false) {
+    enable = true;
+    profileNames = ["default"];
   };
 }

@@ -5,7 +5,7 @@
       #PasswordAuthentication = false;
       #KbdInteractiveAuthentication = false;
       PermitRootLogin = "no";
-      AllowUsers = ["hibiki"];
+      #AllowUsers = ["hibiki"];
     };
   };
 }

@@ -1,12 +1,12 @@
 {
   pkgs,
-  lib,
-  config,
+  inputs,
   ...
 }: {
   # Walker uses GTK4 and will automatically use your GTK icon theme
   # Make sure you have an icon theme configured in theme.nix
 
+  imports = [inputs.walker.homeManagerModules.default];
   programs.walker = {
     enable = true;
     runAsService = true; # Run as background service for instant launch
