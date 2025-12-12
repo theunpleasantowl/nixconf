@@ -3,6 +3,7 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
   ];
+  system.stateVersion = "25.05";
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
@@ -51,6 +52,4 @@
       cmakeFlags = (old.cmakeFlags or []) ++ ["-DUSE_DBUS_MENU=0"];
     });
   };
-
-  system.stateVersion = "25.05";
 }

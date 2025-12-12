@@ -3,6 +3,7 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
   ];
+  system.stateVersion = "25.05";
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
@@ -40,7 +41,10 @@
   users.users.hibiki = {
     isNormalUser = true;
     description = "hibiki";
-    extraGroups = ["networkmanager" "wheel"];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+    ];
   };
 
   # Packages
@@ -49,5 +53,5 @@
     defaultEditor = true;
   };
 
-  system.stateVersion = "25.05";
+  stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/atelier-lakeside-light.yaml";
 }

@@ -1,9 +1,13 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  lib,
+  ...
+}: {
   stylix = {
     enable = true;
     autoEnable = true;
 
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/spaceduck.yaml";
+    base16Scheme = lib.mkDefault "${pkgs.base16-schemes}/share/themes/spaceduck.yaml";
 
     fonts = {
       serif = {
