@@ -19,8 +19,6 @@ in {
   };
 
   home-manager = {
-    useUserPackages = true;
-
     extraSpecialArgs = {
       inherit inputs system username;
       isStandalone = false;

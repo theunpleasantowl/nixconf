@@ -7,7 +7,12 @@
     enable = true;
     autoEnable = true;
 
-    base16Scheme = lib.mkDefault "${pkgs.base16-schemes}/share/themes/spaceduck.yaml";
+    targets = {
+      plymouth.enable = false;
+      qt.enable = false; # Breaks many apps
+    };
+
+    base16Scheme = lib.mkDefault "${pkgs.base16-schemes}/share/themes/katy.yaml";
 
     fonts = {
       serif = {

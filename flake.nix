@@ -74,6 +74,7 @@
 
     linuxModules = [
       ./modules/linux/boot-splash.nix
+      ./modules/linux/common.nix
       ./modules/linux/xdg
     ];
 

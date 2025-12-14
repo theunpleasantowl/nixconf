@@ -40,10 +40,4 @@
       };
     };
   };
-
-  # Enable Stylix for Firefox if loaded
-  stylix.targets.firefox = lib.mkIf (config.stylix.enable or false) {
-    enable = true;
-    profileNames = ["default"];
-  };
 }

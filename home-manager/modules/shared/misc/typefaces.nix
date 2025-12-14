@@ -1,5 +1,9 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
+    # Microsoft Fonts
+    corefonts
+    vista-fonts
+
     # Serif
     libre-baskerville
     libre-caslon

@@ -303,6 +303,12 @@
       ];
     };
   };
+  # Make hypridle Hyprland-only
+  systemd.user.services.hypridle = {
+    Unit = {
+      ConditionEnvironment = lib.mkForce "XDG_CURRENT_DESKTOP=Hyprland";
+    };
+  };
 
   # Waybar configuration with detailed system info
   programs.waybar = {
