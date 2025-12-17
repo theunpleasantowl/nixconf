@@ -1,15 +1,14 @@
-{
-  config,
-  lib,
-  ...
-}: {
+{...}: let
+  profile = "default";
+in {
   programs.firefox = {
     enable = true;
 
-    profiles.default = {
+    profiles.${profile} = {
       id = 0;
-      name = "default";
+      name = profile;
       isDefault = true;
+      extensions.force = true;
 
       settings = {
         # Privacy
@@ -39,5 +38,10 @@
         default = "ddg";
       };
     };
+  };
+  stylix.targets.firefox = {
+    colorTheme.enable = true;
+    firefoxGnomeTheme.enable = true;
+    profileNames = [profile];
   };
 }

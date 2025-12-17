@@ -34,6 +34,7 @@
     ];
   };
 
+  boot.tmp.cleanOnBoot = true;
   boot.initrd.luks.devices."enc".device = "/dev/disk/by-uuid/78b318b0-7fe8-4620-bc7f-9a215fbc507f";
 
   fileSystems."/boot" = {

@@ -3,6 +3,7 @@
   lib,
   ...
 }: {
+  # https://tinted-theming.github.io/tinted-gallery/
   stylix = {
     enable = true;
     autoEnable = true;
@@ -32,5 +33,14 @@
         name = "Noto Color Emoji";
       };
     };
+
+    opacity = {
+      applications = 1.0;
+      desktop = 0.7;
+      popups = 0.5;
+      terminal = 1.0;
+    };
+
+    polarity = "dark";
   };
 }

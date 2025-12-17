@@ -31,11 +31,17 @@
     darwin,
     ...
   } @ inputs: let
+    lib = nixpkgs.lib.extend (
+      final: prev: {
+        nixconf = import ./lib {lib = final;};
+      }
+    );
+
     systemLinux = "x86_64-linux";
     systemDarwin = "aarch64-darwin";
 
     makeLinux = name: modules:
-      nixpkgs.lib.nixosSystem {
+      lib.nixosSystem {
         system = systemLinux;
         modules = modules;
         specialArgs = {
@@ -75,6 +81,7 @@
     linuxModules = [
       ./modules/linux/boot-splash.nix
       ./modules/linux/common.nix
+      ./modules/linux/snapper.nix
       ./modules/linux/xdg
     ];
 

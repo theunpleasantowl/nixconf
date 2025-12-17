@@ -6,8 +6,6 @@
   isStandalone ? false,
   ...
 }: {
-  imports = lib.optional isStandalone inputs.stylix.homeModules.stylix;
-
   home = {
     # Set username/homeDirectory for standalone home-manager
     # When used as NixOS module, we must not set these.

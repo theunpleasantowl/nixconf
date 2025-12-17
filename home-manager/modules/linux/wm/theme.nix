@@ -1,7 +1,6 @@
 {
   pkgs,
   lib,
-  config,
   ...
 }: {
   gtk = {
@@ -23,5 +22,16 @@
 
     gtk3.extraConfig.gtk-application-prefer-dark-theme = lib.mkDefault 1;
     gtk4.extraConfig.gtk-application-prefer-dark-theme = lib.mkDefault 1;
+  };
+
+  stylix = {
+    enable = true;
+    polarity = "dark";
+    opacity = {
+      applications = 1.0;
+      desktop = 0.7;
+      popups = 0.5;
+      terminal = 1.0;
+    };
   };
 }
