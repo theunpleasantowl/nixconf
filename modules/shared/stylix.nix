@@ -5,7 +5,7 @@
 }: {
   # https://tinted-theming.github.io/tinted-gallery/
   stylix = {
-    enable = true;
+    enable = lib.mkDefault true;
     autoEnable = true;
 
     targets = {
@@ -40,7 +40,5 @@
       popups = 0.5;
       terminal = 1.0;
     };
-
-    polarity = "dark";
   };
 }

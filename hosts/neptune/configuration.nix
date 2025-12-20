@@ -52,4 +52,9 @@
       cmakeFlags = (old.cmakeFlags or []) ++ ["-DUSE_DBUS_MENU=0"];
     });
   };
+
+  stylix = {
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/katy.yaml";
+    polarity = "dark";
+  };
 }

@@ -53,5 +53,8 @@
     defaultEditor = true;
   };
 
-  stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/atelier-lakeside-light.yaml";
+  stylix = {
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/atelier-estuary-light.yaml";
+    polarity = "light";
+  };
 }
