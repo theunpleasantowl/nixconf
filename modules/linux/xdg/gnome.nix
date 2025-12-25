@@ -7,13 +7,14 @@
 
   environment.systemPackages = let
     gnomeExtensions = with pkgs.gnomeExtensions; [
+      #night-theme-switcher
       appindicator
       blur-my-shell
       clipboard-indicator
       dash-to-dock
+      gamemode-shell-extension
       kimpanel
       media-controls
-      night-theme-switcher
       tiling-shell
       tophat
     ];

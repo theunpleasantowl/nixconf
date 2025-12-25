@@ -5,11 +5,12 @@
 }: {
   programs.gnome-shell = {
     extensions = with pkgs.gnomeExtensions; [
+      #night-theme-switcher
       appindicator
       blur-my-shell
       clipboard-indicator
       dash-to-dock
-      #night-theme-switcher
+      gamemode-shell-extension
       pip-on-top
       tiling-shell
       tophat
@@ -73,13 +74,14 @@
           "clipboard-indicator@tudmotu.com"
           "dash-to-dock@micxgx.gmail.com"
           "dock-from-dash@fthx"
+          "gamemodeshellextension@trsnaqe.com"
           "kimpanel@kde.org"
           "mediacontrols@cliffniff.github.com"
-          "nightthemeswitcher@romainvigier.fr"
           "pip-on-top@rafostar.github.com"
           "tilingshell@favo02.github.com"
           "tilingshell@ferrarodomenico.com"
           "tophat@fflewddur.github.io"
+          #"nightthemeswitcher@romainvigier.fr"
         ];
       };
       "org/gnome/shell/extensions/clipboard-indicator" = {
