@@ -72,6 +72,7 @@
 
     sharedModules = [
       ./modules/shared/common.nix
+      ./modules/shared/security.nix
       ./modules/shared/stylix.nix
       ./users/users-hibiki.nix
       inputs.home-manager.nixosModules.home-manager

@@ -5,7 +5,7 @@
 }: {
   # https://tinted-theming.github.io/tinted-gallery/
   stylix = {
-    enable = lib.mkDefault true;
+    enable = lib.mkDefault false;
     autoEnable = true;
 
     targets = {

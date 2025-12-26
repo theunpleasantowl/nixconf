@@ -23,18 +23,6 @@
   services.fwupd.enable = true;
   services.printing.enable = true;
 
-  # Enable doas
-  security.doas = {
-    enable = true;
-    extraRules = [
-      {
-        groups = ["wheel"];
-        keepEnv = true;
-        persist = true;
-      }
-    ];
-  };
-
   # Users
   programs.zsh.enable = true;
   users.defaultUserShell = pkgs.zsh;
@@ -54,6 +42,7 @@
   };
 
   stylix = {
+    enable = true;
     base16Scheme = "${pkgs.base16-schemes}/share/themes/atelier-estuary-light.yaml";
     polarity = "light";
   };

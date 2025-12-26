@@ -28,18 +28,6 @@
   services.fwupd.enable = true;
   services.printing.enable = true;
 
-  # Enable doas
-  security.doas = {
-    enable = true;
-    extraRules = [
-      {
-        groups = ["wheel"];
-        keepEnv = true;
-        persist = true;
-      }
-    ];
-  };
-
   # Packages
   programs.neovim = {
     enable = true;
@@ -54,6 +42,7 @@
   };
 
   stylix = {
+    enable = true;
     base16Scheme = "${pkgs.base16-schemes}/share/themes/katy.yaml";
     polarity = "dark";
   };

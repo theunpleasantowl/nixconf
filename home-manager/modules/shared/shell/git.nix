@@ -18,8 +18,8 @@
       lfs.enable = true;
       settings = {
         user = {
-          Name = "theunpleasantowl";
-          Email = "theunpleasantowl@gmail.com";
+          name = "theunpleasantowl";
+          email = "theunpleasantowl@gmail.com";
         };
         aliases = {
           ci = "commit";
