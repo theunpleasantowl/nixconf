@@ -46,4 +46,19 @@
     base16Scheme = "${pkgs.base16-schemes}/share/themes/atelier-estuary-light.yaml";
     polarity = "light";
   };
+
+  features = {
+    gaming = {
+      enable = true;
+      steam.enable = true;
+    };
+
+    linux = {
+      desktop = {
+        gnome.enable = true;
+      };
+      wine.enable = true;
+    };
+    media.enable = true;
+  };
 }

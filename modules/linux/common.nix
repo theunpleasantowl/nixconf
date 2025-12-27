@@ -1,4 +1,8 @@
 {pkgs, ...}: {
+  imports = [
+    ./features
+  ];
+
   powerManagement.enable = true;
 
   # Time Zone
