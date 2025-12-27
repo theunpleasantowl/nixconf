@@ -46,4 +46,25 @@
     base16Scheme = "${pkgs.base16-schemes}/share/themes/katy.yaml";
     polarity = "dark";
   };
+
+  features = {
+    gaming = {
+      enable = true;
+      steam.enable = true;
+      wine.enable = true;
+    };
+
+    desktop = {
+      gnome.enable = true;
+    };
+
+    development.enable = true;
+    media.enable = true;
+
+    remote-access = {
+      ssh.enable = true;
+      rdp.enable = true;
+      sunshine.enable = true;
+    };
+  };
 }

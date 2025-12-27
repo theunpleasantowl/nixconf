@@ -96,11 +96,6 @@
         ++ linuxModules
         ++ [
           ./hosts/neptune
-          ./modules/linux/steam.nix
-          ./modules/linux/sunshine.nix
-          ./modules/linux/wine.nix
-          ./modules/linux/xdg/gnome_rdp.nix
-          ./modules/shared/ssh.nix
         ]
       );
       giniro = makeLinux "giniro" (
@@ -108,9 +103,6 @@
         ++ linuxModules
         ++ [
           ./hosts/giniro
-          ./modules/linux/steam.nix
-          ./modules/linux/wine.nix
-          ./modules/shared/ssh.nix
         ]
       );
       shirou = makeLinux "shirou" (
@@ -118,8 +110,6 @@
         ++ linuxModules
         ++ [
           ./hosts/shirou
-          ./modules/linux/steam.nix
-          ./modules/linux/wine.nix
         ]
       );
     };

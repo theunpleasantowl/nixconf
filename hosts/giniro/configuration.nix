@@ -48,4 +48,16 @@
     base16Scheme = "${pkgs.base16-schemes}/share/themes/atelier-lakeside-light.yaml";
     polarity = "light";
   };
+
+  features = {
+    gaming = {
+      enable = true;
+      steam.enable = true;
+      wine.enable = true;
+    };
+
+    remote-access = {
+      ssh.enable = true;
+    };
+  };
 }

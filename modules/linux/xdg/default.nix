@@ -1,10 +1,7 @@
 {pkgs, ...}: {
   imports = [
-    ./gnome.nix
-    #./hyprland.nix
-    #./portals.nix
+    ./portals.nix
     ./programs.nix
-    ./windowmaker.nix
   ];
   # Enable Mesa
   hardware.graphics = {
