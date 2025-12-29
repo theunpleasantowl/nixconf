@@ -32,9 +32,9 @@
         switch-windows = ["<Alt>Tab"];
         switch-windows-backward = ["<Shift><Alt>Tab"];
       };
-      "org/gnome/desktop/interface" = {
-        accent-color = "purple";
-      };
+      #"org/gnome/desktop/interface" = {
+      #  accent-color = "purple";
+      #};
       "org/gnome/desktop/interface" = {
         enable-hot-corners = false;
       };
@@ -82,6 +82,18 @@
           "tilingshell@ferrarodomenico.com"
           "tophat@fflewddur.github.io"
           #"nightthemeswitcher@romainvigier.fr"
+        ];
+        favorite-apps = [
+          "org.gnome.Nautilus.desktop"
+          "firefox.desktop"
+          "thunderbird.desktop"
+          "com.mitchellh.ghostty.desktop"
+          "steam.desktop"
+          "com.libretro.RetroArch.desktop"
+          "vesktop.desktop"
+          "joplin.desktop"
+          "anki.desktop"
+          "dev.zed.Zed.desktop"
         ];
       };
       "org/gnome/shell/extensions/clipboard-indicator" = {

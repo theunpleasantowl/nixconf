@@ -2,7 +2,65 @@
   pkgs,
   lib,
   ...
-}: {
+}: let
+  hyprlandGaps = pkgs.writeShellScriptBin "hypr-gaps" ''
+    #!/bin/sh
+
+    PATH_DECOR="$HOME/.config/hypr/hyprland.conf"
+    INTERVAL_IN=2
+    INTERVAL_OUT=8
+
+    _get_gaps () {
+      gap_in_current=$(${pkgs.hyprland}/bin/hyprctl getoption general:gaps_in | cut -d' ' -f3)
+      gap_out_current=$(${pkgs.hyprland}/bin/hyprctl getoption general:gaps_out | cut -d' ' -f3)
+    }
+
+    _set_gaps () {
+      ${pkgs.hyprland}/bin/hyprctl keyword general:gaps_in $gap_in_new
+      ${pkgs.hyprland}/bin/hyprctl keyword general:gaps_out $gap_out_new
+    }
+
+    _get_gaps
+    case "$1" in
+      tog)
+        if [ "$gap_in_current" -gt 0 ]; then
+          gap_in_new=0
+          gap_out_new=0
+        else
+          gap_in_new=$(${pkgs.gnugrep}/bin/grep gaps_in "$PATH_DECOR" | ${pkgs.gawk}/bin/awk -F'[^0-9]+' '{ print $2 }')
+          gap_out_new=$(${pkgs.gnugrep}/bin/grep gaps_out "$PATH_DECOR" | ${pkgs.gawk}/bin/awk -F'[^0-9]+' '{ print $2 }')
+        fi
+        ;;
+      dec)
+        if [ "$gap_in_current" -gt 0 ]; then
+          gap_in_new=$(( gap_in_current - INTERVAL_IN ))
+          gap_out_new=$(( gap_out_current - INTERVAL_OUT ))
+        else
+          exit 0
+        fi
+        ;;
+      inc)
+        gap_in_new=$(( gap_in_current + INTERVAL_IN ))
+        gap_out_new=$(( gap_out_current + INTERVAL_OUT ))
+        ;;
+      *)
+        exit 1
+    esac
+
+    _set_gaps
+
+    # Assure Alignment
+    _get_gaps
+    if [ "$gap_in_current" -le 0 ] || [ "$gap_out_current" -le 0 ]; then
+      ${pkgs.hyprland}/bin/hyprctl keyword decoration:rounding 0
+      gap_in_new=0
+      gap_out_new=0
+      _set_gaps
+    else
+      ${pkgs.hyprland}/bin/hyprctl keyword decoration:rounding $(${pkgs.gnugrep}/bin/grep rounding "$PATH_DECOR" | ${pkgs.gawk}/bin/awk -F'[^0-9]+' '{ print $2 }')
+    fi
+  '';
+in {
   wayland.windowManager.hyprland = {
     enable = true;
     plugins = with pkgs.hyprlandPlugins; [
@@ -17,14 +75,14 @@
         "$mainMod, M, fullscreen, 1"
         "$mainMod, F, fullscreen, 0"
 
-        "$mainMod, G, exec, ~/.config/hypr/scripts/gaps.sh tog"
-        "$mainMod, MINUS, exec, ~/.config/hypr/scripts/gaps.sh dec"
-        "$mainMod, EQUAL, exec, ~/.config/hypr/scripts/gaps.sh inc"
+        "$mainMod, G, exec, ${hyprlandGaps}/bin/hypr-gaps tog"
+        "$mainMod, MINUS, exec, ${hyprlandGaps}/bin/hypr-gaps dec"
+        "$mainMod, EQUAL, exec, ${hyprlandGaps}/bin/hypr-gaps inc"
 
         "$mainMod, C, killactive,"
-        "$mainMod, E, exec, nautilus"
+        "$mainMod, E, exec, ${pkgs.nautilus}/bin/nautilus"
         "$mainMod SHIFT, F, togglefloating,"
-        "ALT, SPACE, exec, wofi --show drun"
+        "ALT, SPACE, exec, ${pkgs.wofi}/bin/wofi --show drun"
         "$mainMod, P, pseudo,"
         "$mainMod, T, togglesplit,"
 
@@ -91,43 +149,43 @@
         "$mainMod, mouse_up, workspace, e-1"
 
         # Volume/media controls - using wireplumber for better Wayland support
-        ", XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"
-        ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
-        ", XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
-        ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
-        ", XF86AudioPlay, exec, playerctl play-pause"
-        ", XF86AudioPause, exec, playerctl play-pause"
-        ", XF86AudioNext, exec, playerctl next"
-        ", XF86AudioPrev, exec, playerctl previous"
+        ", XF86AudioRaiseVolume, exec, ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"
+        ", XF86AudioLowerVolume, exec, ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
+        ", XF86AudioMicMute, exec, ${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
+        ", XF86AudioMute, exec, ${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+        ", XF86AudioPlay, exec, ${pkgs.playerctl}/bin/playerctl play-pause"
+        ", XF86AudioPause, exec, ${pkgs.playerctl}/bin/playerctl play-pause"
+        ", XF86AudioNext, exec, ${pkgs.playerctl}/bin/playerctl next"
+        ", XF86AudioPrev, exec, ${pkgs.playerctl}/bin/playerctl previous"
 
         # Brightness
-        ", XF86MonBrightnessUp, exec, brightnessctl s +5%"
-        ", XF86MonBrightnessDown, exec, brightnessctl s 5%-"
+        ", XF86MonBrightnessUp, exec, ${pkgs.brightnessctl}/bin/brightnessctl s +5%"
+        ", XF86MonBrightnessDown, exec, ${pkgs.brightnessctl}/bin/brightnessctl s 5%-"
 
         # Utilities
-        "$mainMod, V, exec, cliphist list | wofi --dmenu | cliphist decode | wl-copy"
+        "$mainMod, V, exec, ${pkgs.cliphist}/bin/cliphist list | ${pkgs.wofi}/bin/wofi --dmenu | ${pkgs.cliphist}/bin/cliphist decode | ${pkgs.wl-clipboard}/bin/wl-copy"
 
         # Lock screen
-        "$mainMod CONTROL, L, exec, hyprlock"
+        "$mainMod CONTROL, L, exec, ${pkgs.hyprlock}/bin/hyprlock"
 
         # Power menu
-        "CONTROLALT, DELETE, exec, wlogout"
+        "CONTROLALT, DELETE, exec, ${pkgs.wlogout}/bin/wlogout"
 
         # Screenshots
-        ", PRINT, exec, grimblast --freeze copysave area"
-        "$mainMod, PRINT, exec, grimblast --freeze copysave screen"
-        "$mainMod SHIFT, S, exec, grimblast --freeze copysave area"
+        ", PRINT, exec, ${pkgs.grimblast}/bin/grimblast --freeze copysave area"
+        "$mainMod, PRINT, exec, ${pkgs.grimblast}/bin/grimblast --freeze copysave screen"
+        "$mainMod SHIFT, S, exec, ${pkgs.grimblast}/bin/grimblast --freeze copysave area"
 
         # Color picker
-        "$mainMod SHIFT, C, exec, hyprpicker -a"
+        "$mainMod SHIFT, C, exec, ${pkgs.hyprpicker}/bin/hyprpicker -a"
 
         # Notification center toggle
-        "$mainMod, N, exec, swaync-client -t -sw"
+        "$mainMod, N, exec, ${pkgs.swaynotificationcenter}/bin/swaync-client -t -sw"
 
         # Applications
-        "$mainMod, Q, exec, wezterm"
-        "$mainMod, Return, exec, wezterm"
-        "$mainMod, Y, exec, wezterm start -- yazi"
+        "$mainMod, Q, exec, ${pkgs.wezterm}/bin/wezterm"
+        "$mainMod, Return, exec, ${pkgs.wezterm}/bin/wezterm"
+        "$mainMod, Y, exec, ${pkgs.wezterm}/bin/wezterm start -- ${pkgs.yazi}/bin/yazi"
       ];
 
       # Mouse bindings
@@ -138,22 +196,22 @@
 
       # Lid switch bindings for laptops
       bindl = [
-        ", switch:on:Lid Switch, exec, hyprlock"
+        ", switch:on:Lid Switch, exec, ${pkgs.hyprlock}/bin/hyprlock"
       ];
 
       # ==== AUTOSTART ====
       exec-once = [
         "~/.bin/set_paper"
-        "wlsunset -l 42.3 -L 71.0"
-        "/usr/lib/polkit-kde-authentication-agent-1"
-        "fcitx5"
-        "hypridle"
-        "waybar"
-        "swaync"
-        "blueman-applet"
-        "nm-applet --indicator"
-        "wl-paste --type text --watch cliphist store"
-        "wl-paste --type image --watch cliphist store"
+        "${pkgs.wlsunset}/bin/wlsunset -l 42.3 -L 71.0"
+        "${pkgs.hyprpolkitagent}/libexec/hyprpolkitagent"
+        "${pkgs.fcitx5}/bin/fcitx5"
+        "${pkgs.hypridle}/bin/hypridle"
+        "${pkgs.waybar}/bin/waybar"
+        "${pkgs.swaynotificationcenter}/bin/swaync"
+        "${pkgs.blueman}/bin/blueman-applet"
+        "${pkgs.networkmanagerapplet}/bin/nm-applet --indicator"
+        "${pkgs.wl-clipboard}/bin/wl-paste --type text --watch ${pkgs.cliphist}/bin/cliphist store"
+        "${pkgs.wl-clipboard}/bin/wl-paste --type image --watch ${pkgs.cliphist}/bin/cliphist store"
       ];
 
       monitor = ",preferred,auto,1";
@@ -370,13 +428,6 @@
             mode-mon-col = 3;
             weeks-pos = "right";
             on-scroll = 1;
-            #format = {
-            #  months = "<span color='#ffead3'><b>{}</b></span>";
-            #  days = "<span color='#ecc6d9'><b>{}</b></span>";
-            #  weeks = "<span color='#99ffdd'><b>W{}</b></span>";
-            #  weekdays = "<span color='#ffcc66'><b>{}</b></span>";
-            #  today = "<span color='#ff6699'><b><u>{}</u></b></span>";
-            #};
           };
         };
 
@@ -811,99 +862,7 @@
   };
 
   home.packages = with pkgs; [
-    # Waybar requirements
-    playerctl
-    pavucontrol
-
-    # Notification utilities
     libnotify
-
-    # Clipboard history
-    cliphist
-    wl-clipboard
-
-    # Lock screen / idle
-    hyprlock
-    hypridle
-
-    # Power menu
-    wlogout
-
-    # Screenshots
-    grimblast
-
-    # Color picker
-    hyprpicker
-
-    # Brightness control
-    brightnessctl
-
-    # Audio (wireplumber for better Wayland support)
-    wireplumber
-
-    # Network
-    networkmanagerapplet
+    pavucontrol
   ];
-
-  home.file = {
-    # === gaps.sh ===
-    ".config/hypr/scripts/gaps.sh".text = ''
-      #!/bin/sh
-
-      PATH_DECOR="$HOME/.config/hypr/hyprland.conf"
-      INTERVAL_IN=2
-      INTERVAL_OUT=8
-
-      _get_gaps () {
-        gap_in_current=$(hyprctl getoption general:gaps_in | cut -d' ' -f3)
-        gap_out_current=$(hyprctl getoption general:gaps_out | cut -d' ' -f3)
-      }
-
-      _set_gaps () {
-        hyprctl keyword general:gaps_in $gap_in_new
-        hyprctl keyword general:gaps_out $gap_out_new
-      }
-
-      _get_gaps
-      case "$1" in
-        tog)
-          if [ "$gap_in_current" -gt 0 ]; then
-            gap_in_new=0
-            gap_out_new=0
-          else
-            gap_in_new=$(grep gaps_in "$PATH_DECOR" | awk -F'[^0-9]+' '{ print $2 }')
-            gap_out_new=$(grep gaps_out "$PATH_DECOR" | awk -F'[^0-9]+' '{ print $2 }')
-          fi
-          ;;
-        dec)
-          if [ "$gap_in_current" -gt 0 ]; then
-            gap_in_new=$(( gap_in_current - INTERVAL_IN ))
-            gap_out_new=$(( gap_out_current - INTERVAL_OUT ))
-          else
-            exit 0
-          fi
-          ;;
-        inc)
-          gap_in_new=$(( gap_in_current + INTERVAL_IN ))
-          gap_out_new=$(( gap_out_current + INTERVAL_OUT ))
-          ;;
-        *)
-          exit 1
-      esac
-
-      _set_gaps
-
-      # Assure Alignment
-      _get_gaps
-      if [ "$gap_in_current" -le 0 ] || [ "$gap_out_current" -le 0 ]; then
-        hyprctl keyword decoration:rounding 0
-        gap_in_new=0
-        gap_out_new=0
-        _set_gaps
-      else
-        hyprctl keyword decoration:rounding $(grep rounding "$PATH_DECOR" | awk -F'[^0-9]+' '{ print $2 }')
-      fi
-    '';
-    ".config/hypr/scripts/gaps.sh".executable = true;
-  };
 }
