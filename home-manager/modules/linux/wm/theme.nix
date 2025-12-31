@@ -1,6 +1,7 @@
 {
   pkgs,
   lib,
+  isStandalone ? false,
   ...
 }: {
   gtk = {
@@ -26,6 +27,7 @@
 
   stylix = {
     enable = true;
+    base16Scheme = lib.mkIf isStandalone "${pkgs.base16-schemes}/share/themes/katy.yaml";
     polarity = "dark";
     opacity = {
       applications = 1.0;

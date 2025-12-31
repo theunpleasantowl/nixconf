@@ -1,12 +1,19 @@
 {pkgs, ...}: {
+  programs.anki = {
+    enable = true;
+    style = "native";
+    addons = [
+      pkgs.ankiAddons.anki-connect
+      pkgs.ankiAddons.review-heatmap
+    ];
+  };
+
   home.packages = with pkgs; [
-    anki-bin
-    ferdium
     joplin-desktop
     keepassxc
     nextcloud-client
 
-    # Web
+    # Web / Desktop
     cider
     delfin
     ferdium
