@@ -128,6 +128,7 @@
             isStandalone = true;
           };
           modules = [
+            inputs.stylix.nixosModules.stylix
             ./home-manager/users/hibiki
           ];
         };
@@ -139,6 +140,7 @@
           pkgs = import inputs.nixpkgs {inherit system;};
           extraSpecialArgs = {inherit inputs system username;};
           modules = [
+            inputs.stylix.nixosModules.stylix
             ./home-manager/users/icarus
           ];
         };

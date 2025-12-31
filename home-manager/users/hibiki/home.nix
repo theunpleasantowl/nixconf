@@ -26,4 +26,5 @@
       "$HOME/.bin"
     ];
   };
+  wm.gnome.enable = true;
 }

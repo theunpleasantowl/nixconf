@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }: let
   cfg = config.features.remote-access;
@@ -52,6 +53,30 @@ in {
         autoStart = true;
         capSysAdmin = true;
         openFirewall = true;
+
+        applications = {
+          apps = [
+            {
+              name = "Desktop (Gamescope)";
+              cmd = "${pkgs.gamescope}/bin/gamescope -f -W 2560 -H 1440 -- \
+                 ${pkgs.bash}/bin/bash -c '${pkgs.xdg-utils}/bin/xdg-open about:blank'";
+            }
+
+            # Steam Big Picture
+            {
+              name = "Steam Big Picture";
+              cmd = "${pkgs.gamescope}/bin/gamescope -f -W 2560 -H 1440 -- \
+                 ${pkgs.steam}/bin/steam -bigpicture";
+            }
+
+            # RetroArch fullscreen
+            {
+              name = "RetroArch";
+              cmd = "${pkgs.gamescope}/bin/gamescope -f -W 1920 -H 1080 -- \
+                 ${pkgs.retroarch}/bin/retroarch -f";
+            }
+          ];
+        };
       };
     })
   ];
