@@ -19,6 +19,7 @@ in {
   };
 
   home-manager = {
+    backupFileExtension = "backup";
     extraSpecialArgs = {
       inherit inputs system username;
       isStandalone = false;

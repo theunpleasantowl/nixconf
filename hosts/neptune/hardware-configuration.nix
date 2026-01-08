@@ -47,6 +47,17 @@
     ];
   };
 
+  features.linux.snapper.enable = true;
+  fileSystems."/home/.snapshots" = {
+    device = "/dev/disk/by-uuid/94fb701d-fe47-424c-b3c6-b3d4555db96a";
+    fsType = "btrfs";
+    options = [
+      "subvol=.snapshots"
+      "compress=zstd"
+      "noatime"
+    ];
+  };
+
   fileSystems."/nix" = {
     device = "/dev/disk/by-uuid/94fb701d-fe47-424c-b3c6-b3d4555db96a";
     fsType = "btrfs";

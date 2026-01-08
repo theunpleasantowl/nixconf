@@ -8,16 +8,16 @@
 
   desktops = {
     gnome = {
-      enable = cfg.gnome.enable;
+      enable = cfg.gnome.enable or false;
     };
     hyprland = {
-      enable = cfg.hyprland.enable;
+      enable = cfg.hyprland.enable or false;
     };
     cosmic = {
-      enable = cfg.cosmic.enable;
+      enable = cfg.cosmic.enable or false;
     };
     windowmaker = {
-      enable = cfg.windowmaker.enable;
+      enable = cfg.windowmaker.enable or false;
       needsXServer = true;
     };
   };
@@ -38,11 +38,17 @@ in {
   ];
 
   options.features.linux.desktop = {
+    anyEnabled = lib.mkOption {
+      type = lib.types.bool;
+      readOnly = true;
+      default = anyEnabled;
+      description = "Whether any desktop environment is enabled";
+    };
+
     utilities = lib.mkOption {
       type = lib.types.listOf lib.types.package;
       default = with pkgs; [
-        firefox
-        thunderbird
+        helvum
         mpv
       ];
       description = "Common desktop utilities to install";
