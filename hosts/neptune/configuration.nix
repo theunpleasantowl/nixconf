@@ -3,6 +3,7 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
   ];
+  system.stateVersion = "25.05";
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
@@ -27,18 +28,6 @@
   services.fwupd.enable = true;
   services.printing.enable = true;
 
-  # Enable doas
-  security.doas = {
-    enable = true;
-    extraRules = [
-      {
-        groups = ["wheel"];
-        keepEnv = true;
-        persist = true;
-      }
-    ];
-  };
-
   # Packages
   programs.neovim = {
     enable = true;
@@ -52,5 +41,41 @@
     });
   };
 
-  system.stateVersion = "25.05";
+  stylix = {
+    enable = true;
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/katy.yaml";
+    polarity = "dark";
+  };
+
+  features = {
+    gaming = {
+      enable = true;
+      steam.enable = true;
+    };
+
+    linux = {
+      desktop = {
+        gnome.enable = true;
+        hyprland.enable = true;
+      };
+      snapper = {
+        enable = true;
+        configs = {
+          home = {
+            subvolume = "/home";
+          };
+        };
+      };
+      wine.enable = true;
+    };
+
+    development.enable = true;
+    media.enable = true;
+
+    remote-access = {
+      ssh.enable = true;
+      rdp.enable = true;
+      sunshine.enable = true;
+    };
+  };
 }

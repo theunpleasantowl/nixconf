@@ -1,15 +1,4 @@
 {pkgs, ...}: {
-  programs.vscode = {
-    enable = true;
-    package = pkgs.vscodium;
-    profiles.default.extensions = with pkgs.vscode-extensions; [
-      asvetliakov.vscode-neovim
-      bbenoist.nix
-      esbenp.prettier-vscode
-      tamasfe.even-better-toml
-      yzhang.markdown-all-in-one
-    ];
-  };
   programs.zed-editor = {
     enable = true;
     extensions = [
@@ -22,4 +11,8 @@
       vim_mode = true;
     };
   };
+  home.packages = with pkgs; [
+    nil
+    nixd
+  ];
 }

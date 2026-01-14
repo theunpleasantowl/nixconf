@@ -1,19 +1,26 @@
 {
-  inputs,
+  config,
+  lib,
   pkgs,
   ...
-}: {
-  programs.hyprland = {
-    enable = true;
+}: let
+  cfg = config.features.linux.desktop.hyprland;
+in {
+  options.features.linux.desktop.hyprland = {
+    enable = lib.mkEnableOption "Hyprland compositor";
   };
-  programs.hyprlock.enable = true;
-  services.hypridle.enable = true;
 
-  environment.systemPackages = with pkgs; [
-    mako
-    swww
-    waybar
-    wl-clipboard
-    wofi
-  ];
+  config = lib.mkIf cfg.enable {
+    programs.hyprland = {
+      enable = true;
+      withUWSM = true;
+    };
+
+    #programs.hyprlock.enable = true;
+    #services.hypridle.enable = true;
+    #programs.hyprpolkitagent.enable = true;
+
+    environment.sessionVariables.NIXOS_OZONE_WL = "1";
+    services.udisks2.enable = true;
+  };
 }

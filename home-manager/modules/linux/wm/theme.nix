@@ -1,7 +1,12 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  lib,
+  isStandalone ? false,
+  ...
+}: {
   gtk = {
     enable = true;
-    theme = {
+    theme = lib.mkDefault {
       name = "Adwaita-dark";
       package = pkgs.gnome-themes-extra;
     };
@@ -16,14 +21,19 @@
       package = pkgs.nordzy-cursor-theme;
     };
 
-    gtk3.extraConfig.gtk-application-prefer-dark-theme = 1;
-    gtk4.extraConfig.gtk-application-prefer-dark-theme = 1;
+    gtk3.extraConfig.gtk-application-prefer-dark-theme = lib.mkDefault 1;
+    gtk4.extraConfig.gtk-application-prefer-dark-theme = lib.mkDefault 1;
   };
 
-  qt = {
+  stylix = {
     enable = true;
-    style = {
-      name = "adwaita-dark";
+    base16Scheme = lib.mkIf isStandalone "${pkgs.base16-schemes}/share/themes/katy.yaml";
+    polarity = "dark";
+    opacity = {
+      applications = 1.0;
+      desktop = 0.7;
+      popups = 0.5;
+      terminal = 1.0;
     };
   };
 }

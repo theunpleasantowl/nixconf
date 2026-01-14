@@ -19,10 +19,10 @@ in {
   };
 
   home-manager = {
-    useUserPackages = true;
-
+    backupFileExtension = "backup";
     extraSpecialArgs = {
       inherit inputs system username;
+      isStandalone = false;
     };
 
     users.${username} = {

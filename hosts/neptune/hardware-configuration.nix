@@ -24,6 +24,7 @@
   boot.kernelModules = ["kvm-amd"];
   boot.extraModulePackages = [];
 
+  boot.tmp.cleanOnBoot = true;
   boot.initrd.luks.devices."nixos".device = "/dev/disk/by-uuid/ebba8df2-74ac-4562-b8da-654107b39933";
 
   fileSystems."/" = {

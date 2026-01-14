@@ -1,7 +1,7 @@
-{
+{config, ...}: {
   # Nix Helper
   programs.nh = {
     enable = true;
-    flake = "/home/hibiki/.config/nixconf";
+    flake = "${config.home.homeDirectory}/.config/nixconf";
   };
 }

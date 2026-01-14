@@ -27,7 +27,7 @@
     };
   };
 
-  # Fonts
+  # System Typefaces
   fonts = {
     enableDefaultPackages = true;
     packages = with pkgs; [

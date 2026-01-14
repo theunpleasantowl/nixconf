@@ -1,46 +1,53 @@
-{pkgs, ...}: {
-  # Enable the GNOME Desktop Environment.
-  services.displayManager.gdm.enable = true;
-  services.desktopManager.gnome = {
-    enable = true;
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
+  cfg = config.features.linux.desktop.gnome;
+in {
+  options.features.linux.desktop.gnome = {
+    enable = lib.mkEnableOption "GNOME desktop";
+
+    useGdm = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Use GDM display manager";
+    };
   };
 
-  environment.systemPackages = let
-    gnomeExtensions = with pkgs.gnomeExtensions; [
-      appindicator
-      blur-my-shell
-      clipboard-indicator
-      dash-to-dock
-      kimpanel
-      media-controls
-      night-theme-switcher
-      tiling-shell
-      tophat
-    ];
-  in
-    with pkgs;
+  config = lib.mkIf cfg.enable {
+    services.displayManager.gdm.enable = cfg.useGdm;
+    services.desktopManager.gnome.enable = true;
+
+    environment.systemPackages = with pkgs;
       [
         ffmpegthumbnailer
         foliate
         ghostty
         gnome-epub-thumbnailer
-        icoextract
         komikku
         mission-center
         nautilus-python
-        refine
       ]
-      ++ gnomeExtensions;
+      ++ (with pkgs.gnomeExtensions; [
+        appindicator
+        caffeine
+        clipboard-indicator
+        dash-to-dock
+        kimpanel
+      ]);
 
-  environment.gnome.excludePackages = with pkgs; [
-    epiphany
-    geary
-    gnome-console
-    gnome-music
-    gnome-system-monitor
-    gnome-tour
-    gnome-user-docs
-    showtime
-    totem
-  ];
+    environment.gnome.excludePackages = with pkgs; [
+      epiphany
+      geary
+      gnome-console
+      gnome-music
+      gnome-system-monitor
+      gnome-tour
+      gnome-user-docs
+      showtime
+      totem
+    ];
+  };
 }

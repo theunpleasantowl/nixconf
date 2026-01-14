@@ -1,11 +1,28 @@
-{pkgs, ...}: {
-  services.xserver.windowManager.windowmaker.enable = true;
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
+  cfg = config.features.linux.desktop.windowmaker;
+in {
+  options.features.linux.desktop.windowmaker = {
+    enable = lib.mkEnableOption "WindowMaker X11 window manager";
+  };
 
-  environment.systemPackages = with pkgs; [
-    windowmaker.dockapps.AlsaMixer-app
-    windowmaker.dockapps.wmCalClock
-    windowmaker.dockapps.wmcube
-    windowmaker.dockapps.wmsm-app
-    windowmaker.dockapps.wmsystemtray
-  ];
+  config = lib.mkIf cfg.enable {
+    services.xserver.windowManager.windowmaker.enable = true;
+
+    environment.systemPackages = with pkgs;
+      [
+        gworkspace
+      ]
+      ++ (with pkgs.windowmaker.dockapps; [
+        alsamixer-app
+        wmcalclock
+        wmcube
+        wmsm
+        wmsystemtray
+      ]);
+  };
 }
