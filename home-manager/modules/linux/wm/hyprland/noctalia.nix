@@ -8,10 +8,6 @@
     inputs.noctalia.homeModules.default
   ];
 
-  home.packages = with pkgs; [
-    wtype
-  ];
-
   programs.noctalia-shell = {
     enable = true;
     systemd.enable = true;
@@ -139,4 +135,8 @@
       ConditionEnvironment = lib.mkForce "XDG_CURRENT_DESKTOP=Hyprland";
     };
   };
+
+  home.packages = with pkgs; [
+    cliphist
+  ];
 }
