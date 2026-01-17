@@ -69,47 +69,44 @@
         autoUpdateNotification = false;
         notifyAboutUpdates = false;
         transparent = true;
+        useQuickCss = true;
         plugins = {
-          clearURLs = {
-            enable = true;
+          ClearURLs = {
+            enabled = true;
           };
-          experiments = {
-            enable = true;
+          Experiments = {
+            enabled = true;
           };
-          expressionCloner = {
-            enable = true;
+          ExpressionCloner = {
+            enabled = true;
           };
-          fixYoutubeEmbeds = {
-            enable = true;
+          FixYoutubeEmbeds = {
+            enabled = true;
           };
-          messageLogger = {
-            enable = true;
+          MessageLogger = {
+            enabled = true;
           };
-          pictureInPicture = {
-            enable = true;
+          PictureInPicture = {
+            enabled = true;
           };
-          seeSummaries = {
-            enable = true;
+          SeeSummaries = {
+            enabled = true;
           };
-          typingIndicator = {
-            enable = true;
+          TypingIndicator = {
+            enabled = true;
           };
-          typingTweaks = {
-            enable = true;
+          TypingTweaks = {
+            enabled = true;
           };
-          voiceDownload = {
-            enable = true;
+          VoiceDownload = {
+            enabled = true;
           };
-          voiceMessages = {
-            enable = true;
+          VoiceMessages = {
+            enabled = true;
           };
-          youtubeAdblock = {
-            enable = true;
+          YoutubeAdblock = {
+            enabled = true;
           };
-        };
-        cloud = {
-          authenticated = true;
-          settingsSync = true;
         };
       };
     };

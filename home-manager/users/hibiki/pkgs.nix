@@ -43,7 +43,6 @@ in {
       yt-dlp
       weechat
       nethack
-      inputs.nixvim.packages.${pkgs.system}.default
     ]
     ++ lib.optionals (pkgs.stdenv.isLinux) [
       ethtool

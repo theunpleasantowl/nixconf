@@ -236,7 +236,10 @@ in {
     hyprpolkitagent.enable = true;
     nextcloud-client.enable = true;
   };
-  i18n.inputMethod.enabled = "fcitx5";
+  i18n.inputMethod = {
+    enable = true;
+    type = "fcitx5";
+  };
 
   #  home.packages = with pkgs; [
   #  libnotify
