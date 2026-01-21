@@ -103,6 +103,7 @@ in {
           # Core Noctalia binds
           "ALT, SPACE, exec, noctalia-shell ipc call launcher toggle"
           "$mainMod, S, exec, noctalia-shell ipc call controlCenter toggle"
+          "$mainMod, D, exec, noctalia-shell ipc call calendar toggle"
           "$mainMod, comma, exec, noctalia-shell ipc call settings toggle"
           "$mainMod SHIFT, V, exec, noctalia-shell ipc call launcher clipboard"
           "$mainMod, period, exec, noctalia-shell ipc call launcher emoji"
@@ -137,7 +138,8 @@ in {
           "$mainMod SHIFT, C, exec, ${pkgs.hyprpicker}/bin/hyprpicker -a"
 
           # Notification center toggle
-          "$mainMod, N, exec, ${pkgs.swaynotificationcenter}/bin/swaync-client -t -sw"
+          "$mainMod, N, exec, noctalia-shell ipc call notifications toggleHistory"
+          #"$mainMod, N, exec, ${pkgs.swaynotificationcenter}/bin/swaync-client -t -sw"
 
           # Applications
           "$mainMod, Q, exec, ${lib.getExe pkgs.wezterm}"
