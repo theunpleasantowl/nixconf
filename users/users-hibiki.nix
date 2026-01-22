@@ -6,7 +6,7 @@
 }: let
   username = "hibiki";
 in {
-  programs.zsh.enable = true;
+  programs.fish.enable = true;
 
   users.users.${username} = {
     isNormalUser = true;
@@ -15,7 +15,7 @@ in {
       "networkmanager"
       "wheel"
     ];
-    shell = pkgs.zsh;
+    shell = pkgs.fish;
   };
 
   home-manager = {
