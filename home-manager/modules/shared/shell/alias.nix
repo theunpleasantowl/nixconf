@@ -19,5 +19,7 @@
     tls = "tmux ls";
     ts = "tmux new-session -s";
     tks = "tmux kill-session -t";
+
+    nf = "nix flake";
   };
 }

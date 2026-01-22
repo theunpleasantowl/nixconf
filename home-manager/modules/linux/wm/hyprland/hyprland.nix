@@ -113,10 +113,10 @@ in {
           ", XF86AudioLowerVolume, exec, noctalia-shell ipc call volume decrease"
           ", XF86AudioMute, exec, noctalia-shell ipc call volume muteOutput"
           ", XF86AudioMicMute, exec, ${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
-          ", XF86AudioPlay, exec, ${pkgs.playerctl}/bin/playerctl play-pause"
-          ", XF86AudioPause, exec, ${pkgs.playerctl}/bin/playerctl play-pause"
-          ", XF86AudioNext, exec, ${pkgs.playerctl}/bin/playerctl next"
-          ", XF86AudioPrev, exec, ${pkgs.playerctl}/bin/playerctl previous"
+          ", XF86AudioPlay, exec, ${lib.getExe pkgs.playerctl} play-pause"
+          ", XF86AudioPause, exec, ${lib.getExe pkgs.playerctl} play-pause"
+          ", XF86AudioNext, exec, ${lib.getExe pkgs.playerctl} next"
+          ", XF86AudioPrev, exec, ${lib.getExe pkgs.playerctl} previous"
 
           # Brightness controls
           ", XF86MonBrightnessUp, exec, noctalia-shell ipc call brightness increase"
@@ -130,12 +130,12 @@ in {
           #"CONTROLALT, DELETE, exec, ${lib.getExe pkgs.wlogout}"
 
           # Screenshots
-          ", PRINT, exec, ${pkgs.grimblast}/bin/grimblast --freeze copysave area"
-          "$mainMod, PRINT, exec, ${pkgs.grimblast}/bin/grimblast --freeze copysave screen"
-          "$mainMod SHIFT, S, exec, ${pkgs.grimblast}/bin/grimblast --freeze copysave area"
+          ", PRINT, exec, ${lib.getExe pkgs.hyprshot} --output ~/Screenshots/ --mode window"
+          "$mainMod, PRINT, exec, ${lib.getExe pkgs.hyprshot} --output ~/Screenshots/ --freeze --mode output"
+          "$mainMod SHIFT, S, exec, ${lib.getExe pkgs.hyprshot} --output ~/Screenshots/ --freeze --mode region"
 
           # Color picker
-          "$mainMod SHIFT, C, exec, ${pkgs.hyprpicker}/bin/hyprpicker -a"
+          "$mainMod SHIFT, C, exec, ${lib.getExe pkgs.hyprpicker} --autocopy"
 
           # Notification center toggle
           "$mainMod, N, exec, noctalia-shell ipc call notifications toggleHistory"

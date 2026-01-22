@@ -96,6 +96,9 @@
         showChangelogOnStartup = false;
         telemetryEnabled = false;
       };
+      ui = {
+        "boxBorderEnabled" = true;
+      };
       audio = {
         visualizerType = "mirrored";
       };
