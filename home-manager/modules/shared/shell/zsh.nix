@@ -1,5 +1,4 @@
 {config, ...}: {
-  ### Shell ###
   programs.zsh = {
     enable = true;
 

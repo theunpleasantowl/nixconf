@@ -1,5 +1,4 @@
-{config, ...}: {
-  ### Shell ###
+{...}: {
   programs.fish = {
     enable = true;
     interactiveShellInit = ''

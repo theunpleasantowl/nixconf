@@ -125,6 +125,12 @@
         position = "top_center";
         screenshotAnnotationTool = "${lib.getExe pkgs.gradia}";
       };
+      dock = {
+        pinnedApps = [
+          "Vesktop"
+          "steam"
+        ];
+      };
     };
     pluginSettings = {
       privacy-indicator = {
