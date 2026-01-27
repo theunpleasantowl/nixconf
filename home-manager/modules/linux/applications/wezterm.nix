@@ -7,8 +7,8 @@
 in {
   programs.wezterm = {
     enable = true;
-    enableZshIntegration = true;
     enableBashIntegration = true;
+    enableZshIntegration = true;
 
     extraConfig = ''
       local wezterm = require("wezterm")

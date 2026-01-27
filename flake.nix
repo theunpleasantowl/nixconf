@@ -10,12 +10,16 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    noctalia = {
-      url = "github:noctalia-dev/noctalia-shell";
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     stylix = {
       url = "github:nix-community/stylix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    noctalia = {
+      url = "github:noctalia-dev/noctalia-shell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixvim = {
@@ -124,6 +128,7 @@
           };
           modules = [
             inputs.stylix.homeManagerModules.stylix
+            inputs.sops-nix.homeManagerModules.sops
             ./home-manager/users/hibiki
           ];
         };
@@ -136,6 +141,7 @@
           extraSpecialArgs = {inherit inputs system username;};
           modules = [
             inputs.stylix.homeManagerModules.stylix
+            inputs.sops-nix.homeManagerModules.sops
             ./home-manager/users/icarus
           ];
         };

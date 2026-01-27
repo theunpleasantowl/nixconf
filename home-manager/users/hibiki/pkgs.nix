@@ -1,5 +1,4 @@
 {
-  inputs,
   lib,
   pkgs,
   system,
@@ -28,7 +27,6 @@ in {
     [
       aria2 # download client
       browsh # terminal web client
-      btop # replacement of htop/nmon
       eza # modern ls
       fastfetch
       fd # find tool

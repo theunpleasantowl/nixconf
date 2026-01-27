@@ -145,6 +145,7 @@ in {
           "$mainMod, Q, exec, ${lib.getExe pkgs.wezterm}"
           "$mainMod, Return, exec, ${lib.getExe pkgs.wezterm}"
           "$mainMod, Y, exec, ${lib.getExe pkgs.wezterm} start -- ${lib.getExe pkgs.yazi}"
+          "$mainMod, U, exec, ${lib.getExe pkgs.wezterm} start -- ${lib.getExe pkgs.youtube-tui}"
         ]
         ++ enabledPluginBinds;
 

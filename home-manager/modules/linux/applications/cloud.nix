@@ -1,4 +1,9 @@
-{pkgs, ...}: {
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
   programs = {
     anki = {
       enable = true;
@@ -7,6 +12,11 @@
         pkgs.ankiAddons.anki-connect
         pkgs.ankiAddons.review-heatmap
       ];
+      sync = lib.mkIf (config.sops.secrets ? anki-password) {
+        autoSync = true;
+        usernameFile = config.sops.secrets.anki-password.path;
+        passwordFile = config.sops.secrets.anki-password.path;
+      };
     };
 
     keepassxc = {
@@ -51,6 +61,7 @@
       sync.target = "file-system";
       extraConfig = {
         "editor.keyboardMode" = "vim";
+        "sync.2.path" = "${config.home.homeDirectory}/Nextcloud/Joplin";
       };
     };
 
@@ -96,6 +107,9 @@
             enabled = true;
           };
           TypingTweaks = {
+            enabled = true;
+          };
+          ViewIcons = {
             enabled = true;
           };
           VoiceDownload = {

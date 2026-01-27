@@ -25,6 +25,8 @@ in {
       isStandalone = false;
     };
 
+    sharedModules = [inputs.sops-nix.homeManagerModules.sops];
+
     users.${username} = {
       imports = [
         ../home-manager/users/hibiki
