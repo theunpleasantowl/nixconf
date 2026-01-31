@@ -1,4 +1,5 @@
-{...}: {
+{ ... }:
+{
   home.shellAliases = {
     g = "git";
     gP = "git push";

@@ -1,4 +1,4 @@
-{pkgs, ...}:
+{ pkgs, ... }:
 pkgs.writeShellScriptBin "hyprlandGaps" ''
   #!/bin/sh
 

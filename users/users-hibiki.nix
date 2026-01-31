@@ -3,9 +3,11 @@
   inputs,
   system,
   ...
-}: let
+}:
+let
   username = "hibiki";
-in {
+in
+{
   programs.fish.enable = true;
 
   users.users.${username} = {
@@ -25,7 +27,7 @@ in {
       isStandalone = false;
     };
 
-    sharedModules = [inputs.sops-nix.homeManagerModules.sops];
+    sharedModules = [ inputs.sops-nix.homeManagerModules.sops ];
 
     users.${username} = {
       imports = [

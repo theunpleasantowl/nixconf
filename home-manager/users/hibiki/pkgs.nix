@@ -3,27 +3,29 @@
   pkgs,
   system,
   ...
-}: let
+}:
+let
   isDarwin = builtins.match ".*-darwin" system != null;
   isLinux = builtins.match ".*-linux" system != null;
-in {
-  imports =
-    [
-      ../../modules/shared
-    ]
-    # Conditionally import platform-specific modules
-    ++ lib.optionals isLinux [
-      ../../modules/linux
-    ]
-    ++ lib.optionals isDarwin [
-      ../../modules/darwin
-    ];
+in
+{
+  imports = [
+    ../../modules/shared
+  ]
+  # Conditionally import platform-specific modules
+  ++ lib.optionals isLinux [
+    ../../modules/linux
+  ]
+  ++ lib.optionals isDarwin [
+    ../../modules/darwin
+  ];
 
   nixpkgs.config = {
     allowUnfree = true;
   };
 
-  home.packages = with pkgs;
+  home.packages =
+    with pkgs;
     [
       aria2 # download client
       browsh # terminal web client

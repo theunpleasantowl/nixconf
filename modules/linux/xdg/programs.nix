@@ -2,9 +2,11 @@
   config,
   lib,
   ...
-}: let
+}:
+let
   cfg = config.features.linux.desktop;
-in {
+in
+{
   config = lib.mkIf cfg.anyEnabled {
     programs = {
       firefox = {

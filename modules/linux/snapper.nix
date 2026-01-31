@@ -3,16 +3,19 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.features.linux.snapper;
-in {
+in
+{
   options.features.linux.snapper = {
     enable = lib.mkEnableOption "Snapper snapshots for btrfs";
 
     configs = lib.mkOption {
       type = lib.types.attrsOf (
         lib.types.submodule (
-          {name, ...}: {
+          { name, ... }:
+          {
             options = {
               subvolume = lib.mkOption {
                 type = lib.types.str;
@@ -43,7 +46,7 @@ in {
         )
       );
 
-      default = {};
+      default = { };
       description = ''
         Snapper configurations keyed by config name.
         Each entry maps to services.snapper.configs.<name>.
@@ -54,25 +57,23 @@ in {
   config = lib.mkIf cfg.enable {
     assertions = [
       {
-        assertion = cfg.configs != {};
+        assertion = cfg.configs != { };
         message = "features.linux.snapper.enable is true, but no configs were defined.";
       }
     ];
 
     services.snapper = {
-      configs =
-        lib.mapAttrs (_name: c: {
-          SUBVOLUME = c.subvolume;
+      configs = lib.mapAttrs (_name: c: {
+        SUBVOLUME = c.subvolume;
 
-          TIMELINE_CREATE = true;
-          TIMELINE_CLEANUP = true;
+        TIMELINE_CREATE = true;
+        TIMELINE_CLEANUP = true;
 
-          TIMELINE_LIMIT_HOURLY = c.timeline.hourly;
-          TIMELINE_LIMIT_DAILY = c.timeline.daily;
-          TIMELINE_LIMIT_WEEKLY = c.timeline.weekly;
-          TIMELINE_LIMIT_MONTHLY = c.timeline.monthly;
-        })
-        cfg.configs;
+        TIMELINE_LIMIT_HOURLY = c.timeline.hourly;
+        TIMELINE_LIMIT_DAILY = c.timeline.daily;
+        TIMELINE_LIMIT_WEEKLY = c.timeline.weekly;
+        TIMELINE_LIMIT_MONTHLY = c.timeline.monthly;
+      }) cfg.configs;
 
       snapshotInterval = "hourly";
     };

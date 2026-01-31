@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   powerManagement.enable = true;
 
   # Time Zone

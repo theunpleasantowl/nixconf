@@ -3,9 +3,11 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.features.development;
-in {
+in
+{
   options.features.development = {
     enable = lib.mkEnableOption "development tools";
 
@@ -18,7 +20,8 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    environment.systemPackages = with pkgs;
+    environment.systemPackages =
+      with pkgs;
       [
         git
         git-extras

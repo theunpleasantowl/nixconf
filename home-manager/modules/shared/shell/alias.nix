@@ -1,4 +1,5 @@
-{...}: {
+{ ... }:
+{
   home.shellAliases = {
     vim = "nvim";
 

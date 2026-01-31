@@ -3,9 +3,11 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.features.media;
-in {
+in
+{
   options.features.media = {
     enable = lib.mkEnableOption "media production tools";
 
@@ -28,7 +30,8 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    environment.systemPackages = with pkgs;
+    environment.systemPackages =
+      with pkgs;
       lib.optionals cfg.video.enable [
         kdePackages.kdenlive
         obs-studio

@@ -3,7 +3,8 @@
   lib,
   pkgs,
   ...
-}: {
+}:
+{
   imports = [
     inputs.noctalia.homeModules.default
   ];
@@ -57,7 +58,7 @@
             }
           ];
           right = [
-            {id = "Tray";}
+            { id = "Tray"; }
             {
               id = "SystemMonitor";
               compactMode = true;
@@ -68,8 +69,8 @@
               showMemoryAsPercent = true;
               showNetworkStats = true;
             }
-            {id = "plugin:privacy-indicator";}
-            {id = "plugin:pomodoro";}
+            { id = "plugin:privacy-indicator"; }
+            { id = "plugin:pomodoro"; }
             {
               id = "Volume";
               alwaysVisible = true;

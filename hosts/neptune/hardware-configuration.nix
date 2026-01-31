@@ -3,7 +3,8 @@
   lib,
   modulesPath,
   ...
-}: {
+}:
+{
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
@@ -20,9 +21,9 @@
     "usbhid"
     "sd_mod"
   ];
-  boot.initrd.kernelModules = [];
-  boot.kernelModules = ["kvm-amd"];
-  boot.extraModulePackages = [];
+  boot.initrd.kernelModules = [ ];
+  boot.kernelModules = [ "kvm-amd" ];
+  boot.extraModulePackages = [ ];
 
   boot.tmp.cleanOnBoot = true;
   boot.initrd.luks.devices."nixos".device = "/dev/disk/by-uuid/ebba8df2-74ac-4562-b8da-654107b39933";

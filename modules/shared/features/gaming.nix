@@ -3,9 +3,11 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.features.gaming;
-in {
+in
+{
   options.features.gaming = {
     enable = lib.mkEnableOption "gaming support";
 
@@ -25,12 +27,13 @@ in {
       dedicatedServer.openFirewall = true;
       localNetworkGameTransfers.openFirewall = true;
       protontricks.enable = true;
-      extraCompatPackages = with pkgs; [proton-ge-bin];
+      extraCompatPackages = with pkgs; [ proton-ge-bin ];
     };
 
     programs.gamemode.enable = lib.mkDefault pkgs.stdenv.isLinux;
 
-    environment.systemPackages = with pkgs;
+    environment.systemPackages =
+      with pkgs;
       lib.optionals pkgs.stdenv.isLinux [
         mangohud
         steam-run

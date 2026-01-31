@@ -3,15 +3,15 @@
   config,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.features.linux.plymouth;
-in {
+in
+{
   options.features.linux.plymouth = {
-    enable =
-      lib.mkEnableOption "silent boot with Plymouth"
-      // {
-        default = true;
-      };
+    enable = lib.mkEnableOption "silent boot with Plymouth" // {
+      default = true;
+    };
   };
 
   config = lib.mkIf cfg.enable {

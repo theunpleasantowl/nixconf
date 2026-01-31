@@ -1,6 +1,8 @@
-{...}: let
+{ ... }:
+let
   profile = "default";
-in {
+in
+{
   programs.firefox = {
     enable = true;
 
@@ -46,6 +48,6 @@ in {
   stylix.targets.firefox = {
     colorTheme.enable = true;
     firefoxGnomeTheme.enable = true;
-    profileNames = [profile];
+    profileNames = [ profile ];
   };
 }

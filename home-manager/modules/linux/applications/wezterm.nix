@@ -2,9 +2,11 @@
   config,
   lib,
   ...
-}: let
+}:
+let
   inherit (lib) optionalString;
-in {
+in
+{
   programs.wezterm = {
     enable = true;
     enableBashIntegration = true;

@@ -3,9 +3,11 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.features.linux.desktop.hyprland;
-in {
+in
+{
   options.features.linux.desktop.hyprland = {
     enable = lib.mkEnableOption "Hyprland compositor";
   };

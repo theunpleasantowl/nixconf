@@ -5,7 +5,8 @@
   username ? "hibiki",
   isStandalone ? false,
   ...
-}: {
+}:
+{
   home = {
     # Set username/homeDirectory for standalone home-manager
     # When used as NixOS module, we must not set these.

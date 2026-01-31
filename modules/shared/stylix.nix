@@ -2,7 +2,8 @@
   pkgs,
   lib,
   ...
-}: {
+}:
+{
   # https://tinted-theming.github.io/tinted-gallery/
   stylix = {
     enable = lib.mkDefault false;

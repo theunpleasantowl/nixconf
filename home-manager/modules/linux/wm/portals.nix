@@ -3,7 +3,8 @@
 # that setting it in home-manager works reliably, but I don't know that it's
 # properly documented anywhere.
 # https://www.reddit.com/r/NixOS/comments/1lvt4ej/frustrating_every_xdgdesktopportal_backend_stays/
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   xdg.portal = {
     enable = true;
     xdgOpenUsePortal = true;

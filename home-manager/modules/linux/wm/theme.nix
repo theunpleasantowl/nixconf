@@ -3,7 +3,8 @@
   lib,
   isStandalone ? false,
   ...
-}: {
+}:
+{
   gtk = {
     enable = true;
     theme = lib.mkDefault {

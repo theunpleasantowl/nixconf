@@ -3,7 +3,8 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.wm.gnome;
 
   gnomeExtensions = [
@@ -49,7 +50,8 @@
     }
   ];
   enabledExtensions = lib.optionals cfg.extensions.enable gnomeExtensions;
-in {
+in
+{
   options.wm.gnome = {
     enable = lib.mkEnableOption "Enable GNOME desktop environment";
 
@@ -131,13 +133,13 @@ in {
     programs.gnome-shell.enable = true;
 
     # Extensions (list of submodules)
-    programs.gnome-shell.extensions = map (e: {package = e.pkg;}) enabledExtensions;
+    programs.gnome-shell.extensions = map (e: { package = e.pkg; }) enabledExtensions;
 
     # dconf settings
     dconf.settings = lib.mkMerge [
       # VRR
       (lib.mkIf cfg.vrr {
-        "org/gnome/mutter".experimental-features = ["variable-refresh-rate"];
+        "org/gnome/mutter".experimental-features = [ "variable-refresh-rate" ];
       })
 
       # General GNOME settings
@@ -147,10 +149,10 @@ in {
         "org/gnome/desktop/wm/preferences".button-layout = "appmenu:minimize,maximize,close";
 
         "org/gnome/desktop/wm/keybindings" = {
-          switch-applications = [];
-          switch-applications-backward = [];
-          switch-windows = ["<Alt>Tab"];
-          switch-windows-backward = ["<Shift><Alt>Tab"];
+          switch-applications = [ ];
+          switch-applications-backward = [ ];
+          switch-windows = [ "<Alt>Tab" ];
+          switch-windows-backward = [ "<Shift><Alt>Tab" ];
         };
 
         "org/gnome/shell".enabled-extensions = map (e: e.uuid) enabledExtensions;
@@ -178,7 +180,7 @@ in {
           name = "Launch Terminal";
         };
 
-        "org/gnome/shell/extensions/clipboard-indicator".toggle-menu = ["<Shift><Super>v"];
+        "org/gnome/shell/extensions/clipboard-indicator".toggle-menu = [ "<Shift><Super>v" ];
 
         "org/gnome/shell/extensions/mediacontrols" = {
           extension-position = "Left";
