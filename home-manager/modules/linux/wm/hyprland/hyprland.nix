@@ -243,6 +243,12 @@ in
         disable_splash_rendering = true;
         force_default_wallpaper = 3;
       };
+
+      layerrule = [
+        "ignorealpha 0.5, ^(noctalia-background-.*)$"
+        "blur, ^(noctalia-background-.*)$"
+        "blurpopups, ^(noctalia-background-.*)$"
+      ];
     };
   };
 
