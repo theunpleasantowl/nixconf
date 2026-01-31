@@ -134,7 +134,7 @@ in
         ", PRINT, exec, ${lib.getExe pkgs.hyprshot} --output ~/Screenshots/ --mode window"
         "$mainMod, PRINT, exec, ${lib.getExe pkgs.hyprshot} --output ~/Screenshots/ --freeze --mode output"
         "$mainMod SHIFT, S, exec, ${lib.getExe pkgs.hyprshot} --output ~/Screenshots/ --freeze --mode region"
-        "$mainMod SHIFT, T, exec, ${lib.getExe pkgs.hyprshot} -m region -o - | ${lib.getExe pkgs.rust-paddle-ocr} | ${lib.getExe pkgs.wl-clipboard}"
+        "$mainMod SHIFT, T, exec, ${lib.getExe pkgs.hyprshot} --mode region --raw | ${lib.getExe pkgs.tesseract} - - -l eng | ${lib.getExe pkgs.wl-copy}"
 
         # Color picker
         "$mainMod SHIFT, C, exec, ${lib.getExe pkgs.hyprpicker} --autocopy"
