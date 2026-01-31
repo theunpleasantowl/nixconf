@@ -26,6 +26,7 @@ in
       with pkgs;
       [
         ffmpegthumbnailer
+        file-roller
         foliate
         ghostty
         gnome-epub-thumbnailer

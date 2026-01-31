@@ -134,7 +134,7 @@ in
         ", PRINT, exec, ${lib.getExe pkgs.hyprshot} --output ~/Screenshots/ --mode window"
         "$mainMod, PRINT, exec, ${lib.getExe pkgs.hyprshot} --output ~/Screenshots/ --freeze --mode output"
         "$mainMod SHIFT, S, exec, ${lib.getExe pkgs.hyprshot} --output ~/Screenshots/ --freeze --mode region"
-        "$mainMod SHIFT, T, exec, ${lib.getExe pkgs.hyprshot} -m region -o - | ${lib.getExe pkgs.rust-paddle-ocr} | ${lib.getExe pkgs.wl-clipboard}"
+        "$mainMod SHIFT, T, exec, ${lib.getExe pkgs.hyprshot} --mode region --raw | ${lib.getExe pkgs.tesseract} - - -l eng | ${pkgs.wl-clipboard}/bin/wl-copy"
 
         # Color picker
         "$mainMod SHIFT, C, exec, ${lib.getExe pkgs.hyprpicker} --autocopy"
@@ -165,6 +165,7 @@ in
 
       # ==== AUTOSTART ====
       exec-once = [
+        "${lib.getExe pkgs.fcitx5} -d -r"
         "${lib.getExe pkgs.keepassxc}"
 
         # I prefer to allow QuickShell to provide this functionality
@@ -250,10 +251,6 @@ in
     gnome-keyring.enable = true;
     hyprpolkitagent.enable = true;
     nextcloud-client.enable = true;
-  };
-  i18n.inputMethod = {
-    enable = true;
-    type = "fcitx5";
   };
 
   #  home.packages = with pkgs; [
