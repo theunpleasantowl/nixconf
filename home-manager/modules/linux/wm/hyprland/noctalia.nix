@@ -119,6 +119,9 @@
       };
       wallpaper = {
         recursiveSearch = true;
+        transitionDuration = 500;
+        transitionEdgeSmoothness = 0;
+        transitionType = "wipe";
       };
       appLauncher = {
         enableClipboardHistory = true;
