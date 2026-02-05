@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   imports = [
     ./features
   ];
@@ -14,7 +15,7 @@
   };
   nix.optimise = {
     automatic = true;
-    dates = ["weekly"];
+    dates = [ "weekly" ];
   };
   nix.settings = {
     auto-optimise-store = true;

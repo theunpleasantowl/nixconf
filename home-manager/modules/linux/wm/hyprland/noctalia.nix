@@ -3,13 +3,10 @@
   lib,
   pkgs,
   ...
-}: {
+}:
+{
   imports = [
     inputs.noctalia.homeModules.default
-  ];
-
-  home.packages = with pkgs; [
-    wtype
   ];
 
   programs.noctalia-shell = {
@@ -61,7 +58,7 @@
             }
           ];
           right = [
-            {id = "Tray";}
+            { id = "Tray"; }
             {
               id = "SystemMonitor";
               compactMode = true;
@@ -72,8 +69,8 @@
               showMemoryAsPercent = true;
               showNetworkStats = true;
             }
-            {id = "plugin:privacy-indicator";}
-            {id = "plugin:pomodoro";}
+            { id = "plugin:privacy-indicator"; }
+            { id = "plugin:pomodoro"; }
             {
               id = "Volume";
               alwaysVisible = true;
@@ -100,6 +97,9 @@
         showChangelogOnStartup = false;
         telemetryEnabled = false;
       };
+      ui = {
+        "boxBorderEnabled" = true;
+      };
       audio = {
         visualizerType = "mirrored";
       };
@@ -119,12 +119,21 @@
       };
       wallpaper = {
         recursiveSearch = true;
+        transitionDuration = 500;
+        transitionEdgeSmoothness = 0;
+        transitionType = "wipe";
       };
       appLauncher = {
         enableClipboardHistory = true;
         terminalCommand = "${lib.getExe pkgs.wezterm} start --";
         position = "top_center";
         screenshotAnnotationTool = "${lib.getExe pkgs.gradia}";
+      };
+      dock = {
+        pinnedApps = [
+          "Vesktop"
+          "steam"
+        ];
       };
     };
     pluginSettings = {
@@ -139,4 +148,8 @@
       ConditionEnvironment = lib.mkForce "XDG_CURRENT_DESKTOP=Hyprland";
     };
   };
+
+  home.packages = with pkgs; [
+    cliphist
+  ];
 }

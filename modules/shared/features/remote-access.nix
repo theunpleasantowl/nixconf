@@ -3,9 +3,11 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.features.remote-access;
-in {
+in
+{
   options.features.remote-access = {
     ssh = {
       enable = lib.mkEnableOption "SSH server";
@@ -31,10 +33,7 @@ in {
       services.openssh = {
         enable = true;
         settings = {
-          PermitRootLogin =
-            if cfg.ssh.allowRoot
-            then "yes"
-            else "no";
+          PermitRootLogin = if cfg.ssh.allowRoot then "yes" else "no";
         };
       };
     })
@@ -42,9 +41,9 @@ in {
     (lib.mkIf cfg.rdp.enable {
       services.gnome.gnome-remote-desktop.enable = true;
       systemd.services.gnome-remote-desktop = {
-        wantedBy = ["graphical.target"];
+        wantedBy = [ "graphical.target" ];
       };
-      networking.firewall.allowedTCPPorts = [3389];
+      networking.firewall.allowedTCPPorts = [ 3389 ];
     })
 
     (lib.mkIf cfg.sunshine.enable {

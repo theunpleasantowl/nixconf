@@ -3,9 +3,11 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.features.linux.wine;
-in {
+in
+{
   options.features.linux.wine = {
     enable = lib.mkEnableOption "Wine and related tools";
   };

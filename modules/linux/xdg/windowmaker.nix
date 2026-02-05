@@ -3,9 +3,11 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.features.linux.desktop.windowmaker;
-in {
+in
+{
   options.features.linux.desktop.windowmaker = {
     enable = lib.mkEnableOption "WindowMaker X11 window manager";
   };
@@ -13,15 +15,16 @@ in {
   config = lib.mkIf cfg.enable {
     services.xserver.windowManager.windowmaker.enable = true;
 
-    environment.systemPackages = with pkgs;
+    environment.systemPackages =
+      with pkgs;
       [
         gworkspace
       ]
       ++ (with pkgs.windowmaker.dockapps; [
-        alsamixer-app
-        wmcalclock
+        AlsaMixer-app
+        wmCalClock
         wmcube
-        wmsm
+        wmsm-app
         wmsystemtray
       ]);
   };

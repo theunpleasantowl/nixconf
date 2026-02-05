@@ -1,4 +1,10 @@
-{pkgs, ...}: {
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+{
   programs = {
     anki = {
       enable = true;
@@ -7,6 +13,11 @@
         pkgs.ankiAddons.anki-connect
         pkgs.ankiAddons.review-heatmap
       ];
+      sync = lib.mkIf (config.sops.secrets ? anki-password) {
+        autoSync = true;
+        usernameFile = config.sops.secrets.anki-password.path;
+        passwordFile = config.sops.secrets.anki-password.path;
+      };
     };
 
     keepassxc = {
@@ -51,6 +62,7 @@
       sync.target = "file-system";
       extraConfig = {
         "editor.keyboardMode" = "vim";
+        "sync.2.path" = "${config.home.homeDirectory}/Nextcloud/Joplin";
       };
     };
 
@@ -69,54 +81,53 @@
         autoUpdateNotification = false;
         notifyAboutUpdates = false;
         transparent = true;
+        useQuickCss = true;
         plugins = {
-          clearURLs = {
-            enable = true;
+          ClearURLs = {
+            enabled = true;
           };
-          experiments = {
-            enable = true;
+          Experiments = {
+            enabled = true;
           };
-          expressionCloner = {
-            enable = true;
+          ExpressionCloner = {
+            enabled = true;
           };
-          fixYoutubeEmbeds = {
-            enable = true;
+          FixYoutubeEmbeds = {
+            enabled = true;
           };
-          messageLogger = {
-            enable = true;
+          MessageLogger = {
+            enabled = true;
           };
-          pictureInPicture = {
-            enable = true;
+          PictureInPicture = {
+            enabled = true;
           };
-          seeSummaries = {
-            enable = true;
+          SeeSummaries = {
+            enabled = true;
           };
-          typingIndicator = {
-            enable = true;
+          TypingIndicator = {
+            enabled = true;
           };
-          typingTweaks = {
-            enable = true;
+          TypingTweaks = {
+            enabled = true;
           };
-          voiceDownload = {
-            enable = true;
+          ViewIcons = {
+            enabled = true;
           };
-          voiceMessages = {
-            enable = true;
+          VoiceDownload = {
+            enabled = true;
           };
-          youtubeAdblock = {
-            enable = true;
+          VoiceMessages = {
+            enabled = true;
           };
-        };
-        cloud = {
-          authenticated = true;
-          settingsSync = true;
+          YoutubeAdblock = {
+            enabled = true;
+          };
         };
       };
     };
   };
 
   home.packages = with pkgs; [
-    cider
     delfin
     ferdium
     nextcloud-client

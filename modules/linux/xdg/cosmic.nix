@@ -3,9 +3,11 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.features.linux.desktop.cosmic;
-in {
+in
+{
   options.features.linux.desktop.cosmic = {
     enable = lib.mkEnableOption "COSMIC desktop";
 

@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -37,7 +38,7 @@
   hardware.ckb-next = {
     enable = true;
     package = pkgs.ckb-next.overrideAttrs (old: {
-      cmakeFlags = (old.cmakeFlags or []) ++ ["-DUSE_DBUS_MENU=0"];
+      cmakeFlags = (old.cmakeFlags or [ ]) ++ [ "-DUSE_DBUS_MENU=0" ];
     });
   };
 
@@ -57,6 +58,7 @@
       desktop = {
         gnome.enable = true;
         hyprland.enable = true;
+        windowmaker.enable = true;
       };
       snapper = {
         enable = true;
@@ -70,7 +72,6 @@
     };
 
     development.enable = true;
-    media.enable = true;
 
     remote-access = {
       ssh.enable = true;

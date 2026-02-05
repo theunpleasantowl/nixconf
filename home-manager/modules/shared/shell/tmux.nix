@@ -1,4 +1,5 @@
-{pkgs, ...}: let
+{ pkgs, ... }:
+let
   bg = "default";
   fg = "default";
   bg2 = "brightblack";
@@ -59,7 +60,8 @@
     format = "#[fg=${fg}]#W ";
     module = "${format}";
   };
-in {
+in
+{
   home.shellAliases = {
     ta = "tmux attach";
     tls = "tmux ls";

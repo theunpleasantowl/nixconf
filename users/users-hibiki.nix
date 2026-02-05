@@ -3,10 +3,12 @@
   inputs,
   system,
   ...
-}: let
+}:
+let
   username = "hibiki";
-in {
-  programs.zsh.enable = true;
+in
+{
+  programs.fish.enable = true;
 
   users.users.${username} = {
     isNormalUser = true;
@@ -15,7 +17,7 @@ in {
       "networkmanager"
       "wheel"
     ];
-    shell = pkgs.zsh;
+    shell = pkgs.fish;
   };
 
   home-manager = {
@@ -24,6 +26,8 @@ in {
       inherit inputs system username;
       isStandalone = false;
     };
+
+    sharedModules = [ inputs.sops-nix.homeManagerModules.sops ];
 
     users.${username} = {
       imports = [

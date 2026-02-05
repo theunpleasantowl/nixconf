@@ -1,4 +1,5 @@
-{lib, ...}: {
+{ lib, ... }:
+{
   services.swaync = {
     #enable = true;
     settings = {

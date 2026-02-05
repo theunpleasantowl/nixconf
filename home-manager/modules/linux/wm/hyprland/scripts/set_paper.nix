@@ -2,7 +2,8 @@
   pkgs,
   lib,
   ...
-}: let
+}:
+let
   set_paper = pkgs.writeShellScriptBin "set_paper" ''
     #!/bin/sh
     # Description: Set a wallpaper based on file type (video/image)
@@ -120,7 +121,8 @@
     echo "Setting random wallpaper: $RANDOM_FILE"
     ${set_paper}/bin/set_paper "$RANDOM_FILE"
   '';
-in {
+in
+{
   home.packages = lib.mkDefault [
     set_paper
     set_paper_random
@@ -142,8 +144,8 @@ in {
   systemd.user.services.swww = {
     Unit = {
       Description = "Wayland wallpaper daemon";
-      PartOf = ["graphical-session.target"];
-      After = ["graphical-session.target"];
+      PartOf = [ "graphical-session.target" ];
+      After = [ "graphical-session.target" ];
       ConditionEnvironment = "XDG_CURRENT_DESKTOP=Hyprland";
     };
 
@@ -153,7 +155,7 @@ in {
     };
 
     Install = {
-      WantedBy = ["graphical-session.target"];
+      WantedBy = [ "graphical-session.target" ];
     };
   };
 }

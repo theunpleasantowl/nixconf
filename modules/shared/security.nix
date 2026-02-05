@@ -1,9 +1,10 @@
-{lib, ...}: {
+{ lib, ... }:
+{
   security.doas = {
     enable = lib.mkDefault true;
     extraRules = [
       {
-        groups = ["wheel"];
+        groups = [ "wheel" ];
         keepEnv = true;
         persist = lib.mkDefault true;
       }

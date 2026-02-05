@@ -3,9 +3,11 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.features.linux.desktop.gnome;
-in {
+in
+{
   options.features.linux.desktop.gnome = {
     enable = lib.mkEnableOption "GNOME desktop";
 
@@ -20,9 +22,11 @@ in {
     services.displayManager.gdm.enable = cfg.useGdm;
     services.desktopManager.gnome.enable = true;
 
-    environment.systemPackages = with pkgs;
+    environment.systemPackages =
+      with pkgs;
       [
         ffmpegthumbnailer
+        file-roller
         foliate
         ghostty
         gnome-epub-thumbnailer

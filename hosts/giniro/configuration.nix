@@ -2,7 +2,8 @@
   config,
   pkgs,
   ...
-}: {
+}:
+{
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -18,11 +19,16 @@
   # Enable OpenGL
   hardware.graphics = {
     enable = true;
+    enable32Bit = true;
+    extraPackages = with pkgs; [
+      vpl-gpu-rt
+      intel-media-driver
+    ];
   };
 
   # Load nvidia driver for Xorg and Wayland
   nixpkgs.config.nvidia.acceptLicense = true;
-  services.xserver.videoDrivers = ["nvidia"];
+  services.xserver.videoDrivers = [ "nvidia" ];
   hardware.nvidia = {
     open = false;
     modesetting.enable = true;
@@ -69,8 +75,6 @@
       };
       wine.enable = true;
     };
-
-    media.enable = true;
 
     remote-access = {
       ssh.enable = true;

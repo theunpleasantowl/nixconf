@@ -3,7 +3,8 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.features.linux.desktop;
 
   desktops = {
@@ -27,7 +28,8 @@
   anyNeedsXServer = builtins.any (d: d.enable && (d.needsXServer or false)) (
     builtins.attrValues desktops
   );
-in {
+in
+{
   imports = [
     ./cosmic.nix
     ./gnome.nix
@@ -65,7 +67,7 @@ in {
     (lib.mkIf anyNeedsXServer {
       services.xserver = {
         enable = true;
-        excludePackages = [pkgs.xterm];
+        excludePackages = [ pkgs.xterm ];
       };
     })
   ];

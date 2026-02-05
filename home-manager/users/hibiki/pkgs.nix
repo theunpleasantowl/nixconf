@@ -1,34 +1,34 @@
 {
-  inputs,
   lib,
   pkgs,
   system,
   ...
-}: let
+}:
+let
   isDarwin = builtins.match ".*-darwin" system != null;
   isLinux = builtins.match ".*-linux" system != null;
-in {
-  imports =
-    [
-      ../../modules/shared
-    ]
-    # Conditionally import platform-specific modules
-    ++ lib.optionals isLinux [
-      ../../modules/linux
-    ]
-    ++ lib.optionals isDarwin [
-      ../../modules/darwin
-    ];
+in
+{
+  imports = [
+    ../../modules/shared
+  ]
+  # Conditionally import platform-specific modules
+  ++ lib.optionals isLinux [
+    ../../modules/linux
+  ]
+  ++ lib.optionals isDarwin [
+    ../../modules/darwin
+  ];
 
   nixpkgs.config = {
     allowUnfree = true;
   };
 
-  home.packages = with pkgs;
+  home.packages =
+    with pkgs;
     [
       aria2 # download client
       browsh # terminal web client
-      btop # replacement of htop/nmon
       eza # modern ls
       fastfetch
       fd # find tool
@@ -43,7 +43,6 @@ in {
       yt-dlp
       weechat
       nethack
-      inputs.nixvim.packages.${pkgs.system}.default
     ]
     ++ lib.optionals (pkgs.stdenv.isLinux) [
       ethtool
@@ -60,6 +59,16 @@ in {
     ++ lib.optionals (pkgs.stdenv.isDarwin) [
       # TBD
     ];
+
+  features = {
+    media.enable = true;
+    gaming = {
+      enable = true;
+      retroarch = true;
+      emulators = true;
+      extraGames = false;
+    };
+  };
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
