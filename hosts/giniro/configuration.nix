@@ -76,8 +76,6 @@
       wine.enable = true;
     };
 
-    media.enable = true;
-
     remote-access = {
       ssh.enable = true;
     };

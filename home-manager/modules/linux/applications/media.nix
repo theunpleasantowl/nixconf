@@ -4,12 +4,13 @@
   pkgs,
   ...
 }:
+
 let
   cfg = config.features.media;
 in
 {
   options.features.media = {
-    enable = lib.mkEnableOption "media production tools";
+    enable = lib.mkEnableOption "Media production tools";
 
     video = {
       enable = lib.mkOption {
@@ -23,14 +24,13 @@ in
       enable = lib.mkOption {
         type = lib.types.bool;
         default = cfg.enable;
-
         description = "Enable graphics/image editing tools";
       };
     };
   };
 
   config = lib.mkIf cfg.enable {
-    environment.systemPackages =
+    home.packages =
       with pkgs;
       lib.optionals cfg.video.enable [
         kdePackages.kdenlive

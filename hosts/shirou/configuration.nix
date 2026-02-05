@@ -75,7 +75,5 @@
         };
       };
     };
-
-    media.enable = true;
   };
 }

@@ -60,6 +60,16 @@ in
       # TBD
     ];
 
+  features = {
+    media.enable = true;
+    gaming = {
+      enable = true;
+      retroarch = true;
+      emulators = true;
+      extraGames = false;
+    };
+  };
+
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 }

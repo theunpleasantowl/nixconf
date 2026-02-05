@@ -128,7 +128,6 @@
   };
 
   home.packages = with pkgs; [
-    cider
     delfin
     ferdium
     nextcloud-client
