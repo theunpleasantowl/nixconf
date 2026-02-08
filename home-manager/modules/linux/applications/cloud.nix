@@ -13,11 +13,19 @@
         pkgs.ankiAddons.anki-connect
         pkgs.ankiAddons.review-heatmap
       ];
-      sync = lib.mkIf (config.sops.secrets ? anki-password) {
-        autoSync = true;
-        usernameFile = config.sops.secrets.anki-password.path;
-        passwordFile = config.sops.secrets.anki-password.path;
-      };
+
+      sync =
+        if config.sops.secrets ? anki then
+          {
+            autoSync = true;
+            usernameFile = config.sops.secrets.anki-username.path;
+            keyFile = config.sops.secrets.anki-password.path;
+          }
+        else
+          {
+            usernameFile = "${config.home.homeDirectory}/.secrets/anki/username";
+            keyFile = "${config.home.homeDirectory}/.secrets/anki/password";
+          };
     };
 
     keepassxc = {
@@ -45,6 +53,11 @@
           MonospaceNotes = true;
           ShowTrayIcon = true;
           TrayIconAppearance = "monochrome-light";
+        };
+
+        Security = {
+          LockDatabaseIdle = false;
+          IconDownloadFallback = true;
         };
 
         PasswordGenerator = {
