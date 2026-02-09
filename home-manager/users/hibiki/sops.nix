@@ -4,10 +4,17 @@
   ...
 }:
 {
-  sops = lib.mkIf (builtins.pathExists ./secrets.yaml) {
-    defaultSopsFile = ./secrets.yaml;
+  sops = lib.mkIf (builtins.pathExists ./secrets/secrets.yaml) {
+    defaultSopsFile = ./secrets/secrets.yaml;
     age.keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
 
-    secrets.anki-password = { };
+    secrets = {
+      "anki/username" = {
+        path = "${config.home.homeDirectory}/.config/sops-nix/anki/userFile";
+      };
+      "anki/passkey" = {
+        path = "${config.home.homeDirectory}/.config/sops-nix/anki/keyFile";
+      };
+    };
   };
 }

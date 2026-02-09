@@ -39,6 +39,7 @@ in
       lazygit
       nix-index
       stow
+      sops
       yq-go # yaml/json viewer
       yt-dlp
       weechat

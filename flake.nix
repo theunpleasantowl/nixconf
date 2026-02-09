@@ -81,6 +81,7 @@
         ./modules/shared/stylix.nix
         ./users/users-hibiki.nix
         inputs.home-manager.nixosModules.home-manager
+        inputs.sops-nix.nixosModules.sops
         inputs.stylix.nixosModules.stylix
       ];
 

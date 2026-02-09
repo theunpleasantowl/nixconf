@@ -1,7 +1,7 @@
 {
   config,
-  lib,
   pkgs,
+  lib,
   ...
 }:
 {
@@ -13,11 +13,14 @@
         pkgs.ankiAddons.anki-connect
         pkgs.ankiAddons.review-heatmap
       ];
-      sync = lib.mkIf (config.sops.secrets ? anki-password) {
-        autoSync = true;
-        usernameFile = config.sops.secrets.anki-password.path;
-        passwordFile = config.sops.secrets.anki-password.path;
-      };
+
+      sync =
+        lib.mkIf (lib.any (name: lib.hasPrefix "anki/" name) (builtins.attrNames config.sops.secrets))
+          {
+            autoSync = true;
+            usernameFile = config.sops.secrets."anki/username".path;
+            keyFile = config.sops.secrets."anki/passkey".path;
+          };
     };
 
     keepassxc = {
@@ -45,6 +48,11 @@
           MonospaceNotes = true;
           ShowTrayIcon = true;
           TrayIconAppearance = "monochrome-light";
+        };
+
+        Security = {
+          LockDatabaseIdle = false;
+          IconDownloadFallback = true;
         };
 
         PasswordGenerator = {
@@ -77,7 +85,7 @@
         minimizeToTray = true;
       };
       vencord.settings = {
-        autoUpdate = false;
+        autoUpdate = true;
         autoUpdateNotification = false;
         notifyAboutUpdates = false;
         transparent = true;

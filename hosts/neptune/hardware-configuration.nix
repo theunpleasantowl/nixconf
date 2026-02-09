@@ -129,14 +129,19 @@
     device = "//oms/gearshare";
     fsType = "cifs";
     options = [
-      "credentials=/etc/nixos/smb-secrets"
       "x-systemd.automount"
-      "noauto"
       "_netdev"
+      "nofail"
+
       "uid=1000"
       "gid=100"
       "file_mode=0644"
       "dir_mode=0755"
+
+      "vers=3.0"
+      "serverino"
+
+      "credentials=${config.sops.secrets.smb-gearshare.path}"
     ];
   };
 
