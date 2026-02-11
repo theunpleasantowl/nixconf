@@ -25,11 +25,9 @@ in
     environment.systemPackages =
       with pkgs;
       [
-        ffmpegthumbnailer
         file-roller
         foliate
         ghostty
-        gnome-epub-thumbnailer
         komikku
         mission-center
         nautilus-python
@@ -40,6 +38,12 @@ in
         clipboard-indicator
         dash-to-dock
         kimpanel
+      ])
+      ++ (with pkgs; [
+        ffmpegthumbnailer
+        gdk-pixbuf
+        gnome-epub-thumbnailer
+        icoextract
       ]);
 
     environment.gnome.excludePackages = with pkgs; [
