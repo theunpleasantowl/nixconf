@@ -17,7 +17,7 @@ in
       (bottles.override {
         removeWarningPopup = true;
       })
-      wineWowPackages.stagingFull
+      wineWow64Packages.stagingFull
       winetricks
     ];
   };

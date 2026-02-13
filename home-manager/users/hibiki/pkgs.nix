@@ -67,7 +67,7 @@ in
       enable = true;
       retroarch = true;
       emulators = true;
-      extraGames = false;
+      extraGames = true;
     };
   };
 

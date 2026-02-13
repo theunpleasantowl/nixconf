@@ -18,6 +18,10 @@ in
       "wheel"
     ];
     shell = pkgs.fish;
+
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKpPbFIeQfDngydE1VIrdDrfSoyFlOybZ/n+lmrb338g"
+    ];
   };
 
   home-manager = {
