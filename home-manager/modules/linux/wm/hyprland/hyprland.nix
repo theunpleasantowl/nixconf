@@ -1,4 +1,5 @@
 {
+  config,
   pkgs,
   lib,
   ...
@@ -165,7 +166,6 @@ in
 
       # ==== AUTOSTART ====
       exec-once = [
-        "${lib.getExe pkgs.fcitx5} -d -r"
         "${lib.getExe pkgs.keepassxc}"
 
         # I prefer to allow QuickShell to provide this functionality
@@ -177,8 +177,6 @@ in
         #"${pkgs.wl-clipboard}/bin/wl-paste --type text --watch ${pkgs.cliphist}/bin/cliphist store"
         #"${pkgs.wlsunset}/bin/wlsunset -l 42.3 -L 71.0"
       ];
-
-      monitor = ",preferred,auto,1";
 
       # ==== INPUT ====
       input = {

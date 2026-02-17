@@ -133,11 +133,6 @@
       "_netdev"
       "nofail"
 
-      "uid=1000"
-      "gid=100"
-      "file_mode=0644"
-      "dir_mode=0755"
-
       "vers=3.0"
       "serverino"
 

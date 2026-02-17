@@ -4,7 +4,7 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
   ];
-  system.stateVersion = "25.05";
+  system.stateVersion = "25.11";
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
@@ -37,9 +37,6 @@
 
   hardware.ckb-next = {
     enable = true;
-    package = pkgs.ckb-next.overrideAttrs (old: {
-      cmakeFlags = (old.cmakeFlags or [ ]) ++ [ "-DUSE_DBUS_MENU=0" ];
-    });
   };
 
   stylix = {

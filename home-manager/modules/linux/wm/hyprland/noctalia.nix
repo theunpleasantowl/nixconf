@@ -27,6 +27,9 @@
         privacy-indicator = {
           enabled = true;
         };
+        video-wallpaper = {
+          enabled = true;
+        };
       };
     };
     settings = {
@@ -49,16 +52,26 @@
             {
               id = "NightLight";
             }
+            {
+              id = "plugin:video-wallpaper";
+            }
           ];
           center = [
             {
               hideUnoccupied = false;
               id = "Workspace";
-              labelMode = "none";
+              labelMode = "index";
+              showApplications = true;
             }
           ];
           right = [
-            { id = "Tray"; }
+            {
+              id = "Tray";
+              pinned = [
+                "Vesktop"
+                "steam"
+              ];
+            }
             {
               id = "SystemMonitor";
               compactMode = true;
@@ -129,17 +142,21 @@
         position = "top_center";
         screenshotAnnotationTool = "${lib.getExe pkgs.gradia}";
       };
-      dock = {
-        pinnedApps = [
-          "Vesktop"
-          "steam"
-        ];
+      plugins = {
+        autoUpdate = true;
       };
     };
     pluginSettings = {
       privacy-indicator = {
         hideInactive = true;
       };
+      #video-wallpaper = {
+      #  activeBackend = "mpvpaper";
+      #  hardwareAcceleration = true;
+      #  profile = "default"; # "default", "fast", "high-quality", or "low-latency"
+      #  volume = 0;
+      #  #wallpapersFolder = "~/Pictures/Wallpapers";
+      #};
     };
   };
 
@@ -151,5 +168,6 @@
 
   home.packages = with pkgs; [
     cliphist
+    mpvpaper
   ];
 }
