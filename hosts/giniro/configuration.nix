@@ -27,14 +27,14 @@
   };
 
   # Load nvidia driver for Xorg and Wayland
-  nixpkgs.config.nvidia.acceptLicense = true;
-  services.xserver.videoDrivers = [ "nvidia" ];
-  hardware.nvidia = {
-    open = false;
-    modesetting.enable = true;
-    nvidiaSettings = true;
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
-  };
+  #nixpkgs.config.nvidia.acceptLicense = true;
+  #services.xserver.videoDrivers = [ "nvidia" ];
+  #hardware.nvidia = {
+  #  open = false;
+  #  modesetting.enable = true;
+  #  nvidiaSettings = true;
+  #  package = config.boot.kernelPackages.nvidiaPackages.stable;
+  #};
 
   # Bluetooth
   hardware.bluetooth.enable = true; # enables support for Bluetooth
@@ -64,6 +64,7 @@
     linux = {
       desktop = {
         gnome.enable = true;
+        hyprland.enable = true;
       };
       snapper = {
         enable = true;

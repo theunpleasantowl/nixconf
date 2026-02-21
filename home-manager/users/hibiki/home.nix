@@ -2,27 +2,23 @@
   inputs,
   system,
   lib,
-  username ? "hibiki",
-  isStandalone ? false,
+  config,
   ...
 }:
+let
+  username = config._module.args.username or "hibiki";
+  isStandalone = config._module.args.isStandalone or false;
+in
 {
   home = {
-    # Set username/homeDirectory for standalone home-manager
-    # When used as NixOS module, we must not set these.
-    username = lib.mkIf isStandalone username;
-    homeDirectory = lib.mkIf isStandalone "/home/${username}";
-
+    username = lib.mkDefault username;
+    homeDirectory = lib.mkDefault "/home/${username}";
     stateVersion = "26.05";
-
     sessionVariables = {
       EDITOR = "nvim";
     };
-
     sessionPath = [
       "$HOME/.bin"
     ];
   };
-
-  wm.gnome.enable = true;
 }

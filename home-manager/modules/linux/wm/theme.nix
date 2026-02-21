@@ -1,7 +1,6 @@
 {
   pkgs,
   lib,
-  isStandalone ? false,
   ...
 }:
 {
@@ -27,14 +26,14 @@
   };
 
   stylix = {
-    enable = true;
-    base16Scheme = lib.mkIf isStandalone "${pkgs.base16-schemes}/share/themes/katy.yaml";
-    polarity = "dark";
+    enable = lib.mkDefault true;
+    base16Scheme = lib.mkDefault "${pkgs.base16-schemes}/share/themes/katy.yaml";
+    polarity = lib.mkDefault "dark";
     opacity = {
-      applications = 1.0;
-      desktop = 0.7;
-      popups = 0.5;
-      terminal = 1.0;
+      applications = lib.mkDefault 1.0;
+      desktop = lib.mkDefault 0.7;
+      popups = lib.mkDefault 0.5;
+      terminal = lib.mkDefault 1.0;
     };
   };
 }

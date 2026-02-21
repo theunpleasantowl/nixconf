@@ -134,8 +134,8 @@
               isStandalone = true;
             };
             modules = [
-              inputs.stylix.homeManagerModules.stylix
-              inputs.sops-nix.homeManagerModules.sops
+              inputs.stylix.homeModules.stylix
+              inputs.sops-nix.homeModules.sops
               ./home-manager/users/hibiki
             ];
           };
@@ -148,9 +148,9 @@
             pkgs = import inputs.nixpkgs { inherit system; };
             extraSpecialArgs = { inherit inputs system username; };
             modules = [
-              inputs.stylix.homeManagerModules.stylix
-              inputs.sops-nix.homeManagerModules.sops
-              ./home-manager/users/icarus
+              inputs.stylix.homeModules.stylix
+              inputs.sops-nix.homeModules.sops
+              ./home-manager/users/hibiki
             ];
           };
       };
