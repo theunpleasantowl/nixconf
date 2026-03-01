@@ -15,9 +15,9 @@
     age.keyFile = "/home/hibiki/.config/sops/age/keys.txt";
 
     secrets.smb-gearshare = {
-      mode = "0440";
-      owner = "root";
-      group = "root";
+      mode = "0740";
+      owner = "hibiki";
+      group = "users";
     };
   };
 }

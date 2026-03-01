@@ -69,6 +69,11 @@
     };
 
     development.enable = true;
+    docker = {
+      enable = true;
+      storageDriver = "btrfs";
+      users = [ "hibiki" ];
+    };
 
     remote-access = {
       ssh.enable = true;

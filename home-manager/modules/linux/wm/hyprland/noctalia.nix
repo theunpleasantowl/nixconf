@@ -160,11 +160,11 @@
     };
   };
 
-  systemd.user.services.noctalia-shell = {
-    Unit = {
-      ConditionEnvironment = lib.mkForce "XDG_CURRENT_DESKTOP=Hyprland";
-    };
-  };
+  #  systemd.user.services.noctalia-shell = {
+  #    Unit = {
+  #      ConditionEnvironment = lib.mkForce "XDG_CURRENT_DESKTOP=Hyprland";
+  #    };
+  #  };
 
   home.packages = with pkgs; [
     cliphist

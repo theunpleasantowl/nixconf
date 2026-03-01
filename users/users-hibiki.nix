@@ -31,7 +31,7 @@ in
       isStandalone = false;
     };
 
-    sharedModules = [ inputs.sops-nix.homeManagerModules.sops ];
+    sharedModules = [ inputs.sops-nix.homeModules.sops ];
 
     users.${username} = {
       imports = [

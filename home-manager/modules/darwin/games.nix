@@ -1,10 +1,15 @@
-{ config, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 let
   cfg = config.features.gaming;
-  retroarchWithCores = pkgs.homebrew.packages.retroarch;
-  dolphinEmu = pkgs.homebrew.packages.dolphin;
-  rpcs3Emu = pkgs.homebrew.packages.rpcs3;
+  retroarchWithCores = pkgs.retroarch;
+  #dolphinEmu = pkgs.dolphin;
+  #rpcs3Emu = pkgs.rpcs3;
 in
 {
   options.features.gaming = {
@@ -35,11 +40,11 @@ in
         retroarchWithCores
       ])
       (lib.optionals cfg.emulators [
-        dolphinEmu
-        rpcs3Emu
+        #dolphinEmu
+        #rpcs3Emu
       ])
       (lib.optionals cfg.extraGames [
-        pkgs.homebrew.packages.srb2
+        #pkgs.srb2
       ])
     ];
   };

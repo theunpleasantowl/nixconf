@@ -23,9 +23,12 @@ in
     ];
 
     settings = {
-      "$mainMod" = "SUPER";
+      monitor = lib.mkDefault [
+        ", preferred, auto, 1"
+      ];
 
       # ==== BINDS ====
+      "$mainMod" = "SUPER";
       bind = [
         "$mainMod, M, fullscreen, 1"
         "$mainMod, F, fullscreen, 0"
@@ -142,7 +145,10 @@ in
 
         # Notification center toggle
         "$mainMod, N, exec, noctalia-shell ipc call notifications toggleHistory"
-        #"$mainMod, N, exec, ${pkgs.swaynotificationcenter}/bin/swaync-client -t -sw"
+
+        # Misc Shortcuts
+        "$mainMod, W, exec, noctalia-shell ipc call wallpaper toggle"
+        "$mainMod SHIFT, W, exec, noctalia-shell ipc call plugin:videowallpaper openPanel"
 
         # Applications
         "$mainMod, Q, exec, ${lib.getExe pkgs.wezterm}"

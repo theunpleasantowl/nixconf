@@ -15,6 +15,9 @@
       "anki/passkey" = {
         path = "${config.home.homeDirectory}/.config/sops-nix/anki/keyFile";
       };
+      "ircbouncer/address" = { };
+      "ircbouncer/username" = { };
+      "ircbouncer/password" = { };
     };
   };
 }

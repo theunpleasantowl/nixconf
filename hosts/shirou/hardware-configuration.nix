@@ -74,6 +74,17 @@
   };
 
   zramSwap.enable = true;
+  swapDevices = [
+    {
+      device = "/var/lib/swapfile";
+      size = 16 * 1024; # RAM Size in GB
+    }
+  ];
+  # https://nixos.wiki/wiki/Hibernation
+  # BTRFS: sudo btrfs inspect-internal map-swapfile -r /var/lib/swapfile
+  boot.kernelParams = [ "resume_offset=14763942" ];
+  boot.resumeDevice = "/dev/disk/by-uuid/d5e870f5-db05-4a66-a411-eff9d07e7809";
+  modules.powerManagement.enable = true;
 
   networking.useDHCP = lib.mkDefault true;
 

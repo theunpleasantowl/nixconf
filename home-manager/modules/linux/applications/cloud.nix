@@ -26,6 +26,7 @@
     keepassxc = {
       enable = true;
 
+      # See https://github.com/keepassxreboot/keepassxc/blob/develop/src/core/Config.cpp for the full list of options.
       settings = {
         General = {
           ConfigVersion = 2;
@@ -52,6 +53,7 @@
 
         Security = {
           LockDatabaseIdle = false;
+          LockDatabaseScreenLock = false;
           IconDownloadFallback = true;
         };
 
