@@ -14,7 +14,7 @@
         pkgs.ankiAddons.review-heatmap
       ];
 
-      sync =
+      profiles."User 1".sync =
         lib.mkIf (lib.any (name: lib.hasPrefix "anki/" name) (builtins.attrNames config.sops.secrets))
           {
             autoSync = true;

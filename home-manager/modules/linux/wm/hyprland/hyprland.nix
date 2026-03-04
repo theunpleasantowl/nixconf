@@ -5,22 +5,11 @@
   ...
 }:
 let
-  pluginBinds = {
-    hyprexpo = [
-      "$mainMod, TAB, hyprexpo:expo, toggle"
-      "$mainMod SHIFT, TAB, hyprexpo:expo, select"
-    ];
-  };
-
-  enabledPluginBinds = lib.flatten (lib.attrValues pluginBinds);
   hyprGaps = import ./scripts/hyprlandGaps.nix { inherit lib pkgs; };
 in
 {
   wayland.windowManager.hyprland = {
     enable = true;
-    plugins = with pkgs.hyprlandPlugins; [
-      hyprexpo
-    ];
 
     settings = {
       monitor = lib.mkDefault [
@@ -155,8 +144,7 @@ in
         "$mainMod, Return, exec, ${lib.getExe pkgs.wezterm}"
         "$mainMod, Y, exec, ${lib.getExe pkgs.wezterm} start -- ${lib.getExe pkgs.yazi}"
         "$mainMod, U, exec, ${lib.getExe pkgs.wezterm} start -- ${lib.getExe pkgs.youtube-tui}"
-      ]
-      ++ enabledPluginBinds;
+      ];
 
       # Mouse bindings
       bindm = [
