@@ -50,7 +50,7 @@ in
     utilities = lib.mkOption {
       type = lib.types.listOf lib.types.package;
       default = with pkgs; [
-        helvum
+        crosspipe
         mpv
         wl-clipboard
       ];
