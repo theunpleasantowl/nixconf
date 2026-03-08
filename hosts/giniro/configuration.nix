@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   pkgs,
   ...
 }:
@@ -16,7 +17,6 @@
   networking.hostName = "giniro";
   networking.networkmanager.enable = true;
 
-  # Enable OpenGL
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
@@ -26,15 +26,38 @@
     ];
   };
 
-  # Load nvidia driver for Xorg and Wayland
-  #nixpkgs.config.nvidia.acceptLicense = true;
-  #services.xserver.videoDrivers = [ "nvidia" ];
-  #hardware.nvidia = {
-  #  open = false;
-  #  modesetting.enable = true;
-  #  nvidiaSettings = true;
-  #  package = config.boot.kernelPackages.nvidiaPackages.stable;
-  #};
+  services.xserver.videoDrivers = [
+    "modesetting"
+    "nvidia"
+  ];
+
+  hardware.nvidia = {
+    modesetting.enable = true;
+    open = false;
+    nvidiaSettings = true;
+    powerManagement.enable = false;
+    powerManagement.finegrained = false;
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
+
+    # Sync mode is the default
+    prime = {
+      sync.enable = true;
+      intelBusId = "PCI:0:2:0";
+      nvidiaBusId = "PCI:1:0:0";
+    };
+  };
+
+  # Boot into this specialisation for battery-saving offload mode
+  specialisation = {
+    offload.configuration = {
+      system.nixos.tags = [ "offload" ];
+      hardware.nvidia.prime.sync.enable = lib.mkForce false;
+      hardware.nvidia.prime.offload = {
+        enable = lib.mkForce true;
+        enableOffloadCmd = lib.mkForce true;
+      };
+    };
+  };
 
   # Bluetooth
   hardware.bluetooth.enable = true; # enables support for Bluetooth

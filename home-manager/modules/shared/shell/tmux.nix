@@ -88,7 +88,7 @@ in
       run-shell ${pkgs.tmuxPlugins.continuum}/share/tmux-plugins/continuum/continuum.tmux
       set -g @resurrect-dir "~/.config/tmux/resurrect"
       set-option -sa terminal-overrides ",xterm*:Tc"
-      set-option -g default-shell /bin/zsh
+      set-option -g default-shell /bin/fish
 
       # Use Alt-hjkl without prefix key to switch panes
       bind -n C-M-h select-pane -L
