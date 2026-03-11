@@ -9,7 +9,7 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
   ];
-  system.stateVersion = "25.05";
+  system.stateVersion = "26.05";
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
