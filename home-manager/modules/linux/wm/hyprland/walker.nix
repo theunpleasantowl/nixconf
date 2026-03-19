@@ -6,14 +6,16 @@
 }:
 let
   # Check if Stylix is enabled
-  useStylix = config.lib.stylix.enable or false;
+  useStylix = config.stylix.enable or false;
 
   # Only define colors/font if Stylix is enabled
   stylixColors = if useStylix then config.lib.stylix.colors else null;
   stylixFont = if useStylix then config.stylix.fonts.monospace.name else null;
 
-  # Helper to generate rgba() string from Stylix color
-  rgba = color: alpha: "rgba(${color}-rgb-r, ${color}-rgb-g, ${color}-rgb-b, ${toString alpha})";
+  # Helper to generate rgba() string from a base16 color name (e.g. "base00")
+  rgba =
+    name: alpha:
+    "rgba(${stylixColors."${name}-rgb-r"}, ${stylixColors."${name}-rgb-g"}, ${stylixColors."${name}-rgb-b"}, ${toString alpha})";
 in
 {
   # Hyprland-only Walker service
@@ -50,14 +52,14 @@ in
               }
 
               #window {
-                background: ${rgba stylixColors.base00 0.95};
+                background: ${rgba "base00" 0.95};
                 border-radius: 12px;
                 border: 2px solid #${stylixColors.base0D};
                 padding: 20px;
               }
 
               #search {
-                background: ${rgba stylixColors.base01 0.7};
+                background: ${rgba "base01" 0.7};
                 border: 1px solid #${stylixColors.base03};
                 border-radius: 8px;
                 padding: 12px 16px;
@@ -67,7 +69,7 @@ in
 
               #search:focus {
                 border-color: #${stylixColors.base0D};
-                background: ${rgba stylixColors.base01 0.9};
+                background: ${rgba "base01" 0.9};
               }
 
               #typeahead { color: #${stylixColors.base03}; font-style: italic; }
@@ -79,9 +81,9 @@ in
                 background: transparent;
               }
 
-              #element:hover { background: ${rgba stylixColors.base02 0.8}; }
+              #element:hover { background: ${rgba "base02" 0.8}; }
               #element:selected {
-                background: ${rgba stylixColors.base0D 0.25};
+                background: ${rgba "base0D" 0.25};
                 border-left: 3px solid #${stylixColors.base0D};
                 padding-left: 9px;
               }
@@ -94,7 +96,7 @@ in
               #activation {
                 color: #${stylixColors.base0A};
                 font-weight: bold;
-                background: ${rgba stylixColors.base0A 0.15};
+                background: ${rgba "base0A" 0.15};
                 border-radius: 4px;
                 padding: 2px 6px;
                 font-size: 11px;
@@ -105,11 +107,11 @@ in
 
               scrollbar { background: transparent; width: 8px; }
               scrollbar slider {
-                background: ${rgba stylixColors.base0D 0.3};
+                background: ${rgba "base0D" 0.3};
                 border-radius: 8px;
                 min-height: 40px;
               }
-              scrollbar slider:hover { background: ${rgba stylixColors.base0D 0.5}; }
+              scrollbar slider:hover { background: ${rgba "base0D" 0.5}; }
 
               #item.calc       { color: #${stylixColors.base0B}; }
               #item.websearch  { color: #${stylixColors.base0C}; }

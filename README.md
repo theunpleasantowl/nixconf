@@ -18,8 +18,9 @@ This repository defines both system-level NixOS configurations and user-level Ho
 ├── hosts              # NixOS/Nix-Darwin System definitions
 │   ├── giniro
 │   ├── neptune
-│   ├── nextbook
-│   └── shirou
+│   ├── qemu
+│   ├── shirou
+│   └── wsl
 ├── LICENSE
 ├── modules            # System-level modules
 │   ├── darwin         # Darwin-specific system modules
@@ -73,6 +74,40 @@ sudo nixos-rebuild test --flake .#neptune
 # Build only
 sudo nixos-rebuild build --flake .#neptune
 ```
+
+---
+
+## 🐧 WSL
+
+Build the WSL tarball builder:
+
+```bash
+nix build .#wsl
+```
+
+Generate the tarball (requires root):
+
+```bash
+sudo ./result/bin/nixos-wsl-tarball-builder
+```
+
+Import into WSL from PowerShell:
+
+```powershell
+wsl --import NixOS .\NixOS\ .\nixos.wsl
+```
+
+---
+
+## 💻 QEMU VM
+
+Launch the QEMU VM directly:
+
+```bash
+nix run .#qemu
+```
+
+The VM runs with 4 GB RAM, 4 cores, virtio graphics, and GNOME. SSH is forwarded on host port 2222.
 
 ---
 
@@ -202,7 +237,7 @@ nix flake update
 ### Update a single input
 
 ```bash
-nix flake lock --update-input nixpkgs
+nix flake update nixpkgs
 ```
 
 ---

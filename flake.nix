@@ -25,6 +25,13 @@
     nixvim = {
       url = "github:theunpleasantowl/nixvim";
     };
+    niri = {
+      url = "github:sodiboo/niri-flake";
+    };
+    nixos-wsl = {
+      url = "github:nix-community/NixOS-WSL";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs =
     {
@@ -34,11 +41,7 @@
       ...
     }@inputs:
     let
-      lib = nixpkgs.lib.extend (
-        final: prev: {
-          nixconf = import ./lib { lib = final; };
-        }
-      );
+      lib = nixpkgs.lib;
 
       systemLinux = "x86_64-linux";
       systemDarwin = "aarch64-darwin";
@@ -51,16 +54,6 @@
           specialArgs = {
             inherit inputs;
             system = systemLinux;
-            nix.settings = {
-              extra-substituters = [
-                "https://walker.cachix.org"
-                "https://walker-git.cachix.org"
-              ];
-              extra-trusted-public-keys = [
-                "walker.cachix.org-1:fG8q+uAaMqhsMxWjwvk0IMb4mFPFLqHjuvfwQxE4oJM="
-                "walker-git.cachix.org-1:vmC0ocfPWh0S/vRAQGtChuiZBTAe4wiKDeyyXM0/7pM="
-              ];
-            };
           };
         };
 
@@ -83,6 +76,7 @@
         inputs.home-manager.nixosModules.home-manager
         inputs.sops-nix.nixosModules.sops
         inputs.stylix.nixosModules.stylix
+        inputs.niri.nixosModules.niri
       ];
 
       linuxModules = [
@@ -117,6 +111,31 @@
             ./hosts/shirou
           ]
         );
+        wsl = makeLinux "wsl" (
+          sharedModules
+          ++ linuxModules
+          ++ [
+            ./hosts/wsl
+          ]
+        );
+        qemu = makeLinux "qemu" (
+          sharedModules
+          ++ linuxModules
+          ++ [
+            ./hosts/qemu
+          ]
+        );
+      };
+
+      packages.${systemLinux} = {
+        wsl = self.nixosConfigurations.wsl.config.system.build.tarballBuilder;
+      };
+
+      apps.${systemLinux} = {
+        qemu = {
+          type = "app";
+          program = "${self.nixosConfigurations.qemu.config.system.build.vm}/bin/run-qemu-vm";
+        };
       };
       # ---------------------------------------------------------
       # HOME-MANAGER
@@ -136,6 +155,7 @@
             modules = [
               inputs.stylix.homeModules.stylix
               inputs.sops-nix.homeModules.sops
+              inputs.niri.homeModules.niri
               ./home-manager/users/hibiki
             ];
           };
@@ -146,7 +166,10 @@
           in
           inputs.home-manager.lib.homeManagerConfiguration {
             pkgs = import inputs.nixpkgs { inherit system; };
-            extraSpecialArgs = { inherit inputs system username; };
+            extraSpecialArgs = {
+              inherit inputs system username;
+              isStandalone = true;
+            };
             modules = [
               inputs.stylix.homeModules.stylix
               inputs.sops-nix.homeModules.sops

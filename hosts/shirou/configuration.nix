@@ -29,18 +29,6 @@
   services.fwupd.enable = true;
   services.printing.enable = true;
 
-  # Users
-  programs.zsh.enable = true;
-  users.defaultUserShell = pkgs.zsh;
-  users.users.hibiki = {
-    isNormalUser = true;
-    description = "hibiki";
-    extraGroups = [
-      "networkmanager"
-      "wheel"
-    ];
-  };
-
   # Packages
   programs.neovim = {
     enable = true;

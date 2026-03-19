@@ -17,6 +17,9 @@
         "hyprland"
         "gnome"
       ];
+      niri.default = [
+        "gnome"
+      ];
     };
   };
 

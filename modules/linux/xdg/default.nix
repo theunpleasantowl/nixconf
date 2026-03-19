@@ -14,6 +14,9 @@ let
     hyprland = {
       enable = cfg.hyprland.enable or false;
     };
+    niri = {
+      enable = cfg.niri.enable or false;
+    };
     cosmic = {
       enable = cfg.cosmic.enable or false;
     };
@@ -34,6 +37,7 @@ in
     ./cosmic.nix
     ./gnome.nix
     ./hyprland.nix
+    ./niri.nix
     ./portals.nix
     ./programs.nix
     ./windowmaker.nix
