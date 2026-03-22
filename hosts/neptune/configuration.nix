@@ -74,6 +74,13 @@
       storageDriver = "btrfs";
       users = [ "hibiki" ];
     };
+    ollama = {
+      enable = true;
+      acceleration = "vulkan";
+      models = [
+        "deepseek-r1:1.5b"
+      ];
+    };
 
     remote-access = {
       ssh.enable = true;

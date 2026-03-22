@@ -62,6 +62,7 @@ in
     ];
 
   features = {
+    ide.enable = true;
     media.enable = true;
     gaming = {
       enable = true;
