@@ -30,7 +30,7 @@ in
         "$mainMod, E, exec, ${lib.getExe pkgs.nautilus}"
         "$mainMod SHIFT, F, togglefloating,"
         "$mainMod, P, pseudo,"
-        "$mainMod, T, togglesplit,"
+        "$mainMod, T, layoutmsg, togglesplit"
 
         # Move focus (arrows + vim)
         "$mainMod, left, movefocus, l"

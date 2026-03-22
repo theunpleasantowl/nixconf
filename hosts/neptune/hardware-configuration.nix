@@ -10,7 +10,8 @@
   ];
 
   # Bootloader
-  boot.loader.systemd-boot.enable = true;
+  boot.loader.limine.enable = true;
+  boot.loader.limine.secureBoot.enable = true;
   boot.loader.systemd-boot.configurationLimit = 5;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.initrd.systemd.enable = true;
@@ -151,7 +152,7 @@
   # BTRFS: sudo btrfs inspect-internal map-swapfile -r /var/lib/swapfile
   boot.kernelParams = [ "resume_offset=70795448" ];
   boot.resumeDevice = "/dev/disk/by-uuid/94fb701d-fe47-424c-b3c6-b3d4555db96a";
-  modules.powerManagement.enable = true;
+  features.linux.powerManagement.enable = true;
 
   networking.useDHCP = lib.mkDefault true;
 

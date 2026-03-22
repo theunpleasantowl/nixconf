@@ -1,14 +1,14 @@
 # Once Hibernation has been enabled on a host,
 # enable this module's rules with the following:
-# `modules.powerManagement.enable = true;`
+# `features.linux.powerManagement.enable = true;`
 
 { config, lib, ... }:
 {
-  options.modules.powerManagement = {
+  options.features.linux.powerManagement = {
     enable = lib.mkEnableOption "power management settings";
   };
 
-  config = lib.mkIf config.modules.powerManagement.enable {
+  config = lib.mkIf config.features.linux.powerManagement.enable {
     powerManagement.enable = true;
     services.power-profiles-daemon.enable = true;
 
@@ -20,9 +20,9 @@
 
     boot.kernelParams = [ "mem_sleep_default=deep" ];
 
-    systemd.sleep.extraConfig = ''
-      HibernateDelaySec=30m
-      SuspendState=mem
-    '';
+    systemd.sleep.settings.Sleep = {
+      HibernateDelaySec = "30m";
+      HibernateMode = "platform";
+    };
   };
 }

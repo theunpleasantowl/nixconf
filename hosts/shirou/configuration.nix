@@ -4,7 +4,7 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
   ];
-  system.stateVersion = "25.05";
+  system.stateVersion = "26.05";
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
@@ -28,18 +28,6 @@
   services.blueman.enable = true;
   services.fwupd.enable = true;
   services.printing.enable = true;
-
-  # Users
-  programs.zsh.enable = true;
-  users.defaultUserShell = pkgs.zsh;
-  users.users.hibiki = {
-    isNormalUser = true;
-    description = "hibiki";
-    extraGroups = [
-      "networkmanager"
-      "wheel"
-    ];
-  };
 
   # Packages
   programs.neovim = {

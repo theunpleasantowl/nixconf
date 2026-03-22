@@ -11,12 +11,6 @@ in
   options.features.remote-access = {
     ssh = {
       enable = lib.mkEnableOption "SSH server";
-
-      allowRoot = lib.mkOption {
-        type = lib.types.bool;
-        default = false;
-        description = "Allow root login via SSH";
-      };
     };
 
     rdp = {
@@ -33,7 +27,9 @@ in
       services.openssh = {
         enable = true;
         settings = {
-          PermitRootLogin = if cfg.ssh.allowRoot then "yes" else "no";
+          PermitRootLogin = "no";
+          PasswordAuthentication = false;
+          KbdInteractiveAuthentication = false;
         };
       };
     })

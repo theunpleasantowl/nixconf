@@ -84,7 +84,7 @@
   # BTRFS: sudo btrfs inspect-internal map-swapfile -r /var/lib/swapfile
   boot.kernelParams = [ "resume_offset=36738986" ];
   boot.resumeDevice = "/dev/disk/by-uuid/6e920285-06c7-495f-8f95-6545a6d429d8";
-  modules.powerManagement.enable = true;
+  features.linux.powerManagement.enable = true;
 
   networking.useDHCP = lib.mkDefault true;
 

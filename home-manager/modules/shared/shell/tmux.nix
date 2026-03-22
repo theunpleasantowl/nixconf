@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 let
   bg = "default";
   fg = "default";
@@ -62,13 +62,6 @@ let
   };
 in
 {
-  home.shellAliases = {
-    ta = "tmux attach";
-    tls = "tmux ls";
-    ts = "tmux new-session -s";
-    tks = "tmux kill-session -t";
-  };
-
   programs.tmux = {
     enable = true;
     plugins = with pkgs.tmuxPlugins; [
@@ -88,7 +81,7 @@ in
       run-shell ${pkgs.tmuxPlugins.continuum}/share/tmux-plugins/continuum/continuum.tmux
       set -g @resurrect-dir "~/.config/tmux/resurrect"
       set-option -sa terminal-overrides ",xterm*:Tc"
-      set-option -g default-shell /bin/zsh
+      set-option -g default-shell ${pkgs.fish}/bin/fish
 
       # Use Alt-hjkl without prefix key to switch panes
       bind -n C-M-h select-pane -L
@@ -133,9 +126,14 @@ in
 
       bind f set-option -g status
       unbind -T copy-mode MouseDragEnd1Pane
-      bind-key -T copy-mode-vi MouseDragEnd1Pane send-keys -X copy-pipe-and-cancel "wl-copy"
+    '' + lib.optionalString pkgs.stdenv.isLinux ''
+      bind-key -T copy-mode-vi MouseDragEnd1Pane send-keys -X copy-pipe-and-cancel "${pkgs.wl-clipboard}/bin/wl-copy"
+      bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "${pkgs.wl-clipboard}/bin/wl-copy"
+    '' + lib.optionalString pkgs.stdenv.isDarwin ''
+      bind-key -T copy-mode-vi MouseDragEnd1Pane send-keys -X copy-pipe-and-cancel "pbcopy"
+      bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "pbcopy"
+    '' + ''
       bind-key -T copy-mode-vi v send-keys -X begin-selection
-      bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "wl-copy"
       bind-key -T copy-mode-vi r send-keys -X rectangle-toggle
       bind P paste-buffer
 
