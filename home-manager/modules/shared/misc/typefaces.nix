@@ -21,8 +21,9 @@
     courier-prime
 
     # Display
-    raleway
+    komika-fonts
     league-gothic
+    raleway
 
     # NerdFonts
     ## Serif
@@ -35,6 +36,7 @@
     nerd-fonts.terminess-ttf
     nerd-fonts.bigblue-terminal
     ## Display
+    nerd-fonts.comic-shanns-mono
     nerd-fonts.heavy-data
   ];
   fonts.fontconfig.enable = true;
