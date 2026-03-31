@@ -22,13 +22,6 @@
     ];
   };
 
-  # Bluetooth
-  hardware.bluetooth.enable = true; # enables support for Bluetooth
-  hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
-  services.blueman.enable = true;
-  services.fwupd.enable = true;
-  services.printing.enable = true;
-
   # Packages
   programs.neovim = {
     enable = true;
@@ -48,6 +41,10 @@
     };
 
     linux = {
+      printing.enable = true;
+      bluetooth.enable = true;
+      fwupd.enable = true;
+
       desktop = {
         gnome.enable = true;
         hyprland.enable = true;
