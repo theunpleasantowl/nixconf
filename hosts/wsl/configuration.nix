@@ -1,7 +1,13 @@
-{ lib, pkgs, inputs, ... }:
+{
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 {
   imports = [
     inputs.nixos-wsl.nixosModules.default
+    ../../stylix-themes/shadesmear-dark.nix
   ];
 
   system.stateVersion = "26.05";
@@ -34,9 +40,4 @@
     defaultEditor = true;
   };
 
-  stylix = {
-    enable = true;
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/shadesmear-dark.yaml";
-    polarity = "dark";
-  };
 }

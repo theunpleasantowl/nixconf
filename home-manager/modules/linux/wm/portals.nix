@@ -17,9 +17,6 @@
         "hyprland"
         "gnome"
       ];
-      niri.default = [
-        "gnome"
-      ];
     };
   };
 
@@ -59,4 +56,7 @@
       };
     };
   };
+
+  xdg.dataFile."icons/hicolor/scalable/apps/keyboard-us.svg".source =
+    "${pkgs.morewaita-icon-theme}/share/icons/MoreWaita/symbolic/apps/keyboard-symbolic.svg";
 }

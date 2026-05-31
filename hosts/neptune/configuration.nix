@@ -1,8 +1,13 @@
-{ pkgs, ... }:
+{
+  config,
+  pkgs,
+  ...
+}:
 {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    ../../stylix-themes/katy.nix
   ];
   system.stateVersion = "26.05";
 
@@ -11,6 +16,11 @@
   # Networking
   networking.hostName = "neptune";
   networking.networkmanager.enable = true;
+
+  nix.settings.trusted-users = [
+    "root"
+    "@wheel"
+  ];
 
   # Enable OpenGL
   hardware.graphics = {
@@ -22,14 +32,11 @@
     ];
   };
 
-  # Bluetooth
-  hardware.bluetooth.enable = true; # enables support for Bluetooth
-  hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
-  services.blueman.enable = true;
-  services.fwupd.enable = true;
-  services.printing.enable = true;
-
   # Packages
+  environment.systemPackages = with pkgs; [
+    cifs-utils
+  ];
+
   programs.neovim = {
     enable = true;
     defaultEditor = true;
@@ -39,10 +46,24 @@
     enable = true;
   };
 
-  stylix = {
-    enable = true;
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/katy.yaml";
-    polarity = "dark";
+  fileSystems."/media/hibiki/gearshare" = {
+    device = "//oms/gearshare";
+    fsType = "cifs";
+    options = [
+      "x-systemd.device-timeout=5s"
+      "x-systemd.mount-timeout=5s"
+      "_netdev"
+      "nofail"
+      "x-gvfs-show"
+      "x-gvfs-name=gearshare"
+
+      "vers=3.0"
+      "serverino"
+      "uid=1000"
+      "gid=${toString config.users.groups.users.gid}"
+
+      "credentials=${config.sops.secrets.smb-gearshare.path}"
+    ];
   };
 
   features = {
@@ -52,11 +73,17 @@
     };
 
     linux = {
+      printing.enable = true;
+      bluetooth.enable = true;
+      fwupd.enable = true;
+      wifi.enable = true;
+
       desktop = {
         gnome.enable = true;
         hyprland.enable = true;
         windowmaker.enable = true;
       };
+
       snapper = {
         enable = true;
         configs = {
@@ -65,6 +92,7 @@
           };
         };
       };
+
       wine.enable = true;
     };
 
@@ -73,6 +101,14 @@
       enable = true;
       storageDriver = "btrfs";
       users = [ "hibiki" ];
+    };
+
+    ollama = {
+      enable = true;
+      acceleration = "vulkan";
+      models = [
+        "qwen2.5-coder:14b-instruct-q4_K_M"
+      ];
     };
 
     remote-access = {

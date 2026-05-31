@@ -23,12 +23,11 @@ This repository defines both system-level NixOS configurations and user-level Ho
 │   └── wsl
 ├── LICENSE
 ├── modules            # System-level modules
-│   ├── darwin         # Darwin-specific system modules
 │   ├── linux          # NixOS-specific system modules
 │   └── shared         # Platform Agnostic modules
 ├── README.md
 └── users              # System-level User Definitions
-````
+```
 
 ---
 
@@ -38,7 +37,7 @@ This repository defines both system-level NixOS configurations and user-level Ho
 
 You must have:
 
-- **Nix** installed  
+- **Nix** installed
 - **Flakes enabled**  
   → https://nixos.wiki/wiki/Flakes
 
@@ -47,7 +46,7 @@ You must have:
 ```bash
 git clone git@github.com:theunpleasantowl/nixconf.git
 cd nixconf
-````
+```
 
 ---
 
@@ -128,7 +127,6 @@ The Home Manager configurations in this repository are structured to be dual-use
 System-level user definitions are defined in `./users`.
 Stand-alone home-manager definitions are defined in `./flake.nix`.
 
-
 ### Add a new home-manager configuration
 
 1. Create a directory for the user:
@@ -147,7 +145,7 @@ mkdir -p home-manager/users/alice
     ../../modules/linux
   ];
 
-  home.stateVersion = "25.11";
+  home.stateVersion = "26.05";
 }
 ```
 

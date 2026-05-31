@@ -44,7 +44,13 @@ in
     emulators = lib.mkOption {
       type = lib.types.bool;
       default = cfg.enable;
-      description = "Enable standalone emulators (Dolphin, RPCS3, etc.)";
+      description = "Enable standalone emulators";
+    };
+
+    rpcs3 = lib.mkOption {
+      type = lib.types.bool;
+      default = cfg.emulators;
+      description = "Enable RPCS3";
     };
 
     extraGames = lib.mkOption {
@@ -63,6 +69,8 @@ in
         ])
         (lib.optionals cfg.emulators [
           dolphin-emu
+        ])
+        (lib.optionals cfg.rpcs3 [
           rpcs3
         ])
         (lib.optionals cfg.extraGames [

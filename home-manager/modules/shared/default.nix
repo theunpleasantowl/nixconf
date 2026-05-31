@@ -1,10 +1,3 @@
-# home-manager/modules/shared/default.nix
-{ ... }:
 {
-  imports = [
-    ./applications
-    ./misc
-    ./shell
-    ./utils
-  ];
+  imports = (import ../../../lib { }).importModuleSiblings ./.;
 }

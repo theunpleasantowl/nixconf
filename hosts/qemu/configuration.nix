@@ -1,7 +1,13 @@
-{ lib, pkgs, modulesPath, ... }:
+{
+  lib,
+  pkgs,
+  modulesPath,
+  ...
+}:
 {
   imports = [
     "${modulesPath}/virtualisation/qemu-vm.nix"
+    ../../stylix-themes/shadesmear-dark.nix
   ];
 
   system.stateVersion = "26.05";
@@ -18,7 +24,11 @@
       "-device virtio-rng-pci"
     ];
     forwardPorts = [
-      { from = "host"; host.port = 2222; guest.port = 22; }
+      {
+        from = "host";
+        host.port = 2222;
+        guest.port = 22;
+      }
     ];
   };
 
@@ -39,9 +49,4 @@
     defaultEditor = true;
   };
 
-  stylix = {
-    enable = true;
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/shadesmear-dark.yaml";
-    polarity = "dark";
-  };
 }

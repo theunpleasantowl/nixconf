@@ -1,7 +1,9 @@
 keys:
   - &hibiki age15fyrav30rj3ryje3npwjqvtck2zcsq06unp50mfh0fmlpsgncdwqz0fp92
+  - &neptune age1vw2d8up50v8etfrt0l9wmkezh8m3kpg8tqdvfmt285v0zh2mzgeshyyv0c
 creation_rules:
   - path_regex: secrets/secrets.ya?ml$
     key_groups:
       - age:
           - *hibiki
+          - *neptune

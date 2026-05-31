@@ -1,11 +1,10 @@
 {
   lib,
   pkgs,
-  config,
+  username ? "hibiki",
   ...
 }:
 let
-  username = config._module.args.username or "hibiki";
   homePrefix = if pkgs.stdenv.isDarwin then "/Users" else "/home";
 in
 {

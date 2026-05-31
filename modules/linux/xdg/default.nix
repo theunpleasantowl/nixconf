@@ -14,9 +14,6 @@ let
     hyprland = {
       enable = cfg.hyprland.enable or false;
     };
-    niri = {
-      enable = cfg.niri.enable or false;
-    };
     cosmic = {
       enable = cfg.cosmic.enable or false;
     };
@@ -33,15 +30,7 @@ let
   );
 in
 {
-  imports = [
-    ./cosmic.nix
-    ./gnome.nix
-    ./hyprland.nix
-    ./niri.nix
-    ./portals.nix
-    ./programs.nix
-    ./windowmaker.nix
-  ];
+  imports = (import ../../../lib { }).importModuleSiblings ./.;
 
   options.features.linux.desktop = {
     anyEnabled = lib.mkOption {

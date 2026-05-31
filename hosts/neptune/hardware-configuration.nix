@@ -126,21 +126,6 @@
     ];
   };
 
-  fileSystems."/run/media/hibiki/gearshare" = {
-    device = "//oms/gearshare";
-    fsType = "cifs";
-    options = [
-      "x-systemd.automount"
-      "_netdev"
-      "nofail"
-
-      "vers=3.0"
-      "serverino"
-
-      "credentials=${config.sops.secrets.smb-gearshare.path}"
-    ];
-  };
-
   zramSwap.enable = true;
   swapDevices = [
     {

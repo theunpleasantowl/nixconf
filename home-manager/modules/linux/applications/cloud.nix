@@ -48,7 +48,8 @@
           MinimizeToTray = true;
           MonospaceNotes = true;
           ShowTrayIcon = true;
-          TrayIconAppearance = "monochrome-light";
+          TrayIconAppearance =
+            if (config.stylix.polarity or "dark") == "light" then "monochrome-dark" else "monochrome-light";
         };
 
         Security = {
@@ -93,45 +94,22 @@
         transparent = true;
         useQuickCss = true;
         plugins = {
-          ClearURLs = {
-            enabled = true;
-          };
-          Experiments = {
-            enabled = true;
-          };
-          ExpressionCloner = {
-            enabled = true;
-          };
-          FixYoutubeEmbeds = {
-            enabled = true;
-          };
-          MessageLogger = {
-            enabled = true;
-          };
-          PictureInPicture = {
-            enabled = true;
-          };
-          SeeSummaries = {
-            enabled = true;
-          };
-          TypingIndicator = {
-            enabled = true;
-          };
-          TypingTweaks = {
-            enabled = true;
-          };
-          ViewIcons = {
-            enabled = true;
-          };
-          VoiceDownload = {
-            enabled = true;
-          };
-          VoiceMessages = {
-            enabled = true;
-          };
-          YoutubeAdblock = {
-            enabled = true;
-          };
+          ClearURLs.enabled = true;
+          Experiments.enabled = true;
+          ExpressionCloner.enabled = true;
+          FavoriteGifSearch.enabled = true;
+          FixYoutubeEmbeds.enabled = true;
+          ImageFilename.enabled = true;
+          MessageLogger.enabled = true;
+          petpet.enabled = true;
+          PictureInPicture.enabled = true;
+          SeeSummaries.enabled = true;
+          TypingIndicator.enabled = true;
+          TypingTweaks.enabled = true;
+          ViewIcons.enabled = true;
+          VoiceDownload.enabled = true;
+          VoiceMessages.enabled = true;
+          YoutubeAdblock.enabled = true;
         };
       };
     };
@@ -140,7 +118,8 @@
   home.packages = with pkgs; [
     delfin
     ferdium
-    nextcloud-client
     thunderbird
   ];
+
+  services.nextcloud-client.enable = true;
 }

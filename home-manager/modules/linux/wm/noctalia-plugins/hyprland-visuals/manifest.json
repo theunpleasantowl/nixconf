@@ -1,0 +1,24 @@
+{
+  "id": "hyprland-visuals",
+  "name": "Hyprland Visuals",
+  "version": "0.1.0",
+  "minNoctaliaVersion": "3.6.0",
+  "author": "TheUnpleasantOwl",
+  "license": "MIT",
+  "description": "Runtime controls for Hyprland visual effect parameters.",
+  "tags": [
+    "Panel",
+    "System",
+    "Hyprland"
+  ],
+  "entryPoints": {
+    "main": "HyprlandVisualsResetController.qml",
+    "panel": "HyprlandVisualsResetPanel.qml"
+  },
+  "dependencies": {
+    "plugins": []
+  },
+  "metadata": {
+    "defaultSettings": {}
+  }
+}

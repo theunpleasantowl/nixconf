@@ -1,0 +1,91 @@
+diff --git a/src/models.rs b/src/models.rs
+index 4fbd2dd..557d65a 100644
+--- a/src/models.rs
++++ b/src/models.rs
+@@ -11,6 +11,8 @@ use std::path::Path;
+ pub enum RecognitionModel {
+     /// 中文 (PP-OCRv5, 简体中文、繁体中文、英文)
+     Chinese,
++    /// Japanese (PP-OCRv5 multilingual recognizer)
++    Japanese,
+     /// 韩语 (Korean, English)
+     Korean,
+     /// 拉丁语系 (French, German, Italian, Spanish, Portuguese, etc.)
+@@ -39,6 +41,7 @@ impl RecognitionModel {
+     pub fn name(&self) -> &'static str {
+         match self {
+             RecognitionModel::Chinese => "chinese",
++            RecognitionModel::Japanese => "japanese",
+             RecognitionModel::Korean => "korean",
+             RecognitionModel::Latin => "latin",
+             RecognitionModel::EastSlavic => "eslav",
+@@ -58,6 +61,7 @@ impl RecognitionModel {
+     pub fn model_filename(&self) -> &'static str {
+         match self {
+             RecognitionModel::Chinese => "PP-OCRv5_mobile_rec.mnn",
++            RecognitionModel::Japanese => "PP-OCRv5_mobile_rec.mnn",
+             RecognitionModel::Korean => "korean_PP-OCRv5_mobile_rec_infer.mnn",
+             RecognitionModel::Latin => "latin_PP-OCRv5_mobile_rec_infer.mnn",
+             RecognitionModel::EastSlavic => "eslav_PP-OCRv5_mobile_rec_infer.mnn",
+@@ -76,6 +80,7 @@ impl RecognitionModel {
+     pub fn charset_filename(&self) -> &'static str {
+         match self {
+             RecognitionModel::Chinese => "ppocr_keys_v5.txt",
++            RecognitionModel::Japanese => "ppocr_keys_v5.txt",
+             RecognitionModel::Korean => "ppocr_keys_korean.txt",
+             RecognitionModel::Latin => "ppocr_keys_latin.txt",
+             RecognitionModel::EastSlavic => "ppocr_keys_eslav.txt",
+@@ -96,6 +101,7 @@ impl RecognitionModel {
+             RecognitionModel::Chinese => {
+                 &["Chinese (Simplified)", "Chinese (Traditional)", "English"]
+             }
++            RecognitionModel::Japanese => &["Japanese", "English"],
+             RecognitionModel::Korean => &["Korean", "English"],
+             RecognitionModel::Latin => &[
+                 "French",
+@@ -202,6 +208,7 @@ impl RecognitionModel {
+     pub fn from_str(s: &str) -> Option<Self> {
+         match s.to_lowercase().as_str() {
+             "chinese" | "ch" | "cn" | "zh" => Some(RecognitionModel::Chinese),
++            "japanese" | "japan" | "ja" | "jp" => Some(RecognitionModel::Japanese),
+             "korean" | "ko" | "kr" => Some(RecognitionModel::Korean),
+             "latin" | "la" => Some(RecognitionModel::Latin),
+             "eslav" | "eastslav" | "east-slavic" => Some(RecognitionModel::EastSlavic),
+@@ -222,6 +229,7 @@ impl RecognitionModel {
+     pub fn all() -> &'static [RecognitionModel] {
+         &[
+             RecognitionModel::Chinese,
++            RecognitionModel::Japanese,
+             RecognitionModel::Korean,
+             RecognitionModel::Latin,
+             RecognitionModel::EastSlavic,
+@@ -330,6 +338,9 @@ impl EmbeddedModels {
+             #[cfg(feature = "embed-rec-chinese")]
+             RecognitionModel::Chinese => Some(include_bytes!("../models/PP-OCRv5_mobile_rec.mnn")),
+ 
++            #[cfg(feature = "embed-rec-chinese")]
++            RecognitionModel::Japanese => Some(include_bytes!("../models/PP-OCRv5_mobile_rec.mnn")),
++
+             #[cfg(feature = "embed-rec-korean")]
+             RecognitionModel::Korean => Some(include_bytes!(
+                 "../models/korean_PP-OCRv5_mobile_rec_infer.mnn"
+@@ -397,6 +408,9 @@ impl EmbeddedModels {
+             #[cfg(feature = "embed-rec-chinese")]
+             RecognitionModel::Chinese => Some(include_bytes!("../models/ppocr_keys_v5.txt")),
+ 
++            #[cfg(feature = "embed-rec-chinese")]
++            RecognitionModel::Japanese => Some(include_bytes!("../models/ppocr_keys_v5.txt")),
++
+             #[cfg(feature = "embed-rec-korean")]
+             RecognitionModel::Korean => Some(include_bytes!("../models/ppocr_keys_korean.txt")),
+ 
+@@ -470,6 +484,9 @@ impl EmbeddedModels {
+         #[cfg(feature = "embed-rec-chinese")]
+         models.push(RecognitionModel::Chinese);
+ 
++        #[cfg(feature = "embed-rec-chinese")]
++        models.push(RecognitionModel::Japanese);
++
+         #[cfg(feature = "embed-rec-korean")]
+         models.push(RecognitionModel::Korean);
+ 

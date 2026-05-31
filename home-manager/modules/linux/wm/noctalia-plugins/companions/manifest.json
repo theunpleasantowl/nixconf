@@ -1,0 +1,21 @@
+{
+  "id": "companions",
+  "name": "Companions",
+  "version": "0.1.0",
+  "author": "samyns, adapted for Noctalia",
+  "description": "Small animated desktop companion carousel adapted from Unit-3.",
+  "entryPoints": {
+    "main": "Main.qml",
+    "settings": "Settings.qml"
+  },
+  "metadata": {
+    "source": "https://github.com/samyns/Unit-3",
+    "defaultSettings": {
+      "scaleFactor": 1.0,
+      "language": "en",
+      "corner": "bottomLeft",
+      "showOnAllDisplays": false,
+      "useSystemFont": false
+    }
+  }
+}

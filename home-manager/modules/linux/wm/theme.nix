@@ -3,6 +3,13 @@
   lib,
   ...
 }:
+let
+  cursorTheme = {
+    name = "Nordzy-cursors";
+    package = pkgs.nordzy-cursor-theme;
+    size = 24;
+  };
+in
 {
   gtk = {
     enable = true;
@@ -16,14 +23,21 @@
       package = pkgs.morewaita-icon-theme;
     };
 
-    cursorTheme = {
-      name = "Nordzy-cursors";
-      package = pkgs.nordzy-cursor-theme;
-    };
+    inherit cursorTheme;
 
     gtk3.extraConfig.gtk-application-prefer-dark-theme = lib.mkDefault 1;
     gtk4.extraConfig.gtk-application-prefer-dark-theme = lib.mkDefault 1;
   };
+
+  home.pointerCursor = {
+    inherit (cursorTheme) name package size;
+    enable = true;
+    gtk.enable = true;
+    x11.enable = true;
+  };
+
+  xdg.dataFile."icons/${cursorTheme.name}".source =
+    "${cursorTheme.package}/share/icons/${cursorTheme.name}";
 
   stylix = {
     enable = lib.mkDefault true;

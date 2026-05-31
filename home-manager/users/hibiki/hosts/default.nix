@@ -1,5 +1,7 @@
 {
-  imports =
-    with builtins;
-    map (fn: ./${fn}) (filter (fn: fn != "default.nix") (attrNames (readDir ./.)));
+  isStandalone ? true,
+  ...
+}:
+{
+  imports = if isStandalone then [ ] else (import ../../../../lib { }).importModuleSiblings ./.;
 }

@@ -47,8 +47,7 @@ in
 
   stylix.targets.firefox = {
     colorTheme.enable = true;
-    # disabling until https://github.com/rafaelmardojai/firefox-gnome-theme/issues/1061 is fixed
-    #firefoxGnomeTheme.enable = true;
+    firefoxGnomeTheme.enable = true;
     profileNames = [ profile ];
   };
 }

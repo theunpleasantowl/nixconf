@@ -27,42 +27,42 @@ in
   home.packages =
     with pkgs;
     [
-      aria2 # download client
-      browsh # terminal web client
-      eza # modern ls
+      aria2
+      browsh
+      eza
       fastfetch
-      fd # find tool
+      fd
       ffmpeg
       git-extras
-      glow # md viewer
-      jq # json utility
+      glow
+      jq
       lazygit
       nix-index
       stow
       sops
-      yq-go # yaml/json viewer
+      yq-go
       yt-dlp
       weechat
       nethack
     ]
     ++ lib.optionals (pkgs.stdenv.isLinux) [
       ethtool
-      strace # syscall monitoring
-      iftop # network monitoring
-      iotop # io monitoring
-      lm_sensors # for `sensors` command
-      lsof # list open files
-      ltrace # library call monitoring
-      sysstat # perf monitoring
-      usbutils # lsusb
-      pciutils # lspci
-    ]
-    ++ lib.optionals (pkgs.stdenv.isDarwin) [
-      # TBD
+      strace
+      iftop
+      iotop
+      lm_sensors
+      lsof
+      ltrace
+      sysstat
+      usbutils
+      pciutils
     ];
 
   features = {
     media.enable = true;
+  }
+  // lib.optionalAttrs isLinux {
+    ide.enable = true;
     gaming = {
       enable = true;
       retroarch = true;
@@ -70,8 +70,9 @@ in
       extraGames = true;
     };
   };
-  wm.gnome.enable = true;
 
-  # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
+}
+// lib.optionalAttrs isLinux {
+  wm.gnome.enable = true;
 }

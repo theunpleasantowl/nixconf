@@ -122,6 +122,8 @@ in
         "joplin.desktop"
         "anki.desktop"
         "dev.zed.Zed.desktop"
+        "info.febvre.Komikku.desktop"
+        "com.github.johnfactotum.Foliate.desktop"
       ];
       description = "List of favorite GNOME Shell applications";
     };

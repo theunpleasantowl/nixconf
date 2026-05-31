@@ -1,6 +1,1 @@
-{ ... }:
-{
-  imports = [
-    ./configuration.nix
-  ];
-}
+(import ../../lib { }).importHostConfiguration ./.

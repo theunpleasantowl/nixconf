@@ -3,6 +3,7 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    ../../stylix-themes/shadesmear-dark.nix
   ];
   system.stateVersion = "26.05";
 
@@ -22,23 +23,10 @@
     ];
   };
 
-  # Bluetooth
-  hardware.bluetooth.enable = true; # enables support for Bluetooth
-  hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
-  services.blueman.enable = true;
-  services.fwupd.enable = true;
-  services.printing.enable = true;
-
   # Packages
   programs.neovim = {
     enable = true;
     defaultEditor = true;
-  };
-
-  stylix = {
-    enable = true;
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/shadesmear-dark.yaml";
-    polarity = "dark";
   };
 
   features = {
@@ -48,6 +36,11 @@
     };
 
     linux = {
+      printing.enable = true;
+      bluetooth.enable = true;
+      fwupd.enable = true;
+      wifi.enable = true;
+
       desktop = {
         gnome.enable = true;
         hyprland.enable = true;
