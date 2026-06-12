@@ -18,6 +18,11 @@
   networking.hostName = "giniro";
   networking.networkmanager.enable = true;
 
+  nix.settings.trusted-users = [
+    "root"
+    "@wheel"
+  ];
+
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
