@@ -66,7 +66,7 @@ in
     gaming = {
       enable = true;
       retroarch = true;
-      emulators = true;
+      emulators = false;
       extraGames = true;
     };
   };

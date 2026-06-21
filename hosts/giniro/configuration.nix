@@ -12,8 +12,6 @@
   ];
   system.stateVersion = "26.05";
 
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-
   # Networking
   networking.hostName = "giniro";
   networking.networkmanager.enable = true;
