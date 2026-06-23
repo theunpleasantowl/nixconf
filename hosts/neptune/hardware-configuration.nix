@@ -89,7 +89,7 @@
   };
 
   fileSystems."/mnt/local/SteamSSD1" = {
-    device = "/dev/disk/by-uuid/1EE453EE62BE6116";
+    device = "/dev/disk/by-uuid/24DD141C652079FA";
     fsType = "ntfs";
     options = [
       "rw"
@@ -98,7 +98,7 @@
     ];
   };
   fileSystems."/mnt/local/SteamSSD2" = {
-    device = "/dev/disk/by-uuid/021A09141A0905FF";
+    device = "/dev/disk/by-uuid/183682033681E1DC";
     fsType = "ntfs";
     options = [
       "rw"
@@ -107,7 +107,7 @@
     ];
   };
   fileSystems."/mnt/local/SteamSSD3" = {
-    device = "/dev/disk/by-uuid/0E5EED705EED514F";
+    device = "/dev/disk/by-uuid/5A3A8E953A8E6E37";
     fsType = "ntfs";
     options = [
       "rw"
