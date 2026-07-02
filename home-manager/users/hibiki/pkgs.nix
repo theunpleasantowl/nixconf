@@ -22,6 +22,11 @@ in
 
   nixpkgs.config = {
     allowUnfree = true;
+    # TODO: Remove me
+    permittedInsecurePackages = [
+      "pnpm-10.29.2"
+    ];
+    ###
   };
 
   home.packages =

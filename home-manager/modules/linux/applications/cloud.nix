@@ -101,15 +101,14 @@
           FixYoutubeEmbeds.enabled = true;
           ImageFilename.enabled = true;
           MessageLogger.enabled = true;
-          petpet.enabled = true;
           PictureInPicture.enabled = true;
-          SeeSummaries.enabled = true;
           TypingIndicator.enabled = true;
           TypingTweaks.enabled = true;
           ViewIcons.enabled = true;
           VoiceDownload.enabled = true;
           VoiceMessages.enabled = true;
           YoutubeAdblock.enabled = true;
+          petpet.enabled = true;
         };
       };
     };

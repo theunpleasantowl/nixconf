@@ -100,14 +100,13 @@ let
     }:
     flakeInputs.home-manager.lib.homeManagerConfiguration {
       pkgs = import flakeInputs.nixpkgs { inherit system; };
-      extraSpecialArgs =
-        {
-          inputs = flakeInputs;
-          inherit system username isStandalone;
-        }
-        // flakeInputs.nixpkgs.lib.optionalAttrs (osConfig != null) {
-          inherit osConfig;
-        };
+      extraSpecialArgs = {
+        inputs = flakeInputs;
+        inherit system username isStandalone;
+      }
+      // flakeInputs.nixpkgs.lib.optionalAttrs (osConfig != null) {
+        inherit osConfig;
+      };
       inherit modules;
     };
 in

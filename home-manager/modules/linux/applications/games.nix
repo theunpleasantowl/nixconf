@@ -49,7 +49,7 @@ in
 
     rpcs3 = lib.mkOption {
       type = lib.types.bool;
-      default = cfg.emulators;
+      default = false;
       description = "Enable RPCS3";
     };
 
