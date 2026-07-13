@@ -145,7 +145,7 @@ mkdir -p home-manager/users/alice
     ../../modules/linux
   ];
 
-  home.stateVersion = "26.05";
+  home.stateVersion = "26.11";
 }
 ```
 

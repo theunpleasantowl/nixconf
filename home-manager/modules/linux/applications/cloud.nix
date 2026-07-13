@@ -115,7 +115,6 @@
   };
 
   home.packages = with pkgs; [
-    delfin
     ferdium
     thunderbird
   ];

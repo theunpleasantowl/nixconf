@@ -11,7 +11,7 @@ in
   home = {
     username = lib.mkDefault username;
     homeDirectory = lib.mkDefault "${homePrefix}/${username}";
-    stateVersion = "26.05";
+    stateVersion = "26.11";
     sessionVariables = {
       EDITOR = "nvim";
     };

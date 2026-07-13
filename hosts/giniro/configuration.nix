@@ -10,7 +10,7 @@
     ./hardware-configuration.nix
     ../../stylix-themes/katy.nix
   ];
-  system.stateVersion = "26.05";
+  system.stateVersion = "26.11";
 
   # Networking
   networking.hostName = "giniro";

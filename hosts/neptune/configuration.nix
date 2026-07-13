@@ -9,7 +9,7 @@
     ./hardware-configuration.nix
     ../../stylix-themes/katy.nix
   ];
-  system.stateVersion = "26.05";
+  system.stateVersion = "26.11";
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
@@ -103,18 +103,18 @@
       users = [ "hibiki" ];
     };
 
-    ollama = {
-      enable = true;
-      acceleration = "vulkan";
-      models = [
-        "qwen2.5-coder:14b-instruct-q4_K_M"
-      ];
-    };
+    #    ollama = {
+    #      enable = true;
+    #      acceleration = "vulkan";
+    #      models = [
+    #        "qwen2.5-coder:14b-instruct-q4_K_M"
+    #      ];
+    #    };
 
     remote-access = {
       ssh.enable = true;
       rdp.enable = true;
-      sunshine.enable = true;
+      #sunshine.enable = true;
     };
   };
 }

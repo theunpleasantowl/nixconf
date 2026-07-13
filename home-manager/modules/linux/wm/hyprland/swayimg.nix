@@ -2,30 +2,30 @@
 {
   programs.swayimg = {
     enable = true;
-    settings = {
-      viewer = {
-        window = "#10000010";
-        scale = "fill";
-      };
-      "info.viewer" = {
-        top_left = "+name,+format";
-      };
+    initLua = ''
+      -- viewer
+      swayimg.viewer.set_window_background(0x10000010)
+      swayimg.viewer.set_default_scale("fill")
 
-      # https://github.com/artemsen/swayimg/blob/master/extra/swayimgrc
-      "keys.gallery" = {
-        "h" = "step_left";
-        "j" = "step_down";
-        "k" = "step_up";
-        "l" = "step_right";
-      };
-      "keys.viewer" = {
-        "n" = "next_file";
-        "p" = "prev_file";
+      -- info overlay (top-left): name + format
+      swayimg.viewer.set_text("topleft", {
+        "{name}",
+        "{format}"
+      })
 
-        "f" = "toggle_fullscreen";
-        "q" = "exit";
-        "Esc" = "exit";
-      };
-    };
+      -- gallery navigation (hjkl)
+      swayimg.gallery.on_key("h", function() swayimg.gallery.switch_image("left") end)
+      swayimg.gallery.on_key("j", function() swayimg.gallery.switch_image("down") end)
+      swayimg.gallery.on_key("k", function() swayimg.gallery.switch_image("up") end)
+      swayimg.gallery.on_key("l", function() swayimg.gallery.switch_image("right") end)
+
+      -- viewer: next/prev file
+      swayimg.viewer.on_key("n", function() swayimg.viewer.open("next") end)
+      swayimg.viewer.on_key("p", function() swayimg.viewer.open("prev") end)
+
+      -- quit
+      swayimg.viewer.on_key("q", function() swayimg.exit() end)
+      swayimg.viewer.on_key("Escape", function() swayimg.exit() end)
+    '';
   };
 }

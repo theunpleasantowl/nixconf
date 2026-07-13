@@ -488,7 +488,6 @@ in
         (mkBind "SUPER + comma" (exec "noctalia-shell ipc call settings toggle"))
         (mkBind "SUPER + SHIFT + V" (exec "noctalia-shell ipc call launcher clipboard"))
         (mkBind "SUPER + period" (exec "noctalia-shell ipc call launcher emoji"))
-        (mkBind "SUPER + F1" (exec "noctalia-shell ipc call plugin:hyprlandvisuals toggle"))
 
         # Volume/media controls - using wireplumber for better Wayland support
         (mkBindWith "XF86AudioRaiseVolume" (exec "noctalia-shell ipc call volume increase") {
@@ -549,7 +548,6 @@ in
 
         # Notification center toggle
         (mkBind "SUPER + N" (exec "noctalia-shell ipc call notifications toggleHistory"))
-        (mkBind "SUPER + SHIFT + A" (exec "noctalia-shell ipc call plugin:companions toggle"))
 
         # Misc Shortcuts
         (mkBind "SUPER + W" (exec "noctalia-shell ipc call wallpaper toggle"))
