@@ -12,7 +12,6 @@
   # Bootloader
   boot.loader.limine.enable = true;
   boot.loader.limine.secureBoot.enable = true;
-  boot.loader.systemd-boot.configurationLimit = 5;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.initrd.systemd.enable = true;
   boot.initrd.availableKernelModules = [
