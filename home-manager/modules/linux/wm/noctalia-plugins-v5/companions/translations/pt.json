@@ -1,0 +1,9 @@
+{
+  "settings.scaleFactor.label": "Fator de escala",
+  "settings.scaleFactor.description": "Tamanho do sprite e layout.",
+  "settings.language.label": "Idioma",
+  "settings.language.description": "Idioma dos diálogos.",
+  "settings.language.en": "Inglês",
+  "settings.language.pt": "Português",
+  "settings.language.ja": "Japonês"
+}

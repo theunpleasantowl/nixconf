@@ -1,0 +1,17 @@
+id           = "hibiki/hyprland-visuals"
+name         = "Hyprland Visuals"
+version      = "1.0.0"
+plugin_api   = 4
+author       = "hibiki"
+description  = "Runtime controls for Hyprland visual effect parameters."
+icon         = "sparkles"
+dependencies = ["hyprland"]
+
+[[panel]]
+id       = "panel"
+entry    = "panel.luau"
+width    = 520
+height   = 720
+placement = "floating"
+position = "center"
+open_near_click = false

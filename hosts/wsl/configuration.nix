@@ -21,10 +21,6 @@
   powerManagement.enable = lib.mkForce false;
   features.linux.plymouth.enable = false;
 
-  services.pipewire.enable = lib.mkForce false;
-  services.pulseaudio.enable = lib.mkForce false;
-  security.rtkit.enable = lib.mkForce false;
-
   features.development.enable = true;
 
   features.docker = {

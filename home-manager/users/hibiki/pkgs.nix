@@ -2,21 +2,27 @@
   lib,
   pkgs,
   system,
+  osConfig ? null,
   ...
 }:
 let
-  isDarwin = builtins.match ".*-darwin" system != null;
-  isLinux = builtins.match ".*-linux" system != null;
+  # Use the system string only for conditional imports (evaluated before pkgs is finalised).
+  isLinuxImport = builtins.match ".*-linux" system != null;
+  isDarwinImport = builtins.match ".*-darwin" system != null;
+
+  # Use stdenv for everything else (the modern, non-deprecated approach).
+  isLinux = pkgs.stdenv.hostPlatform.isLinux;
+  isQemu = (osConfig.networking.hostName or "") == "qemu";
 in
 {
   imports = [
     ../../modules/shared
   ]
   # Conditionally import platform-specific modules
-  ++ lib.optionals isLinux [
+  ++ lib.optionals isLinuxImport [
     ../../modules/linux
   ]
-  ++ lib.optionals isDarwin [
+  ++ lib.optionals isDarwinImport [
     ../../modules/darwin
   ];
 
@@ -72,12 +78,13 @@ in
       enable = true;
       retroarch = true;
       emulators = false;
+      rpcs3 = !isQemu;
       extraGames = true;
     };
   };
 
   programs.home-manager.enable = true;
 }
-// lib.optionalAttrs isLinux {
+// lib.optionalAttrs isLinuxImport {
   wm.gnome.enable = true;
 }

@@ -66,37 +66,12 @@ let
 
     prompt=""
     separator="\n"
-    timeout=30
     items_file=""
-    result_file="$(${pkgs.coreutils}/bin/mktemp -t noctalia-dmenu-result.XXXXXX)"
-
-    qs_ipc() {
-      runtime_dir="''${XDG_RUNTIME_DIR:-/run/user/$(${pkgs.coreutils}/bin/id -u)}/quickshell"
-
-      for pid_link in "$runtime_dir"/by-pid/*; do
-        [ -e "$pid_link" ] || continue
-
-        pid="$(${pkgs.coreutils}/bin/basename "$pid_link")"
-        instance="$(${pkgs.coreutils}/bin/basename "$(${pkgs.coreutils}/bin/readlink "$pid_link")")"
-        exe="$(${pkgs.coreutils}/bin/readlink -f "/proc/$pid/exe" 2>/dev/null || true)"
-
-        if [ -n "$instance" ] && [ -n "$exe" ] && [ -x "$exe" ]; then
-          "$exe" ipc --id "$instance" "$@"
-          return
-        fi
-      done
-
-      noctalia-shell ipc "$@"
-    }
 
     while [ "$#" -gt 0 ]; do
       case "$1" in
         -p|--prompt)
           prompt="$2"
-          shift 2
-          ;;
-        -t|--timeout)
-          timeout="$2"
           shift 2
           ;;
         -s|--separator)
@@ -107,6 +82,10 @@ let
           items_file="$2"
           shift 2
           ;;
+        -t|--timeout)
+          # v5 noctalia dmenu has no timeout option.
+          shift 2
+          ;;
         *)
           printf 'noctalia-dmenu: unknown option: %s\n' "$1" >&2
           exit 2
@@ -114,38 +93,22 @@ let
       esac
     done
 
-    ${pkgs.coreutils}/bin/rm -f "$result_file" "$result_file.tmp"
-    options="$(${lib.getExe pkgs.jq} -cn \
-      --arg resultFile "$result_file" \
-      --arg prompt "$prompt" \
-      --arg separator "$separator" \
-      '{ resultFile: $resultFile, resultFormat: "plain", separator: $separator } + if $prompt == "" then {} else { prompt: $prompt } end')"
-
     if [ -n "$items_file" ]; then
-      qs_ipc call plugin:dmenu showFromFile "$items_file" "$options"
+      input="$(${pkgs.coreutils}/bin/cat "$items_file")"
     else
       input="$(${pkgs.coreutils}/bin/cat)"
-      [ -n "$input" ] || exit 2
-      qs_ipc call plugin:dmenu showItems "$input" "$options"
     fi
 
-    elapsed=0
-    timeout_ms=$((timeout * 1000))
-    while true; do
-      if [ -f "$result_file" ]; then
-        ${pkgs.coreutils}/bin/cat "$result_file"
-        ${pkgs.coreutils}/bin/rm -f "$result_file" "$result_file.tmp"
-        exit 0
-      fi
+    if [ -n "$separator" ] && [ "$separator" != "\n" ]; then
+      input="$(printf '%s\n' "$input" | ${pkgs.coreutils}/bin/tr "$separator" '\n')"
+    fi
 
-      if [ "$timeout" -gt 0 ] && [ "$elapsed" -ge "$timeout_ms" ]; then
-        ${pkgs.coreutils}/bin/rm -f "$result_file" "$result_file.tmp"
-        exit 1
-      fi
+    [ -n "$input" ] || exit 2
 
-      ${pkgs.coreutils}/bin/sleep 0.1
-      elapsed=$((elapsed + 100))
-    done
+    args=()
+    [ -n "$prompt" ] && args+=("-p" "$prompt")
+
+    ${lib.getExe config.programs.noctalia.package} dmenu ''${args[@]} <<< "$input"
   '';
   selectScreenShader = pkgs.writeShellScriptBin "select-screen-shader" ''
     set -euo pipefail
@@ -391,15 +354,15 @@ in
       ];
 
       layer_rule = {
-        name = "noctalia-shell";
-        match.namespace = "noctalia-(background|notifications)-.*$";
+        name = "noctalia";
+        match.namespace = "^noctalia-(bar-.+|notification|dock|panel|attached-panel|osd|window-switcher)$";
         ignore_alpha = 0.5;
         blur = true;
         blur_popups = true;
       };
 
       on = onStart [
-        "noctalia-shell"
+        "noctalia"
         "${lib.getExe pkgs.keepassxc}"
       ];
 
@@ -482,23 +445,24 @@ in
         (mkBind "SUPER + mouse_up" (workspace "e-1"))
 
         # Core Noctalia binds
-        (mkBind "ALT + SPACE" (exec "noctalia-shell ipc call launcher toggle"))
-        (mkBind "SUPER + S" (exec "noctalia-shell ipc call controlCenter toggle"))
-        (mkBind "SUPER + D" (exec "noctalia-shell ipc call calendar toggle"))
-        (mkBind "SUPER + comma" (exec "noctalia-shell ipc call settings toggle"))
-        (mkBind "SUPER + SHIFT + V" (exec "noctalia-shell ipc call launcher clipboard"))
-        (mkBind "SUPER + period" (exec "noctalia-shell ipc call launcher emoji"))
+        (mkBind "ALT + SPACE" (exec "noctalia msg panel-toggle launcher"))
+        (mkBind "SUPER + S" (exec "noctalia msg panel-toggle control-center"))
+        (mkBind "SUPER + D" (exec "noctalia msg panel-toggle control-center calendar"))
+        (mkBind "SUPER + comma" (exec "noctalia msg settings-toggle"))
+        (mkBind "SUPER + SHIFT + V" (exec "noctalia msg panel-toggle clipboard"))
+        (mkBind "SUPER + period" (exec "noctalia msg panel-toggle launcher \"/emo \""))
+        (mkBind "SUPER + F1" (exec "noctalia msg plugin hibiki/hyprland-visuals:panel all toggle"))
 
         # Volume/media controls - using wireplumber for better Wayland support
-        (mkBindWith "XF86AudioRaiseVolume" (exec "noctalia-shell ipc call volume increase") {
+        (mkBindWith "XF86AudioRaiseVolume" (exec "noctalia msg volume-up") {
           locked = true;
           repeating = true;
         })
-        (mkBindWith "XF86AudioLowerVolume" (exec "noctalia-shell ipc call volume decrease") {
+        (mkBindWith "XF86AudioLowerVolume" (exec "noctalia msg volume-down") {
           locked = true;
           repeating = true;
         })
-        (mkBindWith "XF86AudioMute" (exec "noctalia-shell ipc call volume muteOutput") {
+        (mkBindWith "XF86AudioMute" (exec "noctalia msg volume-mute") {
           locked = true;
           repeating = true;
         })
@@ -515,20 +479,20 @@ in
         (mkBindWith "XF86AudioPrev" (exec "${lib.getExe pkgs.playerctl} previous") { locked = true; })
 
         # Brightness controls
-        (mkBindWith "XF86MonBrightnessUp" (exec "noctalia-shell ipc call brightness increase") {
+        (mkBindWith "XF86MonBrightnessUp" (exec "noctalia msg brightness-up") {
           locked = true;
           repeating = true;
         })
-        (mkBindWith "XF86MonBrightnessDown" (exec "noctalia-shell ipc call brightness decrease") {
+        (mkBindWith "XF86MonBrightnessDown" (exec "noctalia msg brightness-down") {
           locked = true;
           repeating = true;
         })
 
         # Lock screen
-        (mkBind "CONTROL + ALT + Q" (exec "noctalia-shell ipc call lockScreen lock"))
+        (mkBind "CONTROL + ALT + Q" (exec "noctalia msg session lock"))
 
         # Power menu
-        (mkBind "CONTROL + ALT + DELETE" (exec "noctalia-shell ipc call sessionMenu toggle"))
+        (mkBind "CONTROL + ALT + DELETE" (exec "noctalia msg panel-toggle session"))
         #"CONTROLALT, DELETE, exec, ${lib.getExe pkgs.wlogout}"
 
         # Screenshots
@@ -547,11 +511,12 @@ in
         (mkBind "SUPER + SHIFT + C" (exec "${lib.getExe pkgs.hyprpicker} --autocopy"))
 
         # Notification center toggle
-        (mkBind "SUPER + N" (exec "noctalia-shell ipc call notifications toggleHistory"))
+        (mkBind "SUPER + N" (exec "noctalia msg panel-toggle control-center notifications"))
+        (mkBind "SUPER + SHIFT + A" (exec "noctalia msg plugin hibiki/companions:companions all toggle"))
 
         # Misc Shortcuts
-        (mkBind "SUPER + W" (exec "noctalia-shell ipc call wallpaper toggle"))
-        (mkBind "SUPER + SHIFT + W" (exec "noctalia-shell ipc call plugin:videowallpaper openPanel"))
+        (mkBind "SUPER + W" (exec "noctalia msg panel-toggle wallpaper"))
+        (mkBind "SUPER + SHIFT + W" (exec "noctalia msg panel-toggle noctalia/mpvpaper:picker"))
 
         # Applications
         (mkBind "SUPER + Q" (exec "${lib.getExe pkgs.wezterm}"))
@@ -562,7 +527,7 @@ in
         # Mouse and lid switch bindings
         (mkBindWith "SUPER + mouse:272" "hl.dsp.window.drag()" { mouse = true; })
         (mkBindWith "SUPER + mouse:273" "hl.dsp.window.resize()" { mouse = true; })
-        (mkBindWith "switch:on:Lid Switch" (exec "noctalia-shell ipc call sessionMenu lockAndSuspend") {
+        (mkBindWith "switch:on:Lid Switch" (exec "noctalia msg session lock-and-suspend") {
           locked = true;
         })
       ];

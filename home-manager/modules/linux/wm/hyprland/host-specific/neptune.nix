@@ -85,6 +85,6 @@ lib.mkIf ((osConfig.networking.hostName or null) == "neptune") {
       rounding = lib.mkForce 0;
     };
   };
-  programs.noctalia-shell.settings.bar.position = lib.mkForce "top";
-  programs.noctalia-shell.settings.bar.outerCorners = lib.mkForce "false";
+  programs.noctalia.settings.bar.main.position = lib.mkForce "top";
+  programs.noctalia.settings.bar.main.concave_edge_corners = lib.mkForce false;
 }

@@ -5,180 +5,211 @@
   pkgs,
   ...
 }:
-let
-  useStylix = config.stylix.enable or false;
-  colors = config.lib.stylix.colors or { };
-in
 {
-  imports = [
-    inputs.noctalia.homeModules.default
-  ];
+  imports = [ inputs.noctalia.homeModules.default ];
 
-  programs.noctalia-shell = {
+  programs.noctalia = {
     enable = true;
-    plugins = {
-      sources = [
-        {
-          enabled = true;
-          name = "Noctalia Plugins";
-          url = "https://github.com/noctalia-dev/noctalia-plugins";
-        }
-      ];
-      states = {
-        pomodoro = {
-          enabled = true;
-          sourceUrl = "https://github.com/noctalia-dev/noctalia-plugins";
-        };
-        dmenu = {
-          enabled = true;
-          sourceUrl = "https://github.com/noctalia-dev/noctalia-plugins";
-        };
-        privacy-indicator = {
-          enabled = true;
-          sourceUrl = "https://github.com/noctalia-dev/noctalia-plugins";
-        };
-        video-wallpaper = {
-          enabled = true;
-          sourceUrl = "https://github.com/noctalia-dev/noctalia-plugins";
-        };
-      };
-    };
+
     settings = {
+      shell = {
+        lang = "en";
+        telemetry_enabled = false;
+        clipboard_enabled = true;
+        font_family = "Lato";
+
+        button_borders = true;
+        input_borders = true;
+        popup_borders = true;
+
+        panel = {
+          launcher_placement = "attached";
+          open_near_click_clipboard = true;
+          open_near_click_control_center = true;
+          transparency_mode = "soft";
+        };
+
+        screenshot = {
+          save_to_file = true;
+          pipe_to_command = true;
+          pipe_command = ''gradia "$NOCTALIA_SCREENSHOT_PATH"'';
+          copy_to_clipboard = false;
+        };
+      };
+
       bar = {
-        density = "compact";
-        position = "right";
-        showCapsule = false;
-        widgets = {
-          left = [
-            {
-              id = "ControlCenter";
-              useDistroLogo = true;
-            }
-            {
-              id = "WiFi";
-            }
-            {
-              id = "Bluetooth";
-            }
-            {
-              id = "NightLight";
-            }
-            {
-              id = "plugin:video-wallpaper";
-            }
+        main = {
+          position = "top";
+          capsule = true;
+          background_opacity = 0.8;
+          concave_edge_corners = true;
+          font_weight = 700;
+
+          start = [
+            "control-center"
+            "network"
+            "bluetooth"
+            "nightlight"
+            "video-wallpaper"
           ];
-          center = [
-            {
-              hideUnoccupied = false;
-              id = "Workspace";
-              labelMode = "index";
-              showApplications = true;
-            }
-          ];
-          right = [
-            {
-              id = "Tray";
-              pinned = [
-                "Vesktop"
-                "steam"
-              ];
-            }
-            {
-              id = "SystemMonitor";
-              compactMode = true;
-              showCpuUsage = true;
-              showCpuTemp = true;
-              showLoadAverage = false;
-              showMemoryUsage = true;
-              showMemoryAsPercent = true;
-              showNetworkStats = true;
-            }
-            { id = "plugin:privacy-indicator"; }
-            { id = "plugin:pomodoro"; }
-            {
-              id = "Volume";
-              alwaysVisible = true;
-              showPercentage = true;
-              middleClickCommand = "${lib.getExe pkgs.lxqt.pavucontrol-qt}";
-            }
-            {
-              alwaysShowPercentage = false;
-              id = "Battery";
-              warningThreshold = 30;
-            }
-            {
-              formatHorizontal = "hh:mm AP";
-              formatVertical = "hh mm AP";
-              id = "Clock";
-              useMonospacedFont = true;
-              usePrimaryColor = true;
-            }
+
+          center = [ "workspaces" ];
+
+          end = [
+            "tray"
+            "sysmon-cpu"
+            "sysmon-temp"
+            "sysmon-ram"
+            "sysmon-net"
+            "sysmon-disk"
+            "privacy"
+            "volume"
+            "battery"
+            "clock"
           ];
         };
       };
-      colorSchemes.predefinedScheme = "Monochrome";
-      general = {
-        language = "en";
-        showChangelogOnStartup = false;
-        telemetryEnabled = false;
+
+      dock = {
+        background_opacity = 0.7;
+        magnification = false;
       };
-      ui = {
-        "boxBorderEnabled" = true;
+
+      notification = {
+        background_opacity = 0.5;
       };
-      audio = {
-        visualizerType = "mirrored";
+
+      osd = {
+        background_opacity = 0.5;
       };
+
+      widget = {
+        "control-center" = { };
+
+        network = { };
+        bluetooth = { };
+        nightlight = { };
+
+        "video-wallpaper" = {
+          type = "noctalia/mpvpaper:mpvpaper";
+        };
+
+        workspaces = {
+          style = "regular";
+          display = "id";
+          hide_when_empty = false;
+        };
+
+        tray = {
+          pinned = [
+            "Vesktop"
+            "steam"
+          ];
+        };
+
+        "sysmon-cpu" = {
+          type = "sysmon";
+          stat = "cpu_usage";
+          display = "text";
+        };
+
+        "sysmon-temp" = {
+          type = "sysmon";
+          stat = "cpu_temp";
+          display = "text";
+        };
+
+        "sysmon-ram" = {
+          type = "sysmon";
+          stat = "ram_used";
+          display = "text";
+        };
+
+        "sysmon-net" = {
+          type = "sysmon";
+          stat = "net_rx";
+          display = "text";
+        };
+
+        "sysmon-disk" = {
+          type = "sysmon";
+          stat = "disk_pct";
+          path = "/";
+          display = "text";
+        };
+
+        privacy = {
+          hide_inactive = true;
+        };
+
+        volume = {
+          show_label = true;
+        };
+
+        battery = {
+          show_label = false;
+          warning_threshold = 30;
+        };
+
+        clock = {
+          format = "{:%-I:%M %p}";
+          vertical_format = "{:%-I\n%M\n%p}";
+        };
+      };
+
+      system = {
+        monitor = {
+          enabled = true;
+        };
+      };
+
       location = {
-        monthBeforeDay = true;
-        name = "Massachusetts, Boston";
-        useFahrenheit = true;
-        use12hourFormat = true;
-        analogClockInCalendar = true;
+        address = "Massachusetts, Boston";
       };
-      nightLight = {
+
+      weather = {
+        unit = "imperial";
+      };
+
+      nightlight = {
         enabled = true;
-        #forced = false;
-        #autoSchedule = true;
-        #nightTemp = "4000";
-        #dayTemp = "6500";
       };
+
       wallpaper = {
-        recursiveSearch = true;
-        transitionDuration = 500;
-        transitionEdgeSmoothness = 0;
-        transitionType = "wipe";
+        enabled = true;
+        transition = [ "wipe" ];
+        transition_duration = 500;
+        edge_smoothness = 0;
+        automation = {
+          recursive = true;
+        };
       };
-      appLauncher = {
-        enableClipboardHistory = true;
-        terminalCommand = "${lib.getExe pkgs.wezterm} start --";
-        position = "top_center";
-        screenshotAnnotationTool = "${lib.getExe pkgs.gradia}";
+
+      plugin_settings."noctalia/mpvpaper" = {
+        video_directory = "~/Videos/Wallpapers";
       };
+
       plugins = {
-        autoUpdate = true;
+        enabled = [
+          "noctalia/mpvpaper"
+          "noctalia/screen_recorder"
+        ];
+
+        source = [
+          {
+            name = "official-plugins";
+            kind = "git";
+            location = "https://github.com/noctalia-dev/official-plugins.git";
+            auto_update = true;
+          }
+        ];
       };
-    };
-    pluginSettings = {
-      privacy-indicator = {
-        hideInactive = true;
-      };
-      #video-wallpaper = {
-      #  activeBackend = "mpvpaper";
-      #  hardwareAcceleration = true;
-      #  profile = "default"; # "default", "fast", "high-quality", or "low-latency"
-      #  volume = 0;
-      #  #wallpapersFolder = "~/Pictures/Wallpapers";
-      #};
     };
   };
 
-  #  systemd.user.services.noctalia-shell = {
-  #    Unit = {
-  #      ConditionEnvironment = lib.mkForce "XDG_CURRENT_DESKTOP=Hyprland";
-  #    };
-  #  };
-
   home.packages = with pkgs; [
     cliphist
+    mpvpaper
+    gradia
   ];
 }

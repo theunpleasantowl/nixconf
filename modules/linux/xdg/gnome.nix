@@ -18,9 +18,14 @@ in
     };
   };
 
-  config = lib.mkIf cfg.enable {
-    services.displayManager.gdm.enable = true;
-    services.desktopManager.gnome.enable = true;
+  config = lib.mkIf cfg.enable (lib.mkMerge [
+    {
+      services.desktopManager.gnome.enable = true;
+    }
+    (lib.mkIf cfg.useGdm {
+      services.displayManager.gdm.enable = true;
+    })
+    {
 
     environment.systemPackages =
       with pkgs;
@@ -57,5 +62,6 @@ in
       showtime
       totem
     ];
-  };
+  }
+  ]);
 }

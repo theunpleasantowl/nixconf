@@ -1,6 +1,5 @@
 {
   inputs,
-  system,
   config,
   lib,
   pkgs,
@@ -8,7 +7,7 @@
 }:
 let
   # Extend nixvim with Stylix theming
-  nixvim-package = inputs.nixvim.packages.${system}.default;
+  nixvim-package = inputs.nixvim.packages.${pkgs.system}.default;
   hasStylixNixvim = pkgs.stdenv.isLinux;
   selectedNixvim =
     if hasStylixNixvim then

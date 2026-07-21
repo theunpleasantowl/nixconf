@@ -1,4 +1,12 @@
-{ lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+let
+  hasDesktop = config.features.linux.desktop.anyEnabled;
+in
 {
   powerManagement.enable = true;
 
@@ -19,7 +27,7 @@
       LC_TELEPHONE = "en_US.UTF-8";
       LC_TIME = "en_US.UTF-8";
     };
-    inputMethod = {
+    inputMethod = lib.mkIf hasDesktop {
       enable = true;
       type = "fcitx5";
       fcitx5 = {
@@ -32,8 +40,8 @@
     };
   };
 
-  # System Typefaces
-  fonts = {
+  # System Typefaces — only needed on desktop hosts
+  fonts = lib.mkIf hasDesktop {
     enableDefaultPackages = true;
     packages = with pkgs; [
       corefonts
@@ -45,10 +53,10 @@
     ];
   };
 
-  # Enable sound with pipewire.
-  services.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-  services.pipewire = {
+  # Audio via PipeWire — only needed on desktop hosts
+  services.pulseaudio.enable = lib.mkDefault (!hasDesktop);
+  security.rtkit.enable = lib.mkDefault hasDesktop;
+  services.pipewire = lib.mkIf hasDesktop {
     enable = true;
     alsa.enable = true;
     alsa.support32Bit = true;
