@@ -110,32 +110,25 @@
         "sysmon-cpu" = {
           type = "sysmon";
           stat = "cpu_usage";
-          display = "text";
+          display = "gauge";
         };
 
         "sysmon-temp" = {
           type = "sysmon";
           stat = "cpu_temp";
-          display = "text";
+          display = "gauge";
         };
 
         "sysmon-ram" = {
           type = "sysmon";
           stat = "ram_used";
-          display = "text";
+          display = "gauge";
         };
 
         "sysmon-net" = {
           type = "sysmon";
           stat = "net_rx";
-          display = "text";
-        };
-
-        "sysmon-disk" = {
-          type = "sysmon";
-          stat = "disk_pct";
-          path = "/";
-          display = "text";
+          display = "gauge";
         };
 
         privacy = {
