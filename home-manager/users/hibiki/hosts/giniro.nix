@@ -4,5 +4,8 @@
   ...
 }:
 lib.mkIf ((osConfig.networking.hostName or null) == "giniro") {
-  features.gaming.emulators = lib.mkForce false;
+  features = {
+    ide.enable = lib.mkForce false;
+    gaming.rpcs3 = lib.mkForce false;
+  };
 }

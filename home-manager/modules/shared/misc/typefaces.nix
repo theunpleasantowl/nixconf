@@ -21,7 +21,7 @@
     courier-prime
 
     # Display
-    komika-fonts
+    #komika-fonts
     league-gothic
     raleway
 

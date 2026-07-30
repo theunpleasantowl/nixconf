@@ -1,7 +1,5 @@
 {
-  config,
   inputs,
-  lib,
   pkgs,
   ...
 }:
@@ -42,27 +40,28 @@
           position = "top";
           capsule = true;
           background_opacity = 0.8;
-          concave_edge_corners = true;
+          concave_edge_corners = false;
           font_weight = 700;
 
           start = [
             "control-center"
             "network"
             "bluetooth"
-            "nightlight"
-            "video-wallpaper"
+            "weather"
+            "caffeine"
+            "media"
           ];
 
           center = [ "workspaces" ];
 
           end = [
-            "tray"
             "sysmon-cpu"
             "sysmon-temp"
             "sysmon-ram"
             "sysmon-net"
             "sysmon-disk"
             "privacy"
+            "tray"
             "volume"
             "battery"
             "clock"
@@ -86,7 +85,10 @@
       widget = {
         "control-center" = { };
 
-        network = { };
+        network = {
+          capsule = true;
+          show_vpn_label = true;
+        };
         bluetooth = { };
         nightlight = { };
 
@@ -98,6 +100,7 @@
           style = "regular";
           display = "id";
           hide_when_empty = false;
+          labels_only_when_occupied = true;
         };
 
         tray = {
@@ -110,25 +113,32 @@
         "sysmon-cpu" = {
           type = "sysmon";
           stat = "cpu_usage";
-          display = "gauge";
+          display = "text";
         };
 
         "sysmon-temp" = {
           type = "sysmon";
           stat = "cpu_temp";
-          display = "gauge";
+          display = "text";
         };
 
         "sysmon-ram" = {
           type = "sysmon";
           stat = "ram_used";
-          display = "gauge";
+          display = "text";
         };
 
         "sysmon-net" = {
           type = "sysmon";
           stat = "net_rx";
-          display = "gauge";
+          display = "text";
+        };
+
+        "sysmon-disk" = {
+          type = "sysmon";
+          stat = "disk_pct";
+          display = "text";
+          path = "/";
         };
 
         privacy = {
@@ -175,6 +185,58 @@
         edge_smoothness = 0;
         automation = {
           recursive = true;
+        };
+      };
+
+      lockscreen_widgets = {
+        enabled = false;
+        widget_order = [
+          "lockscreen-login-box@DP-4"
+          "lockscreen-login-box@DP-3"
+        ];
+
+        widget = {
+          "lockscreen-login-box@DP-3" = {
+            type = "login_box";
+            output = "DP-3";
+            cx = 1280.0;
+            cy = 1321.0;
+            box_width = 400.0;
+            box_height = 70.0;
+            rotation = 0.0;
+
+            settings = {
+              background_color = "surface_variant";
+              background_opacity = 0.88;
+              background_radius = 12.0;
+              input_opacity = 1.0;
+              input_radius = 6.0;
+              show_caps_lock = true;
+              show_keyboard_layout = true;
+              show_login_button = true;
+            };
+          };
+
+          "lockscreen-login-box@DP-4" = {
+            type = "login_box";
+            output = "DP-4";
+            cx = 1280.0;
+            cy = 1321.0;
+            box_width = 400.0;
+            box_height = 70.0;
+            rotation = 0.0;
+
+            settings = {
+              background_color = "surface_variant";
+              background_opacity = 0.88;
+              background_radius = 12.0;
+              input_opacity = 1.0;
+              input_radius = 6.0;
+              show_caps_lock = true;
+              show_keyboard_layout = true;
+              show_login_button = true;
+            };
+          };
         };
       };
 

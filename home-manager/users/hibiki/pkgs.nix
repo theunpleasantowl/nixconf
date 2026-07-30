@@ -78,7 +78,7 @@ in
       enable = true;
       retroarch = true;
       emulators = false;
-      rpcs3 = lib.mkIf ((osConfig.networking.hostName or null) == "neptune");
+      rpcs3 = false;
       extraGames = true;
     };
   };
