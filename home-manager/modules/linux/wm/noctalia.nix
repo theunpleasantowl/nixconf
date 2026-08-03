@@ -1,5 +1,6 @@
 {
   inputs,
+  lib,
   pkgs,
   ...
 }:
@@ -14,7 +15,7 @@
         lang = "en";
         telemetry_enabled = false;
         clipboard_enabled = true;
-        font_family = "Lato";
+        font_family = lib.mkForce "Lato";
 
         button_borders = true;
         input_borders = true;

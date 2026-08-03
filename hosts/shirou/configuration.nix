@@ -3,7 +3,6 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    ../../stylix-themes/shadesmear-dark.nix
   ];
   system.stateVersion = "26.11";
 
