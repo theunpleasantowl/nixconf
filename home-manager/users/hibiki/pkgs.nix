@@ -1,4 +1,5 @@
 {
+  inputs,
   lib,
   pkgs,
   system,
@@ -51,6 +52,7 @@ in
       nix-index
       stow
       sops
+      inputs.sidra.packages.${pkgs.system}.default
       yq-go
       yt-dlp
       weechat
