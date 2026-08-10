@@ -47,7 +47,7 @@
   };
 
   fileSystems."/media/hibiki/gearshare" = {
-    device = "//oms/gearshare";
+    device = "//oms/zpool1_crypt_gearshare";
     fsType = "cifs";
     options = [
       "x-systemd.device-timeout=5s"
