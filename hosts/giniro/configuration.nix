@@ -8,6 +8,7 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    ../../stylix-themes/katy.nix
   ];
   system.stateVersion = "26.11";
 
