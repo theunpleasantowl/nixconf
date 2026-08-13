@@ -108,7 +108,7 @@ let
     args=()
     [ -n "$prompt" ] && args+=("-p" "$prompt")
 
-    ${lib.getExe config.programs.noctalia.package} dmenu ''${args[@]} <<< "$input"
+    ${lib.getExe config.programs.noctalia.package} dmenu "''${args[@]}" <<< "$input"
   '';
   selectScreenShader = pkgs.writeShellScriptBin "select-screen-shader" ''
     set -euo pipefail

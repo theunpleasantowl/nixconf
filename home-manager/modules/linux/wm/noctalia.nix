@@ -99,7 +99,8 @@
 
         workspaces = {
           style = "regular";
-          display = "id";
+          show_labels = true;
+          label_source = "id";
           hide_when_empty = false;
           labels_only_when_occupied = true;
         };
@@ -114,31 +115,36 @@
         "sysmon-cpu" = {
           type = "sysmon";
           stat = "cpu_usage";
-          display = "text";
+          visualization = "none";
+          show_value = true;
         };
 
         "sysmon-temp" = {
           type = "sysmon";
           stat = "cpu_temp";
-          display = "text";
+          visualization = "none";
+          show_value = true;
         };
 
         "sysmon-ram" = {
           type = "sysmon";
           stat = "ram_used";
-          display = "text";
+          visualization = "none";
+          show_value = true;
         };
 
         "sysmon-net" = {
           type = "sysmon";
           stat = "net_rx";
-          display = "text";
+          visualization = "none";
+          show_value = true;
         };
 
         "sysmon-disk" = {
           type = "sysmon";
-          stat = "disk_pct";
-          display = "text";
+          stat = "disk_used_pct";
+          visualization = "none";
+          show_value = true;
           path = "/";
         };
 
@@ -152,7 +158,6 @@
 
         battery = {
           show_label = false;
-          warning_threshold = 30;
         };
 
         clock = {
@@ -165,6 +170,10 @@
         monitor = {
           enabled = true;
         };
+      };
+
+      battery = {
+        warning_threshold = 30;
       };
 
       location = {
@@ -250,13 +259,13 @@
           "noctalia/mpvpaper"
           "noctalia/screen_recorder"
         ];
+        auto_update = true;
 
         source = [
           {
             name = "official-plugins";
             kind = "git";
             location = "https://github.com/noctalia-dev/official-plugins.git";
-            auto_update = true;
           }
         ];
       };
