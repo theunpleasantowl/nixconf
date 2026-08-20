@@ -259,7 +259,7 @@
           "noctalia/mpvpaper"
           "noctalia/screen_recorder"
         ];
-        auto_update = true;
+        auto_update = "all";
 
         source = [
           {

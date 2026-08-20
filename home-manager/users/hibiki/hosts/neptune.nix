@@ -4,5 +4,5 @@
   ...
 }:
 lib.mkIf ((osConfig.networking.hostName or null) == "neptune") {
-  features.gaming.rpcs3 = lib.mkForce true;
+  features.gaming.rpcs3 = lib.mkForce false;
 }

@@ -79,7 +79,7 @@
 
   fileSystems."/mnt/local/SteamNVMe" = {
     device = "/dev/disk/by-uuid/2882E19F82E1722C";
-    fsType = "ntfs";
+    fsType = "ntfs-3g";
     options = [
       "rw"
       "uid=1000"
