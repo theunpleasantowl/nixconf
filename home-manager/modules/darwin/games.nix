@@ -8,8 +8,8 @@
 let
   cfg = config.features.gaming;
   retroarchWithCores = pkgs.retroarch;
-  #dolphinEmu = pkgs.dolphin;
-  #rpcs3Emu = pkgs.rpcs3;
+  dolphinEmu = pkgs.dolphin;
+  rpcs3Emu = pkgs.rpcs3;
 in
 {
   options.features.gaming = {
@@ -40,11 +40,11 @@ in
         retroarchWithCores
       ])
       (lib.optionals cfg.emulators [
-        #dolphinEmu
-        #rpcs3Emu
+        dolphinEmu
+        rpcs3Emu
       ])
       (lib.optionals cfg.extraGames [
-        #pkgs.srb2
+        pkgs.srb2
       ])
     ];
   };
