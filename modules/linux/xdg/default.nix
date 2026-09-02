@@ -30,14 +30,7 @@ let
   );
 in
 {
-  imports = [
-    ./cosmic.nix
-    ./gnome.nix
-    ./hyprland.nix
-    ./portals.nix
-    ./programs.nix
-    ./windowmaker.nix
-  ];
+  imports = (import ../../../lib { }).importModuleSiblings ./.;
 
   options.features.linux.desktop = {
     anyEnabled = lib.mkOption {
@@ -50,7 +43,7 @@ in
     utilities = lib.mkOption {
       type = lib.types.listOf lib.types.package;
       default = with pkgs; [
-        helvum
+        crosspipe
         mpv
         wl-clipboard
       ];

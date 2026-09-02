@@ -1,75 +1,92 @@
 {
+  inputs,
   lib,
   pkgs,
   system,
+  osConfig ? null,
   ...
 }:
 let
-  isDarwin = builtins.match ".*-darwin" system != null;
-  isLinux = builtins.match ".*-linux" system != null;
+  # Use the system string only for conditional imports (evaluated before pkgs is finalised).
+  isLinuxImport = builtins.match ".*-linux" system != null;
+  isDarwinImport = builtins.match ".*-darwin" system != null;
+
+  # Use stdenv for everything else (the modern, non-deprecated approach).
+  isLinux = pkgs.stdenv.hostPlatform.isLinux;
+  isQemu = (osConfig.networking.hostName or "") == "qemu";
 in
 {
   imports = [
     ../../modules/shared
   ]
   # Conditionally import platform-specific modules
-  ++ lib.optionals isLinux [
+  ++ lib.optionals isLinuxImport [
     ../../modules/linux
   ]
-  ++ lib.optionals isDarwin [
+  ++ lib.optionals isDarwinImport [
     ../../modules/darwin
   ];
 
   nixpkgs.config = {
     allowUnfree = true;
+    # TODO: Remove me
+    permittedInsecurePackages = [
+      "pnpm-10.29.2"
+    ];
+    ###
   };
 
   home.packages =
     with pkgs;
     [
-      aria2 # download client
-      browsh # terminal web client
-      eza # modern ls
+      aria2
+      browsh
+      eza
       fastfetch
-      fd # find tool
+      fd
       ffmpeg
       git-extras
-      glow # md viewer
-      jq # json utility
+      glow
+      jq
       lazygit
       nix-index
       stow
-      yq-go # yaml/json viewer
+      sops
+      inputs.sidra.packages.${pkgs.system}.default
+      yq-go
       yt-dlp
       weechat
       nethack
     ]
     ++ lib.optionals (pkgs.stdenv.isLinux) [
       ethtool
-      strace # syscall monitoring
-      iftop # network monitoring
-      iotop # io monitoring
-      lm_sensors # for `sensors` command
-      lsof # list open files
-      ltrace # library call monitoring
-      sysstat # perf monitoring
-      usbutils # lsusb
-      pciutils # lspci
-    ]
-    ++ lib.optionals (pkgs.stdenv.isDarwin) [
-      # TBD
+      strace
+      iftop
+      iotop
+      lm_sensors
+      lsof
+      ltrace
+      sysstat
+      usbutils
+      pciutils
     ];
 
   features = {
     media.enable = true;
+  }
+  // lib.optionalAttrs isLinux {
+    ide.enable = true;
     gaming = {
       enable = true;
       retroarch = true;
-      emulators = true;
-      extraGames = false;
+      emulators = false;
+      rpcs3 = false;
+      extraGames = true;
     };
   };
 
-  # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
+}
+// lib.optionalAttrs isLinuxImport {
+  wm.gnome.enable = true;
 }

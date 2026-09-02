@@ -25,20 +25,24 @@ in
 
               timeline = {
                 hourly = lib.mkOption {
-                  type = lib.types.str;
-                  default = "24";
+                  type = lib.types.int;
+                  default = 24;
+                  description = "Number of hourly snapshots to keep";
                 };
                 daily = lib.mkOption {
-                  type = lib.types.str;
-                  default = "7";
+                  type = lib.types.int;
+                  default = 7;
+                  description = "Number of daily snapshots to keep";
                 };
                 weekly = lib.mkOption {
-                  type = lib.types.str;
-                  default = "4";
+                  type = lib.types.int;
+                  default = 4;
+                  description = "Number of weekly snapshots to keep";
                 };
                 monthly = lib.mkOption {
-                  type = lib.types.str;
-                  default = "6";
+                  type = lib.types.int;
+                  default = 6;
+                  description = "Number of monthly snapshots to keep";
                 };
               };
             };

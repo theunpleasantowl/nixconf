@@ -1,0 +1,32 @@
+id           = "hibiki/companions"
+name         = "Companions"
+version      = "1.0.0"
+plugin_api   = 4
+author       = "hibiki"
+description  = "Animated desktop companions with clickable dialogue."
+icon         = "mood-smile"
+
+[[desktop_widget]]
+id    = "companions"
+entry = "widget.luau"
+
+[[setting]]
+key         = "scaleFactor"
+type        = "double"
+label_key   = "settings.scaleFactor.label"
+description_key = "settings.scaleFactor.description"
+default     = 1.0
+min         = 0.6
+max         = 2.0
+
+[[setting]]
+key         = "language"
+type        = "select"
+label_key   = "settings.language.label"
+description_key = "settings.language.description"
+default     = "en"
+options     = [
+  { value = "en", label_key = "settings.language.en" },
+  { value = "pt", label_key = "settings.language.pt" },
+  { value = "ja", label_key = "settings.language.ja" },
+]

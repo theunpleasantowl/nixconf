@@ -10,31 +10,26 @@ let
 in
 {
   options.features.media = {
-    enable = lib.mkEnableOption "Enable media applications";
+    enable = lib.mkEnableOption "media applications";
 
-    video = lib.mkOption {
-      type = lib.types.bool;
+    video = lib.mkEnableOption "video editing tools" // {
       default = cfg.enable;
-      description = "Enable video editing tools";
     };
 
-    graphics = lib.mkOption {
-      type = lib.types.bool;
+    graphics = lib.mkEnableOption "graphics and image editing tools" // {
       default = cfg.enable;
-      description = "Enable graphics/image editing tools";
     };
   };
 
   config = lib.mkIf cfg.enable {
-    home.packages = lib.concatLists [
-      (lib.optionals cfg.video.enable [
-        pkgs.homebrew.packages.kdenlive
-        pkgs.homebrew.packages.mpv
-        pkgs.homebrew.packages.obs
-      ])
-      (lib.optionals cfg.graphics.enable [
-        pkgs.homebrew.packages.gimp
-      ])
-    ];
+    home.packages =
+      lib.optionals cfg.video [
+        #pkgs.homebrew.packages.kdenlive
+        pkgs.mpv
+        #pkgs.homebrew.packages.obs
+      ]
+      ++ lib.optionals cfg.graphics [
+        #pkgs.homebrew.packages.gimp
+      ];
   };
 }

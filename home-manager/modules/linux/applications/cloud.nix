@@ -1,7 +1,7 @@
 {
   config,
-  lib,
   pkgs,
+  lib,
   ...
 }:
 {
@@ -13,16 +13,20 @@
         pkgs.ankiAddons.anki-connect
         pkgs.ankiAddons.review-heatmap
       ];
-      sync = lib.mkIf (config.sops.secrets ? anki-password) {
-        autoSync = true;
-        usernameFile = config.sops.secrets.anki-password.path;
-        passwordFile = config.sops.secrets.anki-password.path;
-      };
+
+      profiles."User 1".sync =
+        lib.mkIf (lib.any (name: lib.hasPrefix "anki/" name) (builtins.attrNames config.sops.secrets))
+          {
+            autoSync = true;
+            usernameFile = config.sops.secrets."anki/username".path;
+            keyFile = config.sops.secrets."anki/passkey".path;
+          };
     };
 
     keepassxc = {
       enable = true;
 
+      # See https://github.com/keepassxreboot/keepassxc/blob/develop/src/core/Config.cpp for the full list of options.
       settings = {
         General = {
           ConfigVersion = 2;
@@ -44,7 +48,14 @@
           MinimizeToTray = true;
           MonospaceNotes = true;
           ShowTrayIcon = true;
-          TrayIconAppearance = "monochrome-light";
+          TrayIconAppearance =
+            if (config.stylix.polarity or "dark") == "light" then "monochrome-dark" else "monochrome-light";
+        };
+
+        Security = {
+          LockDatabaseIdle = false;
+          LockDatabaseScreenLock = false;
+          IconDownloadFallback = true;
         };
 
         PasswordGenerator = {
@@ -77,60 +88,36 @@
         minimizeToTray = true;
       };
       vencord.settings = {
-        autoUpdate = false;
+        autoUpdate = true;
         autoUpdateNotification = false;
         notifyAboutUpdates = false;
         transparent = true;
         useQuickCss = true;
         plugins = {
-          ClearURLs = {
-            enabled = true;
-          };
-          Experiments = {
-            enabled = true;
-          };
-          ExpressionCloner = {
-            enabled = true;
-          };
-          FixYoutubeEmbeds = {
-            enabled = true;
-          };
-          MessageLogger = {
-            enabled = true;
-          };
-          PictureInPicture = {
-            enabled = true;
-          };
-          SeeSummaries = {
-            enabled = true;
-          };
-          TypingIndicator = {
-            enabled = true;
-          };
-          TypingTweaks = {
-            enabled = true;
-          };
-          ViewIcons = {
-            enabled = true;
-          };
-          VoiceDownload = {
-            enabled = true;
-          };
-          VoiceMessages = {
-            enabled = true;
-          };
-          YoutubeAdblock = {
-            enabled = true;
-          };
+          ClearURLs.enabled = true;
+          Experiments.enabled = true;
+          ExpressionCloner.enabled = true;
+          FavoriteGifSearch.enabled = true;
+          FixYoutubeEmbeds.enabled = true;
+          ImageFilename.enabled = true;
+          MessageLogger.enabled = true;
+          PictureInPicture.enabled = true;
+          TypingIndicator.enabled = true;
+          TypingTweaks.enabled = true;
+          ViewIcons.enabled = true;
+          VoiceDownload.enabled = true;
+          VoiceMessages.enabled = true;
+          YoutubeAdblock.enabled = true;
+          petpet.enabled = true;
         };
       };
     };
   };
 
   home.packages = with pkgs; [
-    delfin
     ferdium
-    nextcloud-client
     thunderbird
   ];
+
+  services.nextcloud-client.enable = true;
 }

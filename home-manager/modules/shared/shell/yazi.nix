@@ -15,7 +15,7 @@
       "lazygit" = pkgs.yaziPlugins.lazygit;
       "miller" = pkgs.yaziPlugins.miller;
       "mount" = pkgs.yaziPlugins.mount;
-      "restore" = pkgs.yaziPlugins.lazygit;
+      "restore" = pkgs.yaziPlugins.restore;
       "starship" = pkgs.yaziPlugins.starship;
       "sudo" = pkgs.yaziPlugins.sudo;
     };

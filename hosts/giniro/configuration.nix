@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   pkgs,
   ...
 }:
@@ -7,16 +8,19 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    ../../stylix-themes/katy.nix
   ];
-  system.stateVersion = "25.05";
-
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  system.stateVersion = "26.11";
 
   # Networking
   networking.hostName = "giniro";
   networking.networkmanager.enable = true;
 
-  # Enable OpenGL
+  nix.settings.trusted-users = [
+    "root"
+    "@wheel"
+  ];
+
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
@@ -26,33 +30,43 @@
     ];
   };
 
-  # Load nvidia driver for Xorg and Wayland
-  nixpkgs.config.nvidia.acceptLicense = true;
-  services.xserver.videoDrivers = [ "nvidia" ];
+  services.xserver.videoDrivers = [
+    "modesetting"
+    "nvidia"
+  ];
+
   hardware.nvidia = {
-    open = false;
     modesetting.enable = true;
+    open = false;
     nvidiaSettings = true;
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
+    powerManagement.enable = false;
+    powerManagement.finegrained = false;
+    package = config.boot.kernelPackages.nvidiaPackages.legacy_580;
+
+    # Sync mode is the default
+    prime = {
+      sync.enable = true;
+      intelBusId = "PCI:0:2:0";
+      nvidiaBusId = "PCI:1:0:0";
+    };
   };
 
-  # Bluetooth
-  hardware.bluetooth.enable = true; # enables support for Bluetooth
-  hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
-  services.blueman.enable = true;
-  services.fwupd.enable = true;
-  services.printing.enable = true;
+  # Boot into this specialisation for battery-saving offload mode
+  specialisation = {
+    offload.configuration = {
+      system.nixos.tags = [ "offload" ];
+      hardware.nvidia.prime.sync.enable = lib.mkForce false;
+      hardware.nvidia.prime.offload = {
+        enable = lib.mkForce true;
+        enableOffloadCmd = lib.mkForce true;
+      };
+    };
+  };
 
   # Packages
   programs.neovim = {
     enable = true;
     defaultEditor = true;
-  };
-
-  stylix = {
-    enable = true;
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/atelier-lakeside-light.yaml";
-    polarity = "light";
   };
 
   features = {
@@ -62,8 +76,14 @@
     };
 
     linux = {
+      printing.enable = true;
+      bluetooth.enable = true;
+      fwupd.enable = true;
+      wifi.enable = true;
+
       desktop = {
         gnome.enable = true;
+        hyprland.enable = true;
       };
       snapper = {
         enable = true;

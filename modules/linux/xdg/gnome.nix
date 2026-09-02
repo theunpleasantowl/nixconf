@@ -18,18 +18,21 @@ in
     };
   };
 
-  config = lib.mkIf cfg.enable {
-    services.displayManager.gdm.enable = cfg.useGdm;
-    services.desktopManager.gnome.enable = true;
+  config = lib.mkIf cfg.enable (lib.mkMerge [
+    {
+      services.desktopManager.gnome.enable = true;
+    }
+    (lib.mkIf cfg.useGdm {
+      services.displayManager.gdm.enable = true;
+    })
+    {
 
     environment.systemPackages =
       with pkgs;
       [
-        ffmpegthumbnailer
         file-roller
         foliate
         ghostty
-        gnome-epub-thumbnailer
         komikku
         mission-center
         nautilus-python
@@ -40,6 +43,12 @@ in
         clipboard-indicator
         dash-to-dock
         kimpanel
+      ])
+      ++ (with pkgs; [
+        ffmpegthumbnailer
+        gdk-pixbuf
+        gnome-epub-thumbnailer
+        icoextract
       ]);
 
     environment.gnome.excludePackages = with pkgs; [
@@ -53,5 +62,6 @@ in
       showtime
       totem
     ];
-  };
+  }
+  ]);
 }

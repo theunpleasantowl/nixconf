@@ -1,9 +1,15 @@
 {
   pkgs,
   lib,
-  isStandalone ? false,
   ...
 }:
+let
+  cursorTheme = {
+    name = "Nordzy-cursors";
+    package = pkgs.nordzy-cursor-theme;
+    size = 24;
+  };
+in
 {
   gtk = {
     enable = true;
@@ -17,24 +23,29 @@
       package = pkgs.morewaita-icon-theme;
     };
 
-    cursorTheme = {
-      name = "Nordzy-cursors";
-      package = pkgs.nordzy-cursor-theme;
-    };
+    inherit cursorTheme;
 
     gtk3.extraConfig.gtk-application-prefer-dark-theme = lib.mkDefault 1;
     gtk4.extraConfig.gtk-application-prefer-dark-theme = lib.mkDefault 1;
   };
 
-  stylix = {
+  home.pointerCursor = {
+    inherit (cursorTheme) name package size;
     enable = true;
-    base16Scheme = lib.mkIf isStandalone "${pkgs.base16-schemes}/share/themes/katy.yaml";
-    polarity = "dark";
+    gtk.enable = true;
+    x11.enable = true;
+  };
+
+  xdg.dataFile."icons/${cursorTheme.name}".source =
+    "${cursorTheme.package}/share/icons/${cursorTheme.name}";
+
+  stylix = {
+    enable = lib.mkDefault true;
     opacity = {
-      applications = 1.0;
-      desktop = 0.7;
-      popups = 0.5;
-      terminal = 1.0;
+      applications = lib.mkDefault 1.0;
+      desktop = lib.mkDefault 0.7;
+      popups = lib.mkDefault 0.5;
+      terminal = lib.mkDefault 1.0;
     };
   };
 }

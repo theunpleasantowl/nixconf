@@ -18,16 +18,16 @@ This repository defines both system-level NixOS configurations and user-level Ho
 ├── hosts              # NixOS/Nix-Darwin System definitions
 │   ├── giniro
 │   ├── neptune
-│   ├── nextbook
-│   └── shirou
+│   ├── qemu
+│   ├── shirou
+│   └── wsl
 ├── LICENSE
 ├── modules            # System-level modules
-│   ├── darwin         # Darwin-specific system modules
 │   ├── linux          # NixOS-specific system modules
 │   └── shared         # Platform Agnostic modules
 ├── README.md
 └── users              # System-level User Definitions
-````
+```
 
 ---
 
@@ -37,7 +37,7 @@ This repository defines both system-level NixOS configurations and user-level Ho
 
 You must have:
 
-- **Nix** installed  
+- **Nix** installed
 - **Flakes enabled**  
   → https://nixos.wiki/wiki/Flakes
 
@@ -46,7 +46,7 @@ You must have:
 ```bash
 git clone git@github.com:theunpleasantowl/nixconf.git
 cd nixconf
-````
+```
 
 ---
 
@@ -76,6 +76,40 @@ sudo nixos-rebuild build --flake .#neptune
 
 ---
 
+## 🐧 WSL
+
+Build the WSL tarball builder:
+
+```bash
+nix build .#wsl
+```
+
+Generate the tarball (requires root):
+
+```bash
+sudo ./result/bin/nixos-wsl-tarball-builder
+```
+
+Import into WSL from PowerShell:
+
+```powershell
+wsl --import NixOS .\NixOS\ .\nixos.wsl
+```
+
+---
+
+## 💻 QEMU VM
+
+Launch the QEMU VM directly:
+
+```bash
+nix run .#qemu
+```
+
+The VM runs with 4 GB RAM, 4 cores, virtio graphics, and GNOME. SSH is forwarded on host port 2222.
+
+---
+
 ## 🏠 Home Manager (Linux + macOS)
 
 Standalone Home Manager builds:
@@ -92,7 +126,6 @@ The Home Manager configurations in this repository are structured to be dual-use
 
 System-level user definitions are defined in `./users`.
 Stand-alone home-manager definitions are defined in `./flake.nix`.
-
 
 ### Add a new home-manager configuration
 
@@ -112,7 +145,7 @@ mkdir -p home-manager/users/alice
     ../../modules/linux
   ];
 
-  home.stateVersion = "25.11";
+  home.stateVersion = "26.11";
 }
 ```
 
@@ -202,7 +235,7 @@ nix flake update
 ### Update a single input
 
 ```bash
-nix flake lock --update-input nixpkgs
+nix flake update nixpkgs
 ```
 
 ---

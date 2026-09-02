@@ -1,4 +1,6 @@
 {
+  config,
+  lib,
   pkgs,
   inputs,
   system,
@@ -18,6 +20,10 @@ in
       "wheel"
     ];
     shell = pkgs.fish;
+
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKpPbFIeQfDngydE1VIrdDrfSoyFlOybZ/n+lmrb338g"
+    ];
   };
 
   home-manager = {
@@ -27,7 +33,10 @@ in
       isStandalone = false;
     };
 
-    sharedModules = [ inputs.sops-nix.homeManagerModules.sops ];
+    sharedModules = [ inputs.sops-nix.homeModules.sops ] ++ lib.optional (!config.stylix.enable) {
+      imports = [ inputs.stylix.homeModules.stylix ];
+      stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/katy.yaml";
+    };
 
     users.${username} = {
       imports = [

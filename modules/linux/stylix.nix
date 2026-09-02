@@ -14,8 +14,6 @@
       qt.enable = false; # Breaks many apps
     };
 
-    base16Scheme = lib.mkDefault "${pkgs.base16-schemes}/share/themes/katy.yaml";
-
     fonts = {
       serif = {
         package = pkgs.libre-baskerville;

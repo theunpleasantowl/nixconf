@@ -1,28 +1,22 @@
 {
-  inputs,
-  system,
   lib,
+  pkgs,
   username ? "hibiki",
-  isStandalone ? false,
   ...
 }:
+let
+  homePrefix = if pkgs.stdenv.isDarwin then "/Users" else "/home";
+in
 {
   home = {
-    # Set username/homeDirectory for standalone home-manager
-    # When used as NixOS module, we must not set these.
-    username = lib.mkIf isStandalone username;
-    homeDirectory = lib.mkIf isStandalone "/home/${username}";
-
-    stateVersion = "26.05";
-
+    username = lib.mkDefault username;
+    homeDirectory = lib.mkDefault "${homePrefix}/${username}";
+    stateVersion = "26.11";
     sessionVariables = {
       EDITOR = "nvim";
     };
-
     sessionPath = [
       "$HOME/.bin"
     ];
   };
-
-  wm.gnome.enable = true;
 }

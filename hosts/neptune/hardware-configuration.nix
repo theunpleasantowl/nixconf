@@ -10,8 +10,8 @@
   ];
 
   # Bootloader
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.systemd-boot.configurationLimit = 5;
+  boot.loader.limine.enable = true;
+  boot.loader.limine.secureBoot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.initrd.systemd.enable = true;
   boot.initrd.availableKernelModules = [
@@ -88,7 +88,7 @@
   };
 
   fileSystems."/mnt/local/SteamSSD1" = {
-    device = "/dev/disk/by-uuid/1EE453EE62BE6116";
+    device = "/dev/disk/by-uuid/24DD141C652079FA";
     fsType = "ntfs-3g";
     options = [
       "rw"
@@ -97,7 +97,7 @@
     ];
   };
   fileSystems."/mnt/local/SteamSSD2" = {
-    device = "/dev/disk/by-uuid/6974F0E5738841AC";
+    device = "/dev/disk/by-uuid/183682033681E1DC";
     fsType = "ntfs-3g";
     options = [
       "rw"
@@ -106,7 +106,7 @@
     ];
   };
   fileSystems."/mnt/local/SteamSSD3" = {
-    device = "/dev/disk/by-uuid/746808FC0449910B";
+    device = "/dev/disk/by-uuid/5A3A8E953A8E6E37";
     fsType = "ntfs-3g";
     options = [
       "rw"
@@ -125,22 +125,18 @@
     ];
   };
 
-  fileSystems."/run/media/hibiki/gearshare" = {
-    device = "//oms/gearshare";
-    fsType = "cifs";
-    options = [
-      "credentials=/etc/nixos/smb-secrets"
-      "x-systemd.automount"
-      "noauto"
-      "_netdev"
-      "uid=1000"
-      "gid=100"
-      "file_mode=0644"
-      "dir_mode=0755"
-    ];
-  };
-
   zramSwap.enable = true;
+  swapDevices = [
+    {
+      device = "/var/lib/swapfile";
+      size = 64 * 1024; # RAM Size in GB
+    }
+  ];
+  # https://nixos.wiki/wiki/Hibernation
+  # BTRFS: sudo btrfs inspect-internal map-swapfile -r /var/lib/swapfile
+  boot.kernelParams = [ "resume_offset=70795448" ];
+  boot.resumeDevice = "/dev/disk/by-uuid/94fb701d-fe47-424c-b3c6-b3d4555db96a";
+  features.linux.powerManagement.enable = true;
 
   networking.useDHCP = lib.mkDefault true;
 

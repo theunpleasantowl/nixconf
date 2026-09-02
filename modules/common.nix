@@ -1,9 +1,5 @@
 { pkgs, ... }:
 {
-  imports = [
-    ./features
-  ];
-
   nixpkgs.config = {
     allowUnfree = true;
   };

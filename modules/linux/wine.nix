@@ -14,10 +14,11 @@ in
 
   config = lib.mkIf cfg.enable {
     environment.systemPackages = with pkgs; [
-      (bottles.override {
-        removeWarningPopup = true;
-      })
-      wineWowPackages.stagingFull
+      # TODO: Bottles is disabled temporarily as openldap is broken upstream
+      #(bottles.override {
+      #  removeWarningPopup = true;
+      #})
+      wineWow64Packages.stagingFull
       winetricks
     ];
   };

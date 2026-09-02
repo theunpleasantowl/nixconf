@@ -1,0 +1,9 @@
+{
+  "settings.scaleFactor.label": "スケール",
+  "settings.scaleFactor.description": "スプライトとレイアウトのサイズ。",
+  "settings.language.label": "言語",
+  "settings.language.description": "会話の言語。",
+  "settings.language.en": "英語",
+  "settings.language.pt": "ポルトガル語",
+  "settings.language.ja": "日本語"
+}
