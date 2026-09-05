@@ -79,38 +79,25 @@
 
   fileSystems."/mnt/local/SteamNVMe" = {
     device = "/dev/disk/by-uuid/2882E19F82E1722C";
-    fsType = "ntfs-3g";
+    fsType = "ntfs3";
     options = [
       "rw"
       "uid=1000"
+      "gid=1000"
       "nofail"
     ];
   };
 
-  fileSystems."/mnt/local/SteamSSD1" = {
-    device = "/dev/disk/by-uuid/24DD141C652079FA";
-    fsType = "ntfs-3g";
+  fileSystems."/mnt/local/SteamRAID" = {
+    device = "/dev/disk/by-uuid/5cc58dd2-5a50-493f-a8a6-8fdf3b0e635b";
+    fsType = "btrfs";
     options = [
       "rw"
-      "uid=1000"
-      "nofail"
-    ];
-  };
-  fileSystems."/mnt/local/SteamSSD2" = {
-    device = "/dev/disk/by-uuid/183682033681E1DC";
-    fsType = "ntfs-3g";
-    options = [
-      "rw"
-      "uid=1000"
-      "nofail"
-    ];
-  };
-  fileSystems."/mnt/local/SteamSSD3" = {
-    device = "/dev/disk/by-uuid/5A3A8E953A8E6E37";
-    fsType = "ntfs-3g";
-    options = [
-      "rw"
-      "uid=1000"
+      "noatime"
+      "compress=zstd:1"
+      "space_cache=v2"
+      "ssd"
+      "discard=async"
       "nofail"
     ];
   };
