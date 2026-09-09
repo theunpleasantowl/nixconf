@@ -10,6 +10,11 @@
   networking.hostName = "shirou";
   networking.networkmanager.enable = true;
 
+  nix.settings.trusted-users = [
+    "root"
+    "@wheel"
+  ];
+
   # Enable OpenGL
   hardware.graphics = {
     enable = true;
