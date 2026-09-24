@@ -7,8 +7,8 @@
 }:
 let
   # Extend nixvim with Stylix theming
-  nixvim-package = inputs.nixvim.packages.${pkgs.system}.default;
-  hasStylixNixvim = pkgs.stdenv.isLinux;
+  nixvim-package = inputs.nixvim.packages.${pkgs.stdenv.hostPlatform.system}.default;
+  hasStylixNixvim = pkgs.stdenv.hostPlatform.isLinux;
   selectedNixvim =
     if hasStylixNixvim then
       nixvim-package.extend config.stylix.targets.nixvim.exportedModule

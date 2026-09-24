@@ -70,8 +70,8 @@
 
     joplin-desktop = {
       enable = true;
-      sync.target = "file-system";
-      extraConfig = {
+      settings = {
+        "sync.target" = "file-system";
         "editor.keyboardMode" = "vim";
         "sync.2.path" = "${config.home.homeDirectory}/Nextcloud/Joplin";
       };

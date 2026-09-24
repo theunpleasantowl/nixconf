@@ -12,7 +12,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     stylix = {
-      url = "github:nix-community/stylix";
+      url = "github:theunpleasantowl/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixvim = {

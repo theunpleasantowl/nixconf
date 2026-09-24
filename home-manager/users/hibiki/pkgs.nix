@@ -52,13 +52,14 @@ in
       nix-index
       stow
       sops
-      inputs.sidra.packages.${pkgs.system}.default
+      songrec
+      inputs.sidra.packages.${pkgs.stdenv.hostPlatform.system}.default
       yq-go
       yt-dlp
       weechat
       nethack
     ]
-    ++ lib.optionals (pkgs.stdenv.isLinux) [
+    ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux [
       ethtool
       strace
       iftop

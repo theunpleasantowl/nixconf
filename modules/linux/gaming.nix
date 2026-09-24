@@ -30,11 +30,11 @@ in
       extraCompatPackages = with pkgs; [ proton-ge-bin ];
     };
 
-    programs.gamemode.enable = lib.mkDefault pkgs.stdenv.isLinux;
+    programs.gamemode.enable = lib.mkDefault pkgs.stdenv.hostPlatform.isLinux;
 
     environment.systemPackages =
       with pkgs;
-      lib.optionals pkgs.stdenv.isLinux [
+      lib.optionals pkgs.stdenv.hostPlatform.isLinux [
         mangohud
         steam-run
       ];

@@ -128,7 +128,7 @@
               desc = "Chmod on selected files";
             }
           ]
-          ++ lib.optionals pkgs.stdenv.isLinux [
+          ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux [
             # Keybinding for mpvpaper (Linux only)
             {
               on = "W";

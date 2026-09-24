@@ -127,11 +127,11 @@ in
       bind f set-option -g status
       unbind -T copy-mode MouseDragEnd1Pane
     ''
-    + lib.optionalString pkgs.stdenv.isLinux ''
+    + lib.optionalString pkgs.stdenv.hostPlatform.isLinux ''
       bind-key -T copy-mode-vi MouseDragEnd1Pane send-keys -X copy-pipe-and-cancel "${pkgs.wl-clipboard}/bin/wl-copy"
       bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "${pkgs.wl-clipboard}/bin/wl-copy"
     ''
-    + lib.optionalString pkgs.stdenv.isDarwin ''
+    + lib.optionalString pkgs.stdenv.hostPlatform.isDarwin ''
       bind-key -T copy-mode-vi MouseDragEnd1Pane send-keys -X copy-pipe-and-cancel "pbcopy"
       bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "pbcopy"
     ''
