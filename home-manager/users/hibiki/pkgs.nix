@@ -14,6 +14,18 @@ let
   # Use stdenv for everything else (the modern, non-deprecated approach).
   isLinux = pkgs.stdenv.hostPlatform.isLinux;
   isQemu = (osConfig.networking.hostName or "") == "qemu";
+
+  # nixpkgs' ltrace 0.7.91 testsuite treats *any* compiler output as a build
+  # failure (see ltrace_compile in testsuite/lib/ltrace.exp), so GCC 16's new
+  # -Wvolatile warning in testsuite/ltrace.minor/demangle-lib.cpp breaks the
+  # demangle fixtures and cascades into 15 spurious failures. Silence just that
+  # warning for the test compiles. Drop this override once nixpkgs is fixed.
+  ltraceFixed = pkgs.ltrace.overrideAttrs (_: {
+    postPatch = ''
+      sed -i 's|c++]|c++ additional_flags=-Wno-volatile]|g' \
+        testsuite/ltrace.minor/demangle.exp
+    '';
+  });
 in
 {
   imports = [
@@ -66,7 +78,7 @@ in
       iotop
       lm_sensors
       lsof
-      ltrace
+      ltraceFixed
       sysstat
       usbutils
       pciutils

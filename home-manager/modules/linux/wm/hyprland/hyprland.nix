@@ -141,67 +141,60 @@ let
     ${pkgs.hyprland}/bin/hyprctl eval "hl.config({ decoration = { screen_shader = $shader_lua } })"
   '';
 
-  newbeeOcr = import ../../../../../packages/newbee-ocr-nix { inherit pkgs; };
-  ocrRegion = pkgs.writeShellScriptBin "ocr-region" ''
-    set -euo pipefail
+  # rapidocr auto-detects the script, so there is no language prompt and no
+  # output parsing to do. Its CLI only prints a Python repr, hence the wrapper.
+  rapidOcr = pkgs.python3.withPackages (ps: [ ps.rapidocr ]);
+  ocrScript = pkgs.writeShellApplication {
+    name = "ocr-run";
+    runtimeInputs = [
+      rapidOcr
+      pkgs.coreutils
+      pkgs.grim
+      pkgs.hyprpicker
+      pkgs.procps
+      pkgs.slurp
+      pkgs.wl-clipboard
+    ];
+    text = ''
+      set -euo pipefail
 
-    language="''${1:-chinese}"
-    image="$(${pkgs.coreutils}/bin/mktemp --suffix=.png)"
-    text="$(${pkgs.coreutils}/bin/mktemp)"
-    freeze_pid=""
-    cleanup() {
-      [ -z "$freeze_pid" ] || ${pkgs.procps}/bin/pkill -P "$freeze_pid" 2>/dev/null || true
-      [ -z "$freeze_pid" ] || ${pkgs.coreutils}/bin/kill "$freeze_pid" 2>/dev/null || true
-      ${pkgs.coreutils}/bin/rm -f "$image" "$text"
-    }
-    trap cleanup EXIT
+      workdir="$(mktemp -d)"
+      image="$workdir/capture.png"
+      script="$workdir/ocr.py"
+      freeze_pid=""
+      cleanup() {
+        if [ -n "$freeze_pid" ]; then
+          pkill -P "$freeze_pid" 2>/dev/null || true
+          kill "$freeze_pid" 2>/dev/null || true
+        fi
+        rm -rf "$workdir"
+      }
+      trap cleanup EXIT
 
-    ${lib.getExe pkgs.hyprpicker} -r -z &
-    freeze_pid="$!"
-    ${pkgs.coreutils}/bin/sleep 0.2
+      cat > "$script" <<'PY'
+      import sys
+      from rapidocr import RapidOCR
 
-    geometry="$(${lib.getExe pkgs.slurp} || true)"
-    [ -n "$geometry" ] || exit 0
+      result = RapidOCR()(sys.argv[1])
+      if result and result.txts:
+          print("\n".join(result.txts))
+      PY
 
-    ${lib.getExe pkgs.grim} -g "$geometry" "$image"
+      hyprpicker -r -z &
+      freeze_pid="$!"
+      sleep 0.2
 
-    ${lib.getExe newbeeOcr} recognize --language "$language" --precision fast --format text "$image" \
-      | ${pkgs.gawk}/bin/awk 'match($0, /^\[[0-9]+\] (.*) \([0-9.]+%\)$/, line) { print line[1] }' \
-      > "$text"
+      geometry="$(slurp || true)"
+      [ -n "$geometry" ] || exit 0
 
-    ${pkgs.wl-clipboard}/bin/wl-copy < "$text"
-  '';
-  ocrLanguage = pkgs.writeShellScriptBin "ocr-language" ''
-    set -euo pipefail
+      grim -g "$geometry" "$image"
 
-    language="$(printf 'english|japanese' | ${lib.getExe noctaliaDmenu} --prompt 'OCR language' --separator '|' || true)"
-    [ -n "$language" ] || exit 0
+      python3 "$script" "$image" > "$workdir/text"
 
-    image="$(${pkgs.coreutils}/bin/mktemp --suffix=.png)"
-    text="$(${pkgs.coreutils}/bin/mktemp)"
-    freeze_pid=""
-    cleanup() {
-      [ -z "$freeze_pid" ] || ${pkgs.procps}/bin/pkill -P "$freeze_pid" 2>/dev/null || true
-      [ -z "$freeze_pid" ] || ${pkgs.coreutils}/bin/kill "$freeze_pid" 2>/dev/null || true
-      ${pkgs.coreutils}/bin/rm -f "$image" "$text"
-    }
-    trap cleanup EXIT
-
-    ${lib.getExe pkgs.hyprpicker} -r -z &
-    freeze_pid="$!"
-    ${pkgs.coreutils}/bin/sleep 0.2
-
-    geometry="$(${lib.getExe pkgs.slurp} || true)"
-    [ -n "$geometry" ] || exit 0
-
-    ${lib.getExe pkgs.grim} -g "$geometry" "$image"
-
-    ${lib.getExe newbeeOcr} recognize --language "$language" --precision fast --format text "$image" \
-      | ${pkgs.gawk}/bin/awk 'match($0, /^\[[0-9]+\] (.*) \([0-9.]+%\)$/, line) { print line[1] }' \
-      > "$text"
-
-    ${pkgs.wl-clipboard}/bin/wl-copy < "$text"
-  '';
+      [ -s "$workdir/text" ] || exit 0
+      wl-copy < "$workdir/text"
+    '';
+  };
 
 in
 {
@@ -505,7 +498,7 @@ in
         (mkBind "SUPER + SHIFT + S" (
           exec "${lib.getExe pkgs.hyprshot} --output ~/Pictures/Screenshots --freeze --mode region"
         ))
-        (mkBind "SUPER + SHIFT + T" (exec "${lib.getExe ocrLanguage}"))
+        (mkBind "SUPER + SHIFT + T" (exec "${lib.getExe ocrScript}"))
 
         # Color picker
         (mkBind "SUPER + SHIFT + C" (exec "${lib.getExe pkgs.hyprpicker} --autocopy"))

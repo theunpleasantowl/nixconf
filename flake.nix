@@ -24,9 +24,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     sidra = {
-      url = "github:wimpysworld/sidra";
+      url = "github:theunpleasantowl/sidra";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    hermes-agent.url = "github:NousResearch/hermes-agent";
   };
   outputs =
     { self, ... }@inputs:
@@ -46,9 +47,6 @@
       };
 
       packages.${confLib.systemLinux} = {
-        newbee-ocr = import ./packages/newbee-ocr-nix {
-          pkgs = import inputs.nixpkgs { system = confLib.systemLinux; };
-        };
         wsl = self.nixosConfigurations.wsl.config.system.build.tarballBuilder;
       };
 

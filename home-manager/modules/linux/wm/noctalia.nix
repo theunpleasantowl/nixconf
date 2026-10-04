@@ -8,6 +8,10 @@
     enable = true;
 
     settings = {
+      audio = {
+        enable_sounds = false;
+      };
+
       shell = {
         lang = "en";
         telemetry_enabled = false;
@@ -187,6 +191,7 @@
 
       wallpaper = {
         enabled = true;
+        directory = "~/Pictures/Wallpapers";
         transition = [ "wipe" ];
         transition_duration = 500;
         edge_smoothness = 0;
@@ -195,56 +200,8 @@
         };
       };
 
-      lockscreen_widgets = {
-        enabled = false;
-        widget_order = [
-          "lockscreen-login-box@DP-4"
-          "lockscreen-login-box@DP-3"
-        ];
-
-        widget = {
-          "lockscreen-login-box@DP-3" = {
-            type = "login_box";
-            output = "DP-3";
-            cx = 1280.0;
-            cy = 1321.0;
-            box_width = 400.0;
-            box_height = 70.0;
-            rotation = 0.0;
-
-            settings = {
-              background_color = "surface_variant";
-              background_opacity = 0.88;
-              background_radius = 12.0;
-              input_opacity = 1.0;
-              input_radius = 6.0;
-              show_caps_lock = true;
-              show_keyboard_layout = true;
-              show_login_button = true;
-            };
-          };
-
-          "lockscreen-login-box@DP-4" = {
-            type = "login_box";
-            output = "DP-4";
-            cx = 1280.0;
-            cy = 1321.0;
-            box_width = 400.0;
-            box_height = 70.0;
-            rotation = 0.0;
-
-            settings = {
-              background_color = "surface_variant";
-              background_opacity = 0.88;
-              background_radius = 12.0;
-              input_opacity = 1.0;
-              input_radius = 6.0;
-              show_caps_lock = true;
-              show_keyboard_layout = true;
-              show_login_button = true;
-            };
-          };
-        };
+      lockscreen = {
+        transition = [ "zoom" ];
       };
 
       plugin_settings."noctalia/mpvpaper" = {

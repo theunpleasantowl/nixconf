@@ -33,7 +33,10 @@ in
       isStandalone = false;
     };
 
-    sharedModules = [ inputs.sops-nix.homeModules.sops ] ++ lib.optional (!config.stylix.enable) {
+    sharedModules = [
+      inputs.sidra.homeModules.default
+      inputs.sops-nix.homeModules.sops
+    ] ++ lib.optional (!config.stylix.enable) {
       imports = [ inputs.stylix.homeModules.stylix ];
       stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/katy.yaml";
     };
