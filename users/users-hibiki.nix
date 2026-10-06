@@ -35,7 +35,7 @@ in
 
     sharedModules = [
       inputs.sidra.homeModules.default
-      inputs.photocraft.default
+      inputs.photocraft.homeManagerModules.default
       inputs.sops-nix.homeModules.sops
     ]
     ++ lib.optional (!config.stylix.enable) {
