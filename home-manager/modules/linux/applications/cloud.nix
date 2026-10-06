@@ -83,6 +83,8 @@
         checkUpdates = false;
         discordBranch = "stable";
         hardwareAcceleration = true;
+        hardwareVideoAcceleration = true;
+        arRPC = true;
         autoStartMinimized = true;
         clickTrayToShowHide = true;
         minimizeToTray = true;
