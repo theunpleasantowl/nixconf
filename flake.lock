@@ -468,11 +468,11 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1791305712,
-        "narHash": "sha256-cD9RUXpDTCiXhbYGyvKF8rPxg41rJMEUxvbB0w7xjX0=",
+        "lastModified": 1791308204,
+        "narHash": "sha256-ONPdszNmAaDo8vZE9X2RSKCtOcp/vXAwrQW1pxye4UQ=",
         "owner": "theunpleasantowl",
         "repo": "photocraft",
-        "rev": "0eafca75547970005675ba719670f7a6ad4eed2f",
+        "rev": "9c5cbf109db1332d0d0a209686154acdba3e087c",
         "type": "github"
       },
       "original": {
