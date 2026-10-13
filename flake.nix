@@ -27,7 +27,6 @@
       url = "github:theunpleasantowl/sidra";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    hermes-agent.url = "github:NousResearch/hermes-agent";
   };
   outputs =
     { self, ... }@inputs:
