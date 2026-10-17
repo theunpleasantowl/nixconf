@@ -93,7 +93,7 @@
           };
         };
       };
-      wine.enable = true;
+      proton.enable = true;
     };
 
     remote-access = {

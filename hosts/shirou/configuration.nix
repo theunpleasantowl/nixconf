@@ -47,7 +47,7 @@
         gnome.enable = true;
         hyprland.enable = true;
       };
-      wine.enable = true;
+      proton.enable = true;
 
       snapper = {
         enable = true;
