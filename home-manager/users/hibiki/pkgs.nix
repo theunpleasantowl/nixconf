@@ -73,6 +73,7 @@ in
   }
   // lib.optionalAttrs isLinux {
     ide.enable = true;
+    hydrus.enable = true;
     gaming = {
       enable = true;
       retroarch = true;

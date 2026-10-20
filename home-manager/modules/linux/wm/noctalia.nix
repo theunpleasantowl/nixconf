@@ -35,6 +35,38 @@
           pipe_command = ''gradia "$NOCTALIA_SCREENSHOT_PATH"'';
           copy_to_clipboard = false;
         };
+
+        session = {
+          actions = [
+            {
+              action = "lock";
+              shortcut = "1";
+            }
+            {
+              action = "logout";
+              shortcut = "2";
+            }
+            {
+              action = "lock_and_suspend";
+              shortcut = "3";
+            }
+            {
+              action = "command";
+              label = "Hibernate";
+              glyph = "snowflake";
+              command = "systemctl hibernate";
+              shortcut = "4";
+            }
+            {
+              action = "reboot";
+              shortcut = "5";
+            }
+            {
+              action = "shutdown";
+              shortcut = "6";
+            }
+          ];
+        };
       };
 
       bar = {
@@ -201,6 +233,8 @@
       };
 
       lockscreen = {
+        enabled = true;
+        lock_before_suspend = true;
         transition = [ "zoom" ];
       };
 
