@@ -28,6 +28,7 @@ in
 
   home-manager = {
     backupFileExtension = "backup";
+    overwriteBackup = true;
     extraSpecialArgs = {
       inherit inputs system username;
       isStandalone = false;

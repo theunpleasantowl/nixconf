@@ -73,7 +73,7 @@ in
   }
   // lib.optionalAttrs isLinux {
     ide.enable = true;
-    hydrus.enable = true;
+    hydrus.enable = (osConfig.networking.hostName or null) == "neptune";
     gaming = {
       enable = true;
       retroarch = true;
