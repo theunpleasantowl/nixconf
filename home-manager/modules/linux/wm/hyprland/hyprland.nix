@@ -354,9 +354,11 @@ in
         blur_popups = true;
       };
 
-      on = onStart [
-        "noctalia"
-        "${lib.getExe pkgs.keepassxc}"
+      on = [
+        (onStart [
+          "noctalia"
+          "${lib.getExe pkgs.keepassxc}"
+        ])
       ];
 
       bind = [
