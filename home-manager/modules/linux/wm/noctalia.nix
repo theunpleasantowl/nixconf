@@ -1,4 +1,5 @@
 {
+  config,
   lib,
   pkgs,
   ...
@@ -34,6 +35,10 @@
           pipe_to_command = true;
           pipe_command = ''gradia "$NOCTALIA_SCREENSHOT_PATH"'';
           copy_to_clipboard = false;
+        };
+
+        mpris = {
+          blacklist = [ "firefox" ];
         };
 
         session = {
@@ -223,8 +228,9 @@
 
       wallpaper = {
         enabled = true;
-        directory = "~/Pictures/Wallpapers";
-        transition = [ "wipe" ];
+        directory = "${config.home.homeDirectory}/Pictures/Wallpapers";
+        default.path = lib.mkForce "${config.home.homeDirectory}/Pictures/Wallpapers/Regular Wallpapers/1507396364426.jpg";
+        transition = [ "fade" ];
         transition_duration = 500;
         edge_smoothness = 0;
         automation = {
@@ -234,22 +240,25 @@
 
       lockscreen = {
         enabled = true;
+        grace_period_seconds = 2;
         lock_before_suspend = true;
         transition = [ "zoom" ];
       };
 
       plugin_settings."noctalia/mpvpaper" = {
-        video_directory = "~/Videos/Wallpapers";
+        video_directory = "~/Pictures/Wallpapers/Video Wallpapers";
       };
 
       plugins = {
-        enabled = [
-          "noctalia/mpvpaper"
-          "noctalia/screen_recorder"
-        ];
+        enabled = [ "noctalia/mpvpaper" ];
         auto_update = "all";
 
         source = [
+          {
+            name = "local-plugins";
+            kind = "path";
+            location = "${./noctalia-plugins-v5}";
+          }
           {
             name = "official-plugins";
             kind = "git";
