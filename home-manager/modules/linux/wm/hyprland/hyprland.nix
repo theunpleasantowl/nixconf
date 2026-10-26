@@ -440,24 +440,24 @@ in
         (mkBind "SUPER + mouse_up" (workspace "e-1"))
 
         # Core Noctalia binds
-        (mkBind "ALT + SPACE" (exec "noctalia msg panel-toggle launcher"))
-        (mkBind "SUPER + S" (exec "noctalia msg panel-toggle control-center"))
-        (mkBind "SUPER + D" (exec "noctalia msg panel-toggle control-center calendar"))
-        (mkBind "SUPER + comma" (exec "noctalia msg settings-toggle"))
-        (mkBind "SUPER + SHIFT + V" (exec "noctalia msg panel-toggle clipboard"))
-        (mkBind "SUPER + period" (exec "noctalia msg panel-toggle launcher \"/emo \""))
-        (mkBind "SUPER + F1" (exec "noctalia msg plugin hibiki/hyprland-visuals:panel all toggle"))
+        (mkBind "ALT + SPACE" (exec "${lib.getExe pkgs.noctalia} msg panel-toggle launcher"))
+        (mkBind "SUPER + S" (exec "${lib.getExe pkgs.noctalia} msg panel-toggle control-center"))
+        (mkBind "SUPER + D" (exec "${lib.getExe pkgs.noctalia} msg panel-toggle control-center calendar"))
+        (mkBind "SUPER + comma" (exec "${lib.getExe pkgs.noctalia} msg settings-toggle"))
+        (mkBind "SUPER + SHIFT + V" (exec "${lib.getExe pkgs.noctalia} msg panel-toggle clipboard"))
+        (mkBind "SUPER + period" (exec "${lib.getExe pkgs.noctalia} msg panel-toggle launcher \"/emo \""))
+        (mkBind "SUPER + F1" (exec "${lib.getExe pkgs.noctalia} msg plugin hibiki/hyprland-visuals:panel all toggle"))
 
         # Volume/media controls - using wireplumber for better Wayland support
-        (mkBindWith "XF86AudioRaiseVolume" (exec "noctalia msg volume-up") {
+        (mkBindWith "XF86AudioRaiseVolume" (exec "${lib.getExe pkgs.noctalia} msg volume-up") {
           locked = true;
           repeating = true;
         })
-        (mkBindWith "XF86AudioLowerVolume" (exec "noctalia msg volume-down") {
+        (mkBindWith "XF86AudioLowerVolume" (exec "${lib.getExe pkgs.noctalia} msg volume-down") {
           locked = true;
           repeating = true;
         })
-        (mkBindWith "XF86AudioMute" (exec "noctalia msg volume-mute") {
+        (mkBindWith "XF86AudioMute" (exec "${lib.getExe pkgs.noctalia} msg volume-mute") {
           locked = true;
           repeating = true;
         })
@@ -468,26 +468,26 @@ in
             repeating = true;
           }
         )
-        (mkBindWith "XF86AudioPlay" (exec "${lib.getExe pkgs.playerctl} play-pause") { locked = true; })
-        (mkBindWith "XF86AudioPause" (exec "${lib.getExe pkgs.playerctl} play-pause") { locked = true; })
-        (mkBindWith "XF86AudioNext" (exec "${lib.getExe pkgs.playerctl} next") { locked = true; })
-        (mkBindWith "XF86AudioPrev" (exec "${lib.getExe pkgs.playerctl} previous") { locked = true; })
+        (mkBindWith "XF86AudioPlay" (exec "${lib.getExe pkgs.noctalia} msg media toggle") { locked = true; })
+        (mkBindWith "XF86AudioPause" (exec "${lib.getExe pkgs.noctalia} msg media toggle") { locked = true; })
+        (mkBindWith "XF86AudioNext" (exec "${lib.getExe pkgs.noctalia} msg media next") { locked = true; })
+        (mkBindWith "XF86AudioPrev" (exec "${lib.getExe pkgs.noctalia} msg media previous") { locked = true; })
 
         # Brightness controls
-        (mkBindWith "XF86MonBrightnessUp" (exec "noctalia msg brightness-up") {
+        (mkBindWith "XF86MonBrightnessUp" (exec "${lib.getExe pkgs.noctalia} msg brightness-up") {
           locked = true;
           repeating = true;
         })
-        (mkBindWith "XF86MonBrightnessDown" (exec "noctalia msg brightness-down") {
+        (mkBindWith "XF86MonBrightnessDown" (exec "${lib.getExe pkgs.noctalia} msg brightness-down") {
           locked = true;
           repeating = true;
         })
 
         # Lock screen
-        (mkBind "CONTROL + ALT + Q" (exec "noctalia msg session lock"))
+        (mkBind "CONTROL + ALT + Q" (exec "${lib.getExe pkgs.noctalia} msg session lock"))
 
         # Power menu
-        (mkBind "CONTROL + ALT + DELETE" (exec "noctalia msg panel-toggle session"))
+        (mkBind "CONTROL + ALT + DELETE" (exec "${lib.getExe pkgs.noctalia} msg panel-toggle session"))
         #"CONTROLALT, DELETE, exec, ${lib.getExe pkgs.wlogout}"
 
         # Screenshots
@@ -506,12 +506,12 @@ in
         (mkBind "SUPER + SHIFT + C" (exec "${lib.getExe pkgs.hyprpicker} --autocopy"))
 
         # Notification center toggle
-        (mkBind "SUPER + N" (exec "noctalia msg panel-toggle control-center notifications"))
-        (mkBind "SUPER + SHIFT + A" (exec "noctalia msg plugin hibiki/companions:companions all toggle"))
+        (mkBind "SUPER + N" (exec "${lib.getExe pkgs.noctalia} msg panel-toggle control-center notifications"))
+        (mkBind "SUPER + SHIFT + A" (exec "${lib.getExe pkgs.noctalia} msg plugin hibiki/companions:companions all toggle"))
 
         # Misc Shortcuts
-        (mkBind "SUPER + W" (exec "noctalia msg panel-toggle wallpaper"))
-        (mkBind "SUPER + SHIFT + W" (exec "noctalia msg panel-toggle noctalia/mpvpaper:picker"))
+        (mkBind "SUPER + W" (exec "${lib.getExe pkgs.noctalia} msg panel-toggle wallpaper"))
+        (mkBind "SUPER + SHIFT + W" (exec "${lib.getExe pkgs.noctalia} msg panel-toggle noctalia/mpvpaper:picker"))
 
         # Applications
         (mkBind "SUPER + Q" (exec "${lib.getExe pkgs.wezterm}"))
@@ -522,7 +522,7 @@ in
         # Mouse and lid switch bindings
         (mkBindWith "SUPER + mouse:272" "hl.dsp.window.drag()" { mouse = true; })
         (mkBindWith "SUPER + mouse:273" "hl.dsp.window.resize()" { mouse = true; })
-        (mkBindWith "switch:on:Lid Switch" (exec "noctalia msg session lock-and-suspend") {
+        (mkBindWith "switch:on:Lid Switch" (exec "${lib.getExe pkgs.noctalia} msg session lock-and-suspend") {
           locked = true;
         })
       ];

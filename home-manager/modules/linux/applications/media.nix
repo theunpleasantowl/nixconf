@@ -33,11 +33,9 @@ in
     home.packages =
       with pkgs;
       lib.optionals cfg.video.enable [
-        kdePackages.kdenlive
         obs-studio
       ]
       ++ lib.optionals cfg.graphics.enable [
-        gimp3-with-plugins
       ];
   };
 }

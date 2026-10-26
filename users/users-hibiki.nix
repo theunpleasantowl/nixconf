@@ -37,6 +37,7 @@ in
     sharedModules = [
       ../home-manager/modules/shared/programs/sidra.nix
       inputs.sops-nix.homeModules.sops
+      inputs.nix-craftapps.homeManagerModules.default
     ]
     ++ lib.optional (!config.stylix.enable) {
       imports = [ inputs.stylix.homeModules.stylix ];

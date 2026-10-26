@@ -37,6 +37,7 @@ let
     flakeInputs.home-manager.nixosModules.home-manager
     flakeInputs.sops-nix.nixosModules.sops
     flakeInputs.stylix.nixosModules.stylix
+    flakeInputs.nix-craftapps.nixosModules.default
   ];
 
   linuxModules = [
@@ -87,6 +88,7 @@ let
     flakeInputs.stylix.homeModules.stylix
     ../home-manager/modules/shared/programs/sidra.nix
     flakeInputs.sops-nix.homeModules.sops
+    flakeInputs.nix-craftapps.homeManagerModules.default
     ../home-manager/users/hibiki
   ];
 

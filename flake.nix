@@ -27,6 +27,10 @@
       url = "github:wimpysworld/sidra";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-craftapps = {
+      url = "github:olafkfreund/nix-craftapps";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs =
     { self, ... }@inputs:

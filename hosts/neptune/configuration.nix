@@ -111,6 +111,8 @@
     #      ];
     #    };
 
+    flatpak.enable = true;
+
     remote-access = {
       ssh.enable = true;
       rdp.enable = true;

@@ -43,12 +43,6 @@ in
         clipboard-indicator
         dash-to-dock
         kimpanel
-      ])
-      ++ (with pkgs; [
-        ffmpegthumbnailer
-        gdk-pixbuf
-        gnome-epub-thumbnailer
-        icoextract
       ]);
 
     environment.gnome.excludePackages = with pkgs; [

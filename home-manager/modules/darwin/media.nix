@@ -24,12 +24,8 @@ in
   config = lib.mkIf cfg.enable {
     home.packages =
       lib.optionals cfg.video [
-        #pkgs.homebrew.packages.kdenlive
-        pkgs.mpv
-        #pkgs.homebrew.packages.obs
       ]
       ++ lib.optionals cfg.graphics [
-        #pkgs.homebrew.packages.gimp
       ];
   };
 }
