@@ -19,8 +19,8 @@ pkgs.writeTextFile {
     local function last_number(text)
       local found
 
-      for token in text:gmatch("%S+") do
-        token = token:gsub(",$", "")
+      for raw_token in text:gmatch("%S+") do
+        local token = raw_token:gsub(",$", "")
         if token:match("^%-?%d+%.?%d*$") then
           found = tonumber(token)
         end
@@ -53,8 +53,8 @@ pkgs.writeTextFile {
         return values
       end
 
-      for line in file:lines() do
-        line = normalize_line(line)
+      for raw_line in file:lines() do
+        local line = normalize_line(raw_line)
 
         while line:match("^}") do
           stack[#stack] = nil

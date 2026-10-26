@@ -4,6 +4,11 @@ let
   # Connector names (DP-1, DP-3, ...) are re-enumerated on every boot, so
   # workspaces are bound to monitors by position instead of by name:
   # leftmost monitor gets 1-5, the one next to it gets 6-10.
+  #
+  # This must run on monitor.layout_changed rather than monitor.added:
+  # "added" fires before the configured position is applied, so sorting by x
+  # sees stale coordinates and binds the workspace ranges to the wrong
+  # monitors. layout_changed fires once the arrangement is final.
   assignWorkspaces = ''
     function()
       local mons = hl.get_monitors()
@@ -34,9 +39,15 @@ lib.mkIf ((osConfig.networking.hostName or null) == "neptune") {
   wayland.windowManager.hyprland.settings = {
     monitor = [
       {
-        output = "";
+        output = "DP-1";
         mode = "preferred";
-        position = "auto";
+        position = "0x0";
+        scale = 1;
+      }
+      {
+        output = "DP-4";
+        mode = "preferred";
+        position = "2560x0";
         scale = 1;
       }
     ];
@@ -56,13 +67,7 @@ lib.mkIf ((osConfig.networking.hostName or null) == "neptune") {
       }
       {
         _args = [
-          "monitor.added"
-          (lua assignWorkspaces)
-        ];
-      }
-      {
-        _args = [
-          "monitor.removed"
+          "monitor.layout_changed"
           (lua assignWorkspaces)
         ];
       }

@@ -24,7 +24,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     sidra = {
-      url = "github:theunpleasantowl/sidra";
+      url = "github:wimpysworld/sidra";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };

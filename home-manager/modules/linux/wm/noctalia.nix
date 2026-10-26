@@ -38,7 +38,10 @@
         };
 
         mpris = {
-          blacklist = [ "firefox" ];
+          blacklist = [
+            "ferdium"
+            "firefox"
+          ];
         };
 
         session = {

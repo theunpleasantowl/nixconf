@@ -85,7 +85,7 @@ let
 
   homeModules = flakeInputs: [
     flakeInputs.stylix.homeModules.stylix
-    flakeInputs.sidra.homeModules.default
+    ../home-manager/modules/shared/programs/sidra.nix
     flakeInputs.sops-nix.homeModules.sops
     ../home-manager/users/hibiki
   ];

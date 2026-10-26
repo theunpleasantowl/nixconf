@@ -35,7 +35,7 @@ in
     };
 
     sharedModules = [
-      inputs.sidra.homeModules.default
+      ../home-manager/modules/shared/programs/sidra.nix
       inputs.sops-nix.homeModules.sops
     ]
     ++ lib.optional (!config.stylix.enable) {
