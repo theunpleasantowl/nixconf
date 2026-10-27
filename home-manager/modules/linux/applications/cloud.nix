@@ -119,6 +119,7 @@
   home.packages = with pkgs; [
     ferdium
     thunderbird
+    nextcloud-client
   ];
 
   services.nextcloud-client.enable = true;
