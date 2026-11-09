@@ -49,6 +49,17 @@
         names = linuxHostNames;
       };
 
+      checks.${confLib.systemLinux} =
+        builtins.mapAttrs (_: host: host.config.system.build.toplevel) self.nixosConfigurations
+        // builtins.listToAttrs (
+          map (hostName: {
+            name = "home-hibiki-${hostName}";
+            value = self.homeConfigurations."hibiki@${hostName}".activationPackage;
+          }) linuxHostNames
+        );
+
+      checks.${confLib.systemDarwin}.home-icarus = self.homeConfigurations.icarus.activationPackage;
+
       packages.${confLib.systemLinux} = {
         wsl = self.nixosConfigurations.wsl.config.system.build.tarballBuilder;
       };

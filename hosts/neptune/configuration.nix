@@ -97,6 +97,12 @@
     };
 
     development.enable = true;
+
+    virtualisation = {
+      enable = true;
+      users = [ "hibiki" ];
+    };
+
     docker = {
       enable = true;
       storageDriver = "btrfs";

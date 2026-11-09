@@ -7,7 +7,15 @@
 }:
 
 let
-  python = python3.withPackages (ps: [ ps.psd-tools ]);
+  python = python3.withPackages (
+    ps: [
+      # psd-tools 1.12.2 has a test-only failure against Pillow 13
+      # ("Invalid mode for data type"). We only need its runtime here.
+      (ps.psd-tools.overridePythonAttrs (_: {
+        doCheck = false;
+      }))
+    ]
+  );
 
   psdThumbnailer = writeScriptBin "psd-thumbnailer" ''
     #!${python}/bin/python3

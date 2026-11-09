@@ -4,6 +4,10 @@
     allowUnfree = true;
   };
 
+  nixpkgs.overlays = [
+    (import ../lib/overlays/anki.nix)
+  ];
+
   nix.gc = {
     automatic = true;
     dates = "weekly";
