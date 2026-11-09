@@ -13,6 +13,8 @@ let
 
   importModuleSiblings =
     dir:
+    # Every sibling .nix file and directory with a default.nix is imported.
+    # Keep opt-in modules outside these directories or gate them with mkIf.
     with builtins;
     let
       entries = readDir dir;

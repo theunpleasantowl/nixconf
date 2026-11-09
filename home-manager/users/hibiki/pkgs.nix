@@ -13,7 +13,6 @@ let
 
   # Use stdenv for everything else (the modern, non-deprecated approach).
   isLinux = pkgs.stdenv.hostPlatform.isLinux;
-  isQemu = (osConfig.networking.hostName or "") == "qemu";
 
 in
 {
@@ -48,7 +47,6 @@ in
       nix-index
       stow
       sops
-      songrec
       inputs.sidra.packages.${pkgs.stdenv.hostPlatform.system}.default
       yq-go
       yt-dlp
@@ -56,6 +54,7 @@ in
       nethack
     ]
     ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux [
+      songrec
       ethtool
       strace
       iftop

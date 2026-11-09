@@ -86,9 +86,16 @@
 
       snapper = {
         enable = true;
+        snapshotInterval = "daily";
         configs = {
           home = {
             subvolume = "/home";
+            timeline = {
+              hourly = 0;
+              daily = 7;
+              weekly = 4;
+              monthly = 3;
+            };
           };
         };
       };
@@ -97,6 +104,12 @@
     };
 
     development.enable = true;
+
+    virtualisation = {
+      enable = true;
+      users = [ "hibiki" ];
+    };
+
     docker = {
       enable = true;
       storageDriver = "btrfs";

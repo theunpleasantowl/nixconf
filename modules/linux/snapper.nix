@@ -11,6 +11,12 @@ in
   options.features.linux.snapper = {
     enable = lib.mkEnableOption "Snapper snapshots for btrfs";
 
+    snapshotInterval = lib.mkOption {
+      type = lib.types.enum [ "hourly" "daily" "weekly" "monthly" ];
+      default = "hourly";
+      description = "Interval for creating Snapper timeline snapshots.";
+    };
+
     configs = lib.mkOption {
       type = lib.types.attrsOf (
         lib.types.submodule (
@@ -79,7 +85,7 @@ in
         TIMELINE_LIMIT_MONTHLY = c.timeline.monthly;
       }) cfg.configs;
 
-      snapshotInterval = "hourly";
+      snapshotInterval = cfg.snapshotInterval;
     };
 
     systemd.services.snapper-timeline.enable = true;

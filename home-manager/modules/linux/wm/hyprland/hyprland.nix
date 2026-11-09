@@ -253,7 +253,7 @@ in
 
           misc = {
             disable_splash_rendering = true;
-            force_default_wallpaper = 3;
+            force_default_wallpaper = 2;
           };
         }
         (lib.mkIf useStylix {
