@@ -64,9 +64,6 @@ in
     jack.enable = true;
   };
 
-  # Speech synthesis daemon (used by accessibility tools, screen readers, etc.)
-  services.speechd.enable = true;
-
   environment.systemPackages = with pkgs; [
     curl
     git

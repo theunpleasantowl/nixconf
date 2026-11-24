@@ -96,6 +96,8 @@
         transparent = true;
         useQuickCss = true;
         plugins = {
+          AddAttachments.enabled = true;
+          BetterSearch.enabled = true;
           ClearURLs.enabled = true;
           Experiments.enabled = true;
           ExpressionCloner.enabled = true;

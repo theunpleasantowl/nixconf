@@ -65,6 +65,9 @@ in
       sysstat
       usbutils
       pciutils
+    ]
+    ++ lib.optionals (isLinux && (osConfig.networking.hostName or null) == "neptune") [
+      lmstudio
     ];
 
   features = {

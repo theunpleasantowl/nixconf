@@ -16,6 +16,7 @@
   # Networking
   networking.hostName = "neptune";
   networking.networkmanager.enable = true;
+  users.users.hibiki.extraGroups = [ "video" "render" ];
 
   nix.settings.trusted-users = [
     "root"
@@ -29,12 +30,14 @@
     extraPackages = with pkgs; [
       vpl-gpu-rt
       intel-media-driver
+      intel-compute-runtime
     ];
   };
 
   # Packages
   environment.systemPackages = with pkgs; [
     cifs-utils
+    vulkan-tools
   ];
 
   programs.neovim = {
@@ -129,7 +132,7 @@
     remote-access = {
       ssh.enable = true;
       rdp.enable = true;
-      #sunshine.enable = true;
+      sunshine.enable = true;
     };
   };
 }
