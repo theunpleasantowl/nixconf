@@ -40,7 +40,7 @@ in
 
       search = {
         force = true;
-        default = "ddg";
+        #default = "ddg";
       };
     };
   };
