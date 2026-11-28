@@ -58,6 +58,10 @@ let
       specialArgs = {
         inputs = flakeInputs;
         inherit system;
+        unstablePkgs = import flakeInputs.nixpkgs-unstable {
+          inherit system;
+          config.allowUnfree = true;
+        };
       };
     };
 
@@ -108,6 +112,10 @@ let
       extraSpecialArgs = {
         inputs = flakeInputs;
         inherit system username isStandalone;
+        unstablePkgs = import flakeInputs.nixpkgs-unstable {
+          inherit system;
+          config.allowUnfree = true;
+        };
       }
       // flakeInputs.nixpkgs.lib.optionalAttrs (osConfig != null) {
         inherit osConfig;

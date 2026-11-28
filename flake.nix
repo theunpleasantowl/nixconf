@@ -2,7 +2,8 @@
   description = "NixOS Configuration";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-26.11";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -36,6 +37,9 @@
     { self, ... }@inputs:
     let
       confLib = import ./lib { inherit inputs; };
+      unstableInputs = inputs // {
+        nixpkgs = inputs.nixpkgs-unstable;
+      };
       linuxHostNames = [
         "neptune"
         "wsl"
@@ -47,6 +51,13 @@
     {
       nixosConfigurations = confLib.makeLinuxHosts {
         names = linuxHostNames;
+      };
+
+      # Use `.#nixosConfigurationsUnstable.<host>` to build or switch a host
+      # entirely on nixos-unstable. Normal configurations remain on 26.11.
+      nixosConfigurationsUnstable = confLib.makeLinuxHosts {
+        names = linuxHostNames;
+        flakeInputs = unstableInputs;
       };
 
       checks.${confLib.systemLinux} =
